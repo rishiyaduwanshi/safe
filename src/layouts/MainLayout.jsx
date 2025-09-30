@@ -20,7 +20,7 @@ const MainLayout = () => {
       }}>
         <div style={{ 
           flex: '1', 
-          paddingTop: theme.componentSizes.header.height 
+          paddingTop: '70px' 
         }}>
           <Outlet />
         </div>
