@@ -1,0 +1,43 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Card } from '../components/index.js';
+import { theme } from '../styles/theme.js';
+
+const ReportPage = () => {
+  return (
+    <div style={{
+      minHeight: '80vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: theme.spacing[6],
+    }}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <Card variant="elevated" size="xl">
+          <div style={{ textAlign: 'center' }}>
+            <h1 style={{
+              fontSize: theme.typography.fontSize['3xl'],
+              fontWeight: theme.typography.fontWeight.bold,
+              color: theme.colors.neutral.gray[900],
+              marginBottom: theme.spacing[4],
+            }}>
+              Report Hazard System
+            </h1>
+            <p style={{
+              fontSize: theme.typography.fontSize.lg,
+              color: theme.colors.neutral.gray[600],
+            }}>
+              Coming Soon - Interactive hazard reporting with map integration
+            </p>
+          </div>
+        </Card>
+      </motion.div>
+    </div>
+  );
+};
+
+export default ReportPage;

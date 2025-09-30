@@ -1,0 +1,14 @@
+{
+  "apps": [
+    {
+      "domain": "safe.local",
+      "port": 5173,
+      "https": true
+    },
+    {
+      "domain": "safe.local",
+      "port": 5174,
+      "https": true
+    }
+  ]
+}
