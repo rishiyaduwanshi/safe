@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import * as Dialog from '@radix-ui/react-dialog';
 import { 
@@ -67,11 +67,11 @@ const Home = () => {
 
       {/* Hero Section */}
       <div style={{ 
-        padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 24px)', 
+        padding: `${theme.spacing.responsive.section} ${theme.spacing.responsive.container}`, 
         position: 'relative' 
       }}>
         <div style={{ 
-          maxWidth: '1000px', 
+          maxWidth: theme.containers.hero, 
           margin: '0 auto', 
           textAlign: 'center',
           overflow: 'hidden'
@@ -84,22 +84,23 @@ const Home = () => {
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              padding: 'clamp(8px, 2vw, 12px) clamp(12px, 3vw, 20px)',
+              padding: `${theme.spacing.responsive.sm} ${theme.spacing.responsive.lg}`,
               background: theme.colors.background.glass,
               border: `1px solid ${theme.colors.border.light}`,
-              borderRadius: '999px',
-              marginBottom: 'clamp(24px, 5vw, 32px)',
+              borderRadius: theme.borderRadius.full,
+              marginBottom: theme.spacing.responsive['2xl'],
               backdropFilter: 'blur(10px)',
               maxWidth: '90%',
               textAlign: 'center'
             }}
           >
-            <Zap size={16} style={{ color: theme.colors.primary.main, marginRight: '8px', flexShrink: 0 }} />
+            <Zap size={16} style={{ color: theme.colors.primary.main, marginRight: theme.spacing[2], flexShrink: 0 }} />
             <span style={{
               color: theme.colors.text.secondary,
-              fontSize: 'clamp(12px, 2.5vw, 14px)',
-              fontWeight: '600',
-              lineHeight: '1.4'
+              fontSize: theme.typography.fontSize.responsive.badge,
+              fontWeight: theme.typography.fontWeight.semibold,
+              lineHeight: theme.typography.lineHeight.snug,
+              fontFamily: theme.typography.fontFamily.primary.join(', ')
             }}>
               India's First AI-Powered Road Safety System
             </span>
@@ -111,10 +112,10 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             style={{
-              fontSize: 'clamp(2.5rem, 8vw, 5rem)',
-              fontWeight: '800',
+              fontSize: theme.typography.fontSize.responsive.hero,
+              fontWeight: theme.typography.fontWeight.extrabold,
               lineHeight: '1.1',
-              marginBottom: 'clamp(16px, 4vw, 24px)',
+              marginBottom: theme.spacing.responsive.xl,
               background: theme.colors.text.gradient,
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
@@ -131,10 +132,10 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             style={{
-              fontSize: 'clamp(1.1rem, 3vw, 1.5rem)',
+              fontSize: theme.typography.fontSize.responsive.xl,
               color: theme.colors.text.secondary,
-              marginBottom: 'clamp(12px, 3vw, 16px)',
-              fontWeight: '600',
+              marginBottom: theme.spacing.responsive.lg,
+              fontWeight: theme.typography.fontWeight.semibold,
               wordBreak: 'break-word'
             }}
           >
@@ -146,13 +147,13 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
             style={{
-              fontSize: 'clamp(0.9rem, 2.5vw, 1.2rem)',
+              fontSize: theme.typography.fontSize.responsive.lg,
               color: theme.colors.text.muted,
-              marginBottom: 'clamp(32px, 6vw, 48px)',
+              marginBottom: theme.spacing.responsive['2xl'],
               maxWidth: '90%',
-              margin: '0 auto clamp(32px, 6vw, 48px)',
-              lineHeight: '1.7',
-              padding: '0 clamp(8px, 2vw, 16px)'
+              margin: `0 auto ${theme.spacing.responsive['2xl']}`,
+              lineHeight: theme.typography.lineHeight.loose,
+              padding: `0 ${theme.spacing.responsive.container}`
             }}
           >
             Revolutionizing road safety through cutting-edge AI technology, real-time violation detection, 
@@ -167,21 +168,21 @@ const Home = () => {
             style={{
               display: 'flex',
               flexDirection: 'column',
-              gap: 'clamp(12px, 3vw, 16px)',
+              gap: theme.spacing.responsive.lg,
               justifyContent: 'center',
               alignItems: 'center',
-              marginBottom: 'clamp(48px, 8vw, 64px)',
+              marginBottom: theme.spacing.responsive.section,
               width: '100%',
-              padding: '0 clamp(16px, 4vw, 24px)'
+              padding: `0 ${theme.spacing.responsive.container}`
             }}
           >
             <div style={{
               display: 'flex',
               flexWrap: 'wrap',
-              gap: 'clamp(12px, 3vw, 16px)',
+              gap: theme.spacing.responsive.lg,
               justifyContent: 'center',
               width: '100%',
-              maxWidth: '500px'
+              maxWidth: theme.containers.md
             }}
           >
             <Dialog.Root>
@@ -190,20 +191,21 @@ const Home = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   style={{
-                    padding: 'clamp(12px, 3vw, 16px) clamp(24px, 6vw, 32px)',
+                    padding: `${theme.spacing.responsive.md} ${theme.spacing.responsive.xl}`,
                     background: theme.colors.primary.gradient,
                     color: 'white',
                     border: 'none',
-                    borderRadius: '12px',
-                    fontSize: 'clamp(14px, 3vw, 16px)',
-                    fontWeight: '600',
+                    borderRadius: theme.borderRadius.xl,
+                    fontSize: theme.typography.fontSize.responsive.button,
+                    fontWeight: theme.typography.fontWeight.semibold,
+                    fontFamily: theme.typography.fontFamily.primary.join(', '),
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: '8px',
+                    gap: theme.spacing[2],
                     boxShadow: theme.shadows.electric,
-                    minWidth: 'clamp(140px, 30vw, 180px)',
+                    minWidth: theme.componentSizes.button.minWidthLarge,
                     whiteSpace: 'nowrap'
                   }}
                 >
@@ -226,49 +228,53 @@ const Home = () => {
                   transform: 'translate(-50%, -50%)',
                   background: theme.colors.background.modal,
                   border: `1px solid ${theme.colors.border.light}`,
-                  borderRadius: '16px',
-                  padding: '32px',
-                  maxWidth: '400px',
+                  borderRadius: theme.borderRadius['2xl'],
+                  padding: theme.spacing.responsive['2xl'],
+                  maxWidth: theme.containers.card,
                   width: '90%',
                   zIndex: 51,
                   boxShadow: theme.shadows.modal
                 }}>
                   <Dialog.Title style={{
-                    fontSize: '24px',
-                    fontWeight: '700',
+                    fontSize: theme.typography.fontSize['2xl'],
+                    fontWeight: theme.typography.fontWeight.bold,
                     color: theme.colors.text.primary,
-                    marginBottom: '16px'
+                    marginBottom: theme.spacing[4],
+                    fontFamily: theme.typography.fontFamily.heading.join(', ')
                   }}>
                     Join S.A.F.E India
                   </Dialog.Title>
                   <Dialog.Description style={{
                     color: theme.colors.text.secondary,
-                    marginBottom: '24px',
-                    lineHeight: '1.6'
+                    marginBottom: theme.spacing[6],
+                    lineHeight: theme.typography.lineHeight.relaxed,
+                    fontFamily: theme.typography.fontFamily.primary.join(', ')
                   }}>
                     Start your journey towards safer roads. Create your citizen safety profile and begin tracking your road safety score.
                   </Dialog.Description>
-                  <div style={{ display: 'flex', gap: '12px' }}>
+                  <div style={{ display: 'flex', gap: theme.spacing[3] }}>
                     <button style={{
                       flex: 1,
-                      padding: '12px 24px',
+                      padding: `${theme.spacing[3]} ${theme.spacing[6]}`,
                       background: theme.colors.primary.gradient,
                       color: 'white',
                       border: 'none',
-                      borderRadius: '8px',
-                      fontWeight: '600',
+                      borderRadius: theme.borderRadius.lg,
+                      fontWeight: theme.typography.fontWeight.semibold,
+                      fontFamily: theme.typography.fontFamily.primary.join(', '),
                       cursor: 'pointer'
                     }}>
                       Sign Up
                     </button>
                     <Dialog.Close asChild>
                       <button style={{
-                        padding: '12px 24px',
+                        padding: `${theme.spacing[3]} ${theme.spacing[6]}`,
                         background: theme.colors.background.secondary,
                         color: theme.colors.text.primary,
                         border: `1px solid ${theme.colors.border.light}`,
-                        borderRadius: '8px',
-                        fontWeight: '600',
+                        borderRadius: theme.borderRadius.lg,
+                        fontWeight: theme.typography.fontWeight.semibold,
+                        fontFamily: theme.typography.fontFamily.primary.join(', '),
                         cursor: 'pointer'
                       }}>
                         Cancel
@@ -278,8 +284,8 @@ const Home = () => {
                   <Dialog.Close asChild>
                     <button style={{
                       position: 'absolute',
-                      top: '16px',
-                      right: '16px',
+                      top: theme.spacing[4],
+                      right: theme.spacing[4],
                       background: 'transparent',
                       border: 'none',
                       color: theme.colors.text.secondary,
@@ -296,20 +302,21 @@ const Home = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               style={{
-                padding: 'clamp(12px, 3vw, 16px) clamp(24px, 6vw, 32px)',
+                padding: `${theme.spacing.responsive.md} ${theme.spacing.responsive.xl}`,
                 background: theme.colors.background.glass,
                 color: theme.colors.text.primary,
                 border: `1px solid ${theme.colors.border.light}`,
-                borderRadius: '12px',
-                fontSize: 'clamp(14px, 3vw, 16px)',
-                fontWeight: '600',
+                borderRadius: theme.borderRadius.xl,
+                fontSize: theme.typography.fontSize.responsive.button,
+                fontWeight: theme.typography.fontWeight.semibold,
+                fontFamily: theme.typography.fontFamily.primary.join(', '),
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '8px',
+                gap: theme.spacing[2],
                 backdropFilter: 'blur(10px)',
-                minWidth: 'clamp(140px, 30vw, 180px)',
+                minWidth: theme.componentSizes.button.minWidthLarge,
                 whiteSpace: 'nowrap'
               }}
             >
@@ -327,9 +334,9 @@ const Home = () => {
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(150px, 25vw, 200px), 1fr))',
-              gap: 'clamp(16px, 4vw, 32px)',
-              marginBottom: 'clamp(48px, 10vw, 80px)',
-              padding: '0 clamp(8px, 2vw, 16px)'
+              gap: theme.spacing.responsive.xl,
+              marginBottom: theme.spacing.responsive.section,
+              padding: `0 ${theme.spacing.responsive.container}`
             }}
           >
             {[
@@ -339,17 +346,19 @@ const Home = () => {
             ].map((stat, index) => (
               <div key={index} style={{ textAlign: 'center' }}>
                 <div style={{
-                  fontSize: 'clamp(24px, 6vw, 32px)',
-                  fontWeight: '800',
+                  fontSize: theme.typography.fontSize.responsive['3xl'],
+                  fontWeight: theme.typography.fontWeight.extrabold,
                   color: stat.color,
-                  marginBottom: 'clamp(4px, 2vw, 8px)'
+                  marginBottom: theme.spacing.responsive.xs,
+                  fontFamily: theme.typography.fontFamily.heading.join(', ')
                 }}>
                   {stat.number}
                 </div>
                 <div style={{
                   color: theme.colors.text.muted,
-                  fontSize: 'clamp(14px, 3vw, 16px)',
-                  lineHeight: '1.4'
+                  fontSize: theme.typography.fontSize.responsive.button,
+                  lineHeight: theme.typography.lineHeight.snug,
+                  fontFamily: theme.typography.fontFamily.primary.join(', ')
                 }}>
                   {stat.label}
                 </div>
@@ -360,30 +369,32 @@ const Home = () => {
       </div>
 
       {/* Features Section */}
-      <div style={{ padding: '0 clamp(16px, 4vw, 24px) clamp(48px, 10vw, 80px)' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+      <div style={{ padding: `0 ${theme.spacing.responsive.container} ${theme.spacing.responsive.section}` }}>
+        <div style={{ maxWidth: theme.containers.xl, margin: '0 auto' }}>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            style={{ textAlign: 'center', marginBottom: '64px' }}
+            style={{ textAlign: 'center', marginBottom: theme.spacing.responsive['3xl'] }}
           >
             <h2 style={{
-              fontSize: 'clamp(1.8rem, 5vw, 3rem)',
-              fontWeight: '700',
+              fontSize: theme.typography.fontSize.responsive['4xl'],
+              fontWeight: theme.typography.fontWeight.bold,
               color: theme.colors.text.primary,
-              marginBottom: 'clamp(12px, 3vw, 16px)',
-              lineHeight: '1.2'
+              marginBottom: theme.spacing.responsive.lg,
+              lineHeight: theme.typography.lineHeight.tight,
+              fontFamily: theme.typography.fontFamily.heading.join(', ')
             }}>
               Comprehensive Safety Ecosystem
             </h2>
             <p style={{
-              fontSize: 'clamp(16px, 3vw, 18px)',
+              fontSize: theme.typography.fontSize.responsive.lg,
               color: theme.colors.text.secondary,
               maxWidth: '90%',
               margin: '0 auto',
-              lineHeight: '1.6',
-              padding: '0 clamp(8px, 2vw, 16px)'
+              lineHeight: theme.typography.lineHeight.relaxed,
+              padding: `0 ${theme.spacing.responsive.container}`,
+              fontFamily: theme.typography.fontFamily.primary.join(', ')
             }}>
               Our integrated platform combines AI-powered detection, behavioral analytics, 
               and policy automation for unprecedented road safety management.
@@ -393,7 +404,7 @@ const Home = () => {
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(280px, 80vw, 350px), 1fr))',
-            gap: 'clamp(16px, 4vw, 24px)',
+            gap: theme.spacing.responsive.xl,
             justifyItems: 'center'
           }}>
             {features.map((feature, index) => (
@@ -407,26 +418,26 @@ const Home = () => {
                 style={{
                   background: theme.colors.background.card,
                   border: `1px solid ${theme.colors.border.light}`,
-                  borderRadius: '16px',
-                  padding: 'clamp(20px, 5vw, 32px) clamp(16px, 4vw, 24px)',
+                  borderRadius: theme.borderRadius['2xl'],
+                  padding: `${theme.spacing.responsive.xl} ${theme.spacing.responsive.lg}`,
                   backdropFilter: 'blur(10px)',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
                   width: '100%',
-                  maxWidth: '400px'
+                  maxWidth: theme.containers.card
                 }}
               >
                 <div style={{ 
                   display: 'flex', 
                   alignItems: 'center', 
-                  marginBottom: 'clamp(12px, 3vw, 16px)',
+                  marginBottom: theme.spacing.responsive.lg,
                   flexWrap: 'wrap',
-                  gap: '12px'
+                  gap: theme.spacing[3]
                 }}>
                   <div style={{
-                    width: 'clamp(40px, 10vw, 48px)',
-                    height: 'clamp(40px, 10vw, 48px)',
-                    borderRadius: '12px',
+                    width: theme.componentSizes.card.iconBox,
+                    height: theme.componentSizes.card.iconBox,
+                    borderRadius: theme.borderRadius.xl,
                     background: `${feature.color}20`,
                     display: 'flex',
                     alignItems: 'center',
@@ -436,18 +447,20 @@ const Home = () => {
                     <feature.icon size={22} color={feature.color} />
                   </div>
                   <h3 style={{
-                    fontSize: 'clamp(18px, 4vw, 20px)',
-                    fontWeight: '600',
+                    fontSize: theme.typography.fontSize.responsive.xl,
+                    fontWeight: theme.typography.fontWeight.semibold,
                     color: theme.colors.text.primary,
-                    lineHeight: '1.3'
+                    lineHeight: theme.typography.lineHeight.tight,
+                    fontFamily: theme.typography.fontFamily.heading.join(', ')
                   }}>
                     {feature.title}
                   </h3>
                 </div>
                 <p style={{
                   color: theme.colors.text.muted,
-                  lineHeight: '1.6',
-                  fontSize: 'clamp(14px, 3vw, 16px)'
+                  lineHeight: theme.typography.lineHeight.relaxed,
+                  fontSize: theme.typography.fontSize.responsive.button,
+                  fontFamily: theme.typography.fontFamily.primary.join(', ')
                 }}>
                   {feature.description}
                 </p>
@@ -458,39 +471,41 @@ const Home = () => {
       </div>
 
       {/* CTA Section */}
-      <div style={{ padding: '0 clamp(16px, 4vw, 24px) clamp(48px, 10vw, 80px)' }}>
+      <div style={{ padding: `0 ${theme.spacing.responsive.container} ${theme.spacing.responsive.section}` }}>
         <div style={{
-          maxWidth: '90%',
+          maxWidth: theme.containers.lg,
           margin: '0 auto',
           textAlign: 'center',
           background: theme.colors.background.glass,
           border: `1px solid ${theme.colors.border.light}`,
-          borderRadius: '20px',
-          padding: 'clamp(24px, 6vw, 48px) clamp(16px, 4vw, 32px)',
+          borderRadius: theme.borderRadius['3xl'],
+          padding: `${theme.spacing.responsive['2xl']} ${theme.spacing.responsive.xl}`,
           backdropFilter: 'blur(20px)'
         }}>
           <h2 style={{
-            fontSize: 'clamp(20px, 5vw, 28px)',
-            fontWeight: '700',
+            fontSize: theme.typography.fontSize.responsive['2xl'],
+            fontWeight: theme.typography.fontWeight.bold,
             color: theme.colors.text.primary,
-            marginBottom: 'clamp(12px, 3vw, 16px)',
-            lineHeight: '1.3'
+            marginBottom: theme.spacing.responsive.lg,
+            lineHeight: theme.typography.lineHeight.tight,
+            fontFamily: theme.typography.fontFamily.heading.join(', ')
           }}>
             Ready to Transform Road Safety?
           </h2>
           <p style={{
-            fontSize: 'clamp(16px, 3vw, 18px)',
+            fontSize: theme.typography.fontSize.responsive.lg,
             color: theme.colors.text.secondary,
-            marginBottom: 'clamp(24px, 5vw, 32px)',
-            lineHeight: '1.6',
-            padding: '0 clamp(8px, 2vw, 16px)'
+            marginBottom: theme.spacing.responsive['2xl'],
+            lineHeight: theme.typography.lineHeight.relaxed,
+            padding: `0 ${theme.spacing.responsive.container}`,
+            fontFamily: theme.typography.fontFamily.primary.join(', ')
           }}>
             Join thousands of citizens building a safer India through smart technology and community action.
           </p>
           <div style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: 'clamp(12px, 3vw, 16px)',
+            gap: theme.spacing.responsive.lg,
             justifyContent: 'center',
             alignItems: 'center'
           }}>
@@ -504,20 +519,21 @@ const Home = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               style={{
-                padding: 'clamp(12px, 3vw, 16px) clamp(24px, 6vw, 32px)',
+                padding: `${theme.spacing.responsive.md} ${theme.spacing.responsive.xl}`,
                 background: theme.colors.primary.gradient,
                 color: 'white',
                 border: 'none',
-                borderRadius: '12px',
-                fontSize: 'clamp(14px, 3vw, 16px)',
-                fontWeight: '600',
+                borderRadius: theme.borderRadius.xl,
+                fontSize: theme.typography.fontSize.responsive.button,
+                fontWeight: theme.typography.fontWeight.semibold,
+                fontFamily: theme.typography.fontFamily.primary.join(', '),
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '8px',
+                gap: theme.spacing[2],
                 boxShadow: theme.shadows.electric,
-                minWidth: 'clamp(140px, 35vw, 180px)',
+                minWidth: theme.componentSizes.button.minWidthLarge,
                 whiteSpace: 'nowrap'
               }}
             >
@@ -528,15 +544,16 @@ const Home = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               style={{
-                padding: 'clamp(12px, 3vw, 16px) clamp(24px, 6vw, 32px)',
+                padding: `${theme.spacing.responsive.md} ${theme.spacing.responsive.xl}`,
                 background: theme.colors.background.secondary,
                 color: theme.colors.text.primary,
                 border: `1px solid ${theme.colors.border.light}`,
-                borderRadius: '12px',
-                fontSize: 'clamp(14px, 3vw, 16px)',
-                fontWeight: '600',
+                borderRadius: theme.borderRadius.xl,
+                fontSize: theme.typography.fontSize.responsive.button,
+                fontWeight: theme.typography.fontWeight.semibold,
+                fontFamily: theme.typography.fontFamily.primary.join(', '),
                 cursor: 'pointer',
-                minWidth: 'clamp(140px, 35vw, 180px)',
+                minWidth: theme.componentSizes.button.minWidthLarge,
                 whiteSpace: 'nowrap'
               }}
             >

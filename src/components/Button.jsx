@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
-import { theme } from '../../styles/theme.js';
+import { theme } from '../styles/theme.js';
 
 const Button = ({
   children,
@@ -19,26 +19,26 @@ const Button = ({
 }) => {
   const variants = {
     primary: {
-      background: `linear-gradient(135deg, ${theme.colors.accent} 0%, ${theme.colors.secondary} 100%)`,
+      background: theme.colors.primary.gradient,
       color: theme.colors.neutral.white,
       border: 'none',
-      boxShadow: `0 8px 32px rgba(106, 90, 224, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1) inset`,
-      fontWeight: '700',
+      boxShadow: `0 8px 32px rgba(99, 102, 241, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1) inset`,
+      fontWeight: theme.typography.fontWeight.bold,
     },
     secondary: {
-      background: `linear-gradient(145deg, rgba(20, 20, 25, 0.9) 0%, rgba(25, 25, 35, 0.8) 100%)`,
+      background: theme.colors.background.card,
       color: theme.colors.text.primary,
-      border: `2px solid rgba(106, 90, 224, 0.3)`,
+      border: `2px solid ${theme.colors.primary.main}`,
       boxShadow: `0 8px 24px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)`,
       backdropFilter: 'blur(20px)',
-      fontWeight: '600',
+      fontWeight: theme.typography.fontWeight.semibold,
     },
     outline: {
       background: 'transparent',
-      color: theme.colors.accent,
-      border: `2px solid ${theme.colors.accent}`,
-      boxShadow: `0 0 20px rgba(106, 90, 224, 0.2)`,
-      fontWeight: '600',
+      color: theme.colors.primary.main,
+      border: `2px solid ${theme.colors.primary.main}`,
+      boxShadow: `0 0 20px rgba(99, 102, 241, 0.2)`,
+      fontWeight: theme.typography.fontWeight.semibold,
     },
     glass: {
       background: 'rgba(255, 255, 255, 0.05)',
@@ -46,14 +46,14 @@ const Button = ({
       border: '1px solid rgba(255, 255, 255, 0.1)',
       backdropFilter: 'blur(20px)',
       boxShadow: `0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)`,
-      fontWeight: '600',
+      fontWeight: theme.typography.fontWeight.semibold,
     },
     electric: {
-      background: `linear-gradient(135deg, ${theme.colors.accent} 0%, ${theme.colors.tertiary} 50%, ${theme.colors.secondary} 100%)`,
+      background: `linear-gradient(135deg, ${theme.colors.primary.main} 0%, ${theme.colors.primary.light} 50%, ${theme.colors.accent.purple} 100%)`,
       color: theme.colors.neutral.white,
       border: 'none',
-      boxShadow: `0 0 40px rgba(106, 90, 224, 0.4), 0 8px 32px rgba(0, 0, 0, 0.3)`,
-      fontWeight: '800',
+      boxShadow: `0 0 40px rgba(99, 102, 241, 0.4), 0 8px 32px rgba(0, 0, 0, 0.3)`,
+      fontWeight: theme.typography.fontWeight.extrabold,
       position: 'relative',
       overflow: 'hidden',
     },
@@ -62,22 +62,26 @@ const Button = ({
       color: theme.colors.neutral.white,
       border: 'none',
       boxShadow: theme.shadows.danger,
+      fontWeight: theme.typography.fontWeight.semibold,
     },
     success: {
       background: `linear-gradient(135deg, ${theme.colors.safety.green}, ${theme.colors.accent.green})`,
       color: theme.colors.neutral.white,
       border: 'none',
       boxShadow: theme.shadows.success,
+      fontWeight: theme.typography.fontWeight.semibold,
     },
     neumorphic: {
       background: theme.colors.background.tertiary,
       color: theme.colors.text.primary,
       border: '1px solid rgba(255, 255, 255, 0.1)',
       boxShadow: theme.shadows.inner,
+      fontWeight: theme.typography.fontWeight.medium,
     },
     glassmorphic: {
       ...theme.glassmorphism.light,
       color: theme.colors.text.primary,
+      fontWeight: theme.typography.fontWeight.medium,
     },
     glow: {
       background: theme.colors.primary.gradient,
@@ -85,6 +89,14 @@ const Button = ({
       border: 'none',
       boxShadow: theme.shadows.glow,
       animation: 'glow 2s ease-in-out infinite alternate',
+      fontWeight: theme.typography.fontWeight.bold,
+    },
+    ghost: {
+      background: 'transparent',
+      color: theme.colors.text.secondary,
+      border: 'none',
+      boxShadow: 'none',
+      fontWeight: theme.typography.fontWeight.medium,
     },
   };
 
@@ -93,32 +105,32 @@ const Button = ({
     xs: {
       padding: `${theme.spacing[2]} ${theme.spacing[4]}`,
       fontSize: theme.typography.fontSize.sm,
-      minHeight: '36px',
-      borderRadius: '12px',
+      minHeight: theme.componentSizes.button.xs,
+      borderRadius: theme.borderRadius.lg,
     },
     sm: {
       padding: `${theme.spacing[3]} ${theme.spacing[6]}`,
       fontSize: theme.typography.fontSize.base,
-      minHeight: '44px',
-      borderRadius: '14px',
+      minHeight: theme.componentSizes.button.sm,
+      borderRadius: theme.borderRadius.xl,
     },
     md: {
       padding: `${theme.spacing[4]} ${theme.spacing[8]}`,
       fontSize: theme.typography.fontSize.lg,
-      minHeight: '52px',
-      borderRadius: '16px',
+      minHeight: theme.componentSizes.button.md,
+      borderRadius: theme.borderRadius['2xl'],
     },
     lg: {
       padding: `${theme.spacing[5]} ${theme.spacing[12]}`,
       fontSize: theme.typography.fontSize.xl,
-      minHeight: '64px',
-      borderRadius: '20px',
+      minHeight: theme.componentSizes.button.lg,
+      borderRadius: theme.borderRadius['3xl'],
     },
     xl: {
       padding: `${theme.spacing[6]} ${theme.spacing[16]}`,
       fontSize: theme.typography.fontSize['2xl'],
-      minHeight: '72px',
-      borderRadius: '24px',
+      minHeight: theme.componentSizes.button.xl,
+      borderRadius: theme.borderRadius['3xl'],
     },
   };
 
@@ -200,8 +212,8 @@ const Button = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           style={{
-            width: '16px',
-            height: '16px',
+            width: theme.componentSizes.icon.sm,
+            height: theme.componentSizes.icon.sm,
             border: '2px solid currentColor',
             borderTop: '2px solid transparent',
             borderRadius: '50%',

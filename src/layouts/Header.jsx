@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Shield, Home, BarChart3, FileText, User, Info } from 'lucide-react';
-import { ROUTES, STRINGS } from '../../constants/index.js';
+import { 
+  Menu, 
+  X, 
+  Shield, 
+  Home, 
+  TrendingUp, 
+  FileText, 
+  User, 
+  Info 
+} from 'lucide-react';
+import { theme } from '../styles/theme.js';
+import { ROUTES, STRINGS } from '../constants/index.js';
 
 
 const Header = () => {
@@ -20,7 +30,7 @@ const Header = () => {
 
   const navigation = [
     { name: 'Home', path: '/', icon: Home },
-    { name: 'Dashboard', path: ROUTES.DASHBOARD, icon: BarChart3 },
+    { name: 'Dashboard', path: ROUTES.DASHBOARD, icon: TrendingUp },
     { name: 'Report', path: ROUTES.REPORT, icon: FileText },
     { name: 'Profile', path: ROUTES.PROFILE, icon: User },
     { name: 'About', path: ROUTES.ABOUT, icon: Info },
@@ -32,10 +42,10 @@ const Header = () => {
     left: 0,
     right: 0,
     zIndex: 1000,
-    height: '64px',
+    height: theme.componentSizes.header.height,
     background: scrolled 
-      ? 'rgba(10, 10, 15, 0.95)' 
-      : 'rgba(10, 10, 15, 0.8)',
+      ? `${theme.colors.background.primary}F2` 
+      : `${theme.colors.background.primary}CC`,
     backdropFilter: 'blur(20px)',
     borderBottom: scrolled 
       ? '1px solid rgba(255, 255, 255, 0.1)' 
@@ -44,9 +54,9 @@ const Header = () => {
   };
 
   const containerStyle = {
-    maxWidth: '1200px',
+    maxWidth: theme.containers.xl,
     margin: '0 auto',
-    padding: '0 24px',
+    padding: `0 ${theme.spacing[6]}`,
     height: '100%',
     display: 'flex',
     alignItems: 'center',
@@ -56,56 +66,59 @@ const Header = () => {
   const logoStyle = {
     display: 'flex',
     alignItems: 'center',
-    gap: '12px',
+    gap: theme.spacing[3],
     textDecoration: 'none',
-    fontSize: '1.25rem',
-    fontWeight: '700',
-    color: '#FFFFFF',
+    fontSize: theme.typography.fontSize.xl,
+    fontWeight: theme.typography.fontWeight.bold,
+    fontFamily: theme.typography.fontFamily.heading.join(', '),
+    color: theme.colors.text.primary,
     transition: 'color 0.3s ease',
   };
 
   const navStyle = {
     display: 'flex',
     alignItems: 'center',
-    gap: '32px',
+    gap: theme.spacing[8],
   };
 
   const linkStyle = (isActive) => ({
-    color: isActive ? '#6A5AE0' : '#CBD5E1',
+    color: isActive ? theme.colors.primary.main : theme.colors.text.secondary,
     textDecoration: 'none',
-    fontSize: '0.95rem',
-    fontWeight: '500',
+    fontSize: theme.typography.fontSize.sm,
+    fontWeight: theme.typography.fontWeight.medium,
+    fontFamily: theme.typography.fontFamily.primary.join(', '),
     transition: 'color 0.2s ease',
-    padding: '8px 0',
+    padding: `${theme.spacing[2]} 0`,
     position: 'relative',
   });
 
   const mobileMenuStyle = {
     position: 'fixed',
-    top: '64px',
+    top: theme.componentSizes.header.height,
     left: 0,
     right: 0,
     bottom: 0,
-    background: 'rgba(10, 10, 15, 0.98)',
+    background: `${theme.colors.background.primary}FA`,
     backdropFilter: 'blur(30px)',
-    padding: '24px',
+    padding: theme.spacing[6],
     zIndex: 999,
   };
 
   const mobileLinkStyle = (isActive) => ({
     display: 'flex',
     alignItems: 'center',
-    gap: '12px',
-    padding: '16px',
+    gap: theme.spacing[3],
+    padding: theme.spacing[4],
     textDecoration: 'none',
-    fontSize: '1.1rem',
-    fontWeight: '500',
-    color: isActive ? '#6A5AE0' : '#CBD5E1',
+    fontSize: theme.typography.fontSize.lg,
+    fontWeight: theme.typography.fontWeight.medium,
+    fontFamily: theme.typography.fontFamily.primary.join(', '),
+    color: isActive ? theme.colors.primary.main : theme.colors.text.secondary,
     background: isActive ? 'rgba(106, 90, 224, 0.1)' : 'transparent',
-    borderRadius: '12px',
+    borderRadius: theme.borderRadius.xl,
     border: '1px solid rgba(255, 255, 255, 0.1)',
     transition: 'all 0.2s ease',
-    marginBottom: '8px',
+    marginBottom: theme.spacing[2],
   });
 
   return (
@@ -118,7 +131,7 @@ const Header = () => {
       <div style={containerStyle}>
 
         <Link to="/" style={logoStyle}>
-          <Shield size={28} style={{ color: '#6A5AE0' }} />
+          <Shield size={28} style={{ color: theme.colors.primary.main }} />
           <span className="gradient-text">{STRINGS.APP_NAME}</span>
         </Link>
 
@@ -129,8 +142,8 @@ const Header = () => {
               key={item.path}
               to={item.path}
               style={linkStyle(location.pathname === item.path)}
-              onMouseEnter={(e) => e.target.style.color = '#6A5AE0'}
-              onMouseLeave={(e) => e.target.style.color = location.pathname === item.path ? '#6A5AE0' : '#CBD5E1'}
+              onMouseEnter={(e) => e.target.style.color = theme.colors.primary.main}
+              onMouseLeave={(e) => e.target.style.color = location.pathname === item.path ? theme.colors.primary.main : theme.colors.text.secondary}
             >
               {item.name}
               {location.pathname === item.path && (
@@ -140,9 +153,9 @@ const Header = () => {
                     bottom: 0,
                     left: 0,
                     right: 0,
-                    height: '2px',
-                    background: '#6A5AE0',
-                    borderRadius: '2px',
+                    height: theme.borderWidth.default,
+                    background: theme.colors.primary.main,
+                    borderRadius: theme.borderRadius.sm,
                   }}
                   layoutId="activeNav"
                   transition={{ duration: 0.3 }}
@@ -158,8 +171,8 @@ const Header = () => {
             display: window.innerWidth < 768 ? 'block' : 'none',
             background: 'none',
             border: 'none',
-            color: '#FFFFFF',
-            padding: '8px',
+            color: theme.colors.text.primary,
+            padding: theme.spacing[2],
             cursor: 'pointer',
           }}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -178,17 +191,20 @@ const Header = () => {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
           >
-            {navigation.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                style={mobileLinkStyle(location.pathname === item.path)}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <item.icon size={20} />
-                {item.name}
-              </Link>
-            ))}
+            {navigation.map((item) => {
+              const IconComponent = item.icon;
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  style={mobileLinkStyle(location.pathname === item.path)}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {IconComponent && <IconComponent size={20} />}
+                  {item.name}
+                </Link>
+              );
+            })}
           </motion.div>
         )}
       </AnimatePresence>

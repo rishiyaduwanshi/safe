@@ -21,14 +21,14 @@ const ProfilePage = () => {
             <h1 style={{
               fontSize: theme.typography.fontSize['3xl'],
               fontWeight: theme.typography.fontWeight.bold,
-              color: theme.colors.neutral.gray[900],
+              color: theme.colors.text.primary,
               marginBottom: theme.spacing[4],
             }}>
               User Profile
             </h1>
             <p style={{
               fontSize: theme.typography.fontSize.lg,
-              color: theme.colors.neutral.gray[600],
+              color: theme.colors.text.secondary,
             }}>
               Coming Soon - User profile management and settings
             </p>

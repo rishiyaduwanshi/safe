@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { MainLayout } from './layouts/index.js';
 import { ROUTES } from './constants/index.js';
 import './App.css'
@@ -10,20 +10,37 @@ import ProfilePage from './pages/Profile.jsx';
 import AboutPage from './pages/About.jsx';
 
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      {
+        path: ROUTES.ABOUT,
+        element: <AboutPage />,
+      },
+      {
+        path: ROUTES.DASHBOARD,
+        element: <DashboardPage />,
+      },
+      {
+        path: ROUTES.REPORT,
+        element: <ReportPage />,
+      },
+      {
+        path: ROUTES.PROFILE,
+        element: <ProfilePage />,
+      },
+    ],
+  },
+]);
+
 function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<HomePage />} />
-          <Route path={ROUTES.DASHBOARD} element={<DashboardPage />} />
-          <Route path={ROUTES.REPORT} element={<ReportPage />} />
-          <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
-          <Route path={ROUTES.ABOUT} element={<AboutPage />} />
-        </Route>
-      </Routes>
-    </Router>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App

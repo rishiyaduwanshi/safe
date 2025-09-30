@@ -2,8 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Shield, Heart, Github, Twitter, Linkedin, Mail } from 'lucide-react';
-import { theme } from '../../styles/theme.js';
-import { STRINGS, ROUTES } from '../../constants/index.js';
+import { theme } from '../styles/theme.js';
+import { STRINGS, ROUTES } from '../constants/index.js';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -11,20 +11,20 @@ const Footer = () => {
   const footerStyles = {
     background: theme?.colors?.background?.secondary || '#111118',
     color: theme?.colors?.text?.primary || '#F8FAFC',
-    padding: `${theme?.spacing?.[16] || '4rem'} ${theme?.spacing?.[6] || '1.5rem'} ${theme?.spacing?.[8] || '2rem'}`,
+    padding: `${theme.spacing[16]} ${theme.spacing[6]} ${theme.spacing[8]}`,
     marginTop: 'auto',
   };
 
   const containerStyles = {
-    maxWidth: '1200px',
+    maxWidth: theme.containers.xl,
     margin: '0 auto',
   };
 
   const gridStyles = {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-    gap: theme?.spacing?.[12] || '3rem',
-    marginBottom: theme?.spacing?.[12] || '3rem',
+    gap: theme.spacing[12],
+    marginBottom: theme.spacing[12],
   };
 
   const sectionTitleStyles = {
@@ -50,8 +50,8 @@ const Footer = () => {
   };
 
   const dividerStyles = {
-    height: '1px',
-    background: theme.colors.neutral.gray[700],
+    height: theme.borderWidth.thin,
+    background: theme.colors.border.default,
     margin: `${theme.spacing[8]} 0`,
   };
 

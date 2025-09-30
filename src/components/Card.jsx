@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
-import { theme } from '../../styles/theme.js';
+import { theme } from '../styles/theme.js';
 
 const Card = ({
   children,
@@ -30,22 +30,19 @@ const Card = ({
       backdropFilter: 'blur(25px)',
     },
     elevated: {
-      background: `linear-gradient(145deg, rgba(25, 25, 35, 0.9) 0%, rgba(30, 30, 45, 0.85) 100%)`,
-      boxShadow: `0 32px 64px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(106, 90, 224, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15)`,
-      border: '1px solid rgba(106, 90, 224, 0.2)',
+      background: theme.colors.background.card,
+      boxShadow: theme.shadows.cardHover,
+      border: `1px solid ${theme.colors.primary.main}30`,
       backdropFilter: 'blur(30px)',
     },
     outlined: {
-      background: 'rgba(10, 10, 15, 0.6)',
-      border: `2px solid rgba(106, 90, 224, 0.3)`,
-      boxShadow: `0 8px 32px rgba(0, 0, 0, 0.2), 0 0 20px rgba(106, 90, 224, 0.1)`,
+      background: theme.colors.background.primary,
+      border: `2px solid ${theme.colors.primary.main}50`,
+      boxShadow: theme.shadows.card,
       backdropFilter: 'blur(15px)',
     },
     glass: {
-      background: 'rgba(255, 255, 255, 0.05)',
-      border: '1px solid rgba(255, 255, 255, 0.1)',
-      boxShadow: `0 20px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)`,
-      backdropFilter: 'blur(25px)',
+      ...theme.glassmorphism.light,
     },
     glow: {
       background: `linear-gradient(145deg, rgba(20, 20, 25, 0.9) 0%, rgba(25, 25, 35, 0.85) 100%)`,
@@ -59,19 +56,19 @@ const Card = ({
   const sizes = {
     sm: { 
       padding: theme.spacing[6],
-      borderRadius: '16px',
+      borderRadius: theme.borderRadius['2xl'],
     },
     md: { 
       padding: theme.spacing[8],
-      borderRadius: '20px',
+      borderRadius: theme.borderRadius['3xl'],
     },
     lg: { 
       padding: theme.spacing[10],
-      borderRadius: '24px',
+      borderRadius: theme.borderRadius['3xl'],
     },
     xl: { 
       padding: theme.spacing[12],
-      borderRadius: '28px',
+      borderRadius: theme.borderRadius['3xl'],
     },
   };
 

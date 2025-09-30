@@ -147,7 +147,15 @@ export const borderRadius = {
   full: '9999px',
 };
 
+export const borderWidth = {
+  thin: '1px',
+  default: '2px',
+  thick: '4px',
+  none: '0',
+};
+
 export const spacing = {
+  // Fixed spacing
   0: '0',
   1: '0.25rem',   // 4px
   2: '0.5rem',    // 8px
@@ -165,6 +173,54 @@ export const spacing = {
   40: '10rem',    // 160px
   48: '12rem',    // 192px
   64: '16rem',    // 256px
+  
+  // Responsive spacing using clamp()
+  responsive: {
+    xs: 'clamp(0.25rem, 1vw, 0.5rem)',      // 4px-8px
+    sm: 'clamp(0.5rem, 2vw, 0.75rem)',      // 8px-12px  
+    md: 'clamp(0.75rem, 3vw, 1rem)',        // 12px-16px
+    lg: 'clamp(1rem, 4vw, 1.5rem)',         // 16px-24px
+    xl: 'clamp(1.5rem, 6vw, 2rem)',         // 24px-32px
+    '2xl': 'clamp(2rem, 8vw, 3rem)',        // 32px-48px
+    '3xl': 'clamp(3rem, 10vw, 4rem)',       // 48px-64px
+    '4xl': 'clamp(4rem, 12vw, 5rem)',       // 64px-80px
+    section: 'clamp(3rem, 8vw, 5rem)',      // Section spacing
+    container: 'clamp(1rem, 4vw, 1.5rem)',  // Container padding
+  }
+};
+
+// Container system for consistent max-widths
+export const containers = {
+  sm: '640px',     // Small container
+  md: '768px',     // Medium container  
+  lg: '1024px',    // Large container
+  xl: '1200px',    // Extra large container
+  '2xl': '1400px', // 2X large container
+  hero: '1000px',  // Hero section container
+  content: '800px', // Content container
+  card: '400px',   // Card max width
+};
+
+// Component sizes for consistent UI scaling
+export const componentSizes = {
+  button: {
+    minWidth: 'clamp(120px, 25vw, 160px)',
+    minWidthLarge: 'clamp(140px, 30vw, 180px)',
+  },
+  icon: {
+    sm: '16px',
+    md: '20px', 
+    lg: '24px',
+    xl: '32px',
+  },
+  card: {
+    iconBox: 'clamp(40px, 8vw, 48px)',
+    padding: 'clamp(20px, 4vw, 32px)',
+  },
+  header: {
+    height: '64px',
+    mobileHeight: '56px',
+  }
 };
 
 export const typography = {
@@ -178,6 +234,7 @@ export const typography = {
   
 
   fontSize: {
+    // Fixed sizes
     xs: '0.75rem',      // 12px - captions
     sm: '0.875rem',     // 14px - body small
     base: '1rem',       // 16px - body
@@ -191,6 +248,23 @@ export const typography = {
     '7xl': '4.5rem',    // 72px - display
     '8xl': '6rem',      // 96px - mega display
     '9xl': '8rem',      // 128px - ultra display
+    
+    // Responsive sizes using clamp()
+    responsive: {
+      xs: 'clamp(0.75rem, 2vw, 0.875rem)',    // 12px-14px
+      sm: 'clamp(0.875rem, 2.5vw, 1rem)',     // 14px-16px
+      base: 'clamp(1rem, 3vw, 1.125rem)',     // 16px-18px
+      lg: 'clamp(1.125rem, 3.5vw, 1.25rem)',  // 18px-20px
+      xl: 'clamp(1.25rem, 4vw, 1.5rem)',      // 20px-24px
+      '2xl': 'clamp(1.5rem, 5vw, 2rem)',      // 24px-32px
+      '3xl': 'clamp(1.875rem, 6vw, 2.5rem)',  // 30px-40px
+      '4xl': 'clamp(2.25rem, 7vw, 3rem)',     // 36px-48px
+      '5xl': 'clamp(3rem, 8vw, 4rem)',        // 48px-64px
+      '6xl': 'clamp(3.75rem, 10vw, 5rem)',    // 60px-80px
+      hero: 'clamp(2.5rem, 8vw, 5rem)',       // Hero text
+      button: 'clamp(0.875rem, 3vw, 1rem)',   // Button text
+      badge: 'clamp(0.75rem, 2vw, 0.875rem)', // Badge text
+    }
   },
   
   // Font Weights
@@ -350,11 +424,14 @@ export const theme = {
   colors,
   shadows,
   borderRadius,
+  borderWidth,
   spacing,
   typography,
   glassmorphism,
   animations,
   breakpoints,
+  containers,
+  componentSizes,
   zIndex,
 };
 

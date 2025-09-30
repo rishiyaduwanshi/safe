@@ -1,7 +1,7 @@
-import React from 'react';
 import { Outlet } from 'react-router-dom';
-import Header from '../Header/HeaderNew.jsx';
-import Footer from '../Footer/Footer.jsx';
+import Header from './Header.jsx';
+import Footer from './Footer.jsx';
+import theme from '../styles/theme.js';
 
 
 const MainLayout = () => {
@@ -20,7 +20,7 @@ const MainLayout = () => {
       }}>
         <div style={{ 
           flex: '1', 
-          paddingTop: '80px' 
+          paddingTop: theme.componentSizes.header.height 
         }}>
           <Outlet />
         </div>

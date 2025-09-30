@@ -37,7 +37,7 @@ const AboutPage = () => {
       icon: Target,
       title: 'Data-Driven',
       description: 'We use AI and analytics to provide actionable insights for better road safety.',
-      color: theme.colors.accent.emerald,
+      color: theme.colors.accent.green,
     },
     {
       icon: Users,
@@ -57,7 +57,7 @@ const AboutPage = () => {
     <div className="about-page">
 
       <section style={{
-        background: theme.colors.backgrounds.primary,
+        background: theme.colors.background.gradient,
         color: theme.colors.neutral.white,
         padding: `${theme.spacing[16]} ${theme.spacing[6]}`,
         textAlign: 'center',
@@ -66,7 +66,7 @@ const AboutPage = () => {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          style={{ maxWidth: '800px', margin: '0 auto' }}
+          style={{ maxWidth: theme.containers.lg, margin: '0 auto' }}
         >
           <motion.h1
             variants={itemVariants}
@@ -95,7 +95,7 @@ const AboutPage = () => {
 
       <section style={{
         padding: `${theme.spacing[16]} ${theme.spacing[6]}`,
-        maxWidth: '1200px',
+        maxWidth: theme.containers.xl,
         margin: '0 auto',
       }}>
         <motion.div
@@ -111,7 +111,7 @@ const AboutPage = () => {
               fontWeight: theme.typography.fontWeight.bold,
               textAlign: 'center',
               marginBottom: theme.spacing[4],
-              color: theme.colors.neutral.gray[900],
+              color: theme.colors.text.primary,
             }}
           >
             Our Mission
@@ -123,8 +123,8 @@ const AboutPage = () => {
               fontSize: theme.typography.fontSize.lg,
               textAlign: 'center',
               marginBottom: theme.spacing[16],
-              color: theme.colors.neutral.gray[600],
-              maxWidth: '600px',
+              color: theme.colors.text.secondary,
+              maxWidth: theme.containers.md,
               margin: `0 auto ${theme.spacing[16]}`,
               lineHeight: theme.typography.lineHeight.relaxed,
             }}
@@ -136,7 +136,7 @@ const AboutPage = () => {
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gridTemplateColumns: `repeat(auto-fit, minmax(${theme.containers.card}, 1fr))`,
             gap: theme.spacing[8],
           }}>
             {values.map((value, index) => (
@@ -160,7 +160,7 @@ const AboutPage = () => {
                     <h3 style={{
                       fontSize: theme.typography.fontSize.xl,
                       fontWeight: theme.typography.fontWeight.bold,
-                      color: theme.colors.neutral.gray[900],
+                      color: theme.colors.text.primary,
                       marginBottom: theme.spacing[3],
                     }}>
                       {value.title}
@@ -168,7 +168,7 @@ const AboutPage = () => {
                     
                     <p style={{
                       fontSize: theme.typography.fontSize.base,
-                      color: theme.colors.neutral.gray[600],
+                      color: theme.colors.text.secondary,
                       lineHeight: theme.typography.lineHeight.relaxed,
                     }}>
                       {value.description}
@@ -183,7 +183,7 @@ const AboutPage = () => {
 
 
       <section style={{
-        background: theme.colors.neutral.gray[50],
+        background: theme.colors.background.secondary,
         padding: `${theme.spacing[16]} ${theme.spacing[6]}`,
       }}>
         <motion.div
@@ -191,7 +191,7 @@ const AboutPage = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          style={{ maxWidth: '1000px', margin: '0 auto' }}
+          style={{ maxWidth: theme.containers.lg, margin: '0 auto' }}
         >
           <motion.h2
             variants={itemVariants}
@@ -200,7 +200,7 @@ const AboutPage = () => {
               fontWeight: theme.typography.fontWeight.bold,
               textAlign: 'center',
               marginBottom: theme.spacing[8],
-              color: theme.colors.neutral.gray[900],
+              color: theme.colors.text.primary,
             }}
           >
             The Problem We're Solving
@@ -210,7 +210,7 @@ const AboutPage = () => {
             variants={itemVariants}
             style={{
               fontSize: theme.typography.fontSize.lg,
-              color: theme.colors.neutral.gray[700],
+              color: theme.colors.text.secondary,
               lineHeight: theme.typography.lineHeight.relaxed,
               marginBottom: theme.spacing[8],
             }}

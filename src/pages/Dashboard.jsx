@@ -45,7 +45,7 @@ const DashboardPage = () => {
 
   const violationTypes = [
     { name: 'Helmet', value: 3, color: theme.colors.safety.red },
-    { name: 'Speeding', value: 2, color: theme.colors.safety.orange },
+    { name: 'Speeding', value: 2, color: theme.colors.accent.orange },
     { name: 'Signal', value: 2, color: theme.colors.accent.purple },
     { name: 'Parking', value: 1, color: theme.colors.accent.cyan },
   ];
@@ -100,21 +100,21 @@ const DashboardPage = () => {
 
   // Styles
   const headerStyles = {
-    background: theme.colors.backgrounds.dashboard,
-    color: theme.colors.neutral.white,
+    background: theme.colors.background.gradient,
+    color: theme.colors.text.primary,
     padding: `${theme.spacing[12]} ${theme.spacing[6]} ${theme.spacing[8]}`,
     textAlign: 'center',
   };
 
   const contentStyles = {
-    maxWidth: '1200px',
+    maxWidth: theme.containers.xl,
     margin: '0 auto',
     padding: theme.spacing[6],
   };
 
   const gridStyles = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
     gap: theme.spacing[6],
     marginBottom: theme.spacing[8],
   };
@@ -201,7 +201,7 @@ const DashboardPage = () => {
                     <h3 style={{
                       fontSize: theme.typography.fontSize.xl,
                       fontWeight: theme.typography.fontWeight.bold,
-                      color: theme.colors.neutral.gray[900],
+                      color: theme.colors.text.primary,
                     }}>
                       {STRINGS.SAFETY_SCORE_TITLE}
                     </h3>
@@ -221,7 +221,7 @@ const DashboardPage = () => {
                   
                   <p style={{
                     fontSize: theme.typography.fontSize.lg,
-                    color: theme.colors.neutral.gray[600],
+                    color: theme.colors.text.secondary,
                     marginBottom: theme.spacing[4],
                   }}>
                     {userProfile.level}
@@ -255,7 +255,7 @@ const DashboardPage = () => {
                   <h3 style={{
                     fontSize: theme.typography.fontSize['3xl'],
                     fontWeight: theme.typography.fontWeight.bold,
-                    color: theme.colors.neutral.gray[900],
+                    color: theme.colors.text.primary,
                     marginBottom: theme.spacing[2],
                   }}>
                     {userProfile.safeDrives}
@@ -263,7 +263,7 @@ const DashboardPage = () => {
                   
                   <p style={{
                     fontSize: theme.typography.fontSize.base,
-                    color: theme.colors.neutral.gray[600],
+                    color: theme.colors.text.secondary,
                   }}>
                     {STRINGS.SAFE_DRIVES}
                   </p>
@@ -289,7 +289,7 @@ const DashboardPage = () => {
                   <h3 style={{
                     fontSize: theme.typography.fontSize['3xl'],
                     fontWeight: theme.typography.fontWeight.bold,
-                    color: theme.colors.neutral.gray[900],
+                    color: theme.colors.text.primary,
                     marginBottom: theme.spacing[2],
                   }}>
                     {userProfile.violations}
@@ -297,7 +297,7 @@ const DashboardPage = () => {
                   
                   <p style={{
                     fontSize: theme.typography.fontSize.base,
-                    color: theme.colors.neutral.gray[600],
+                    color: theme.colors.text.secondary,
                   }}>
                     {STRINGS.VIOLATIONS_DETECTED}
                   </p>
@@ -323,7 +323,7 @@ const DashboardPage = () => {
                   <h3 style={{
                     fontSize: theme.typography.fontSize['3xl'],
                     fontWeight: theme.typography.fontWeight.bold,
-                    color: theme.colors.neutral.gray[900],
+                    color: theme.colors.text.primary,
                     marginBottom: theme.spacing[2],
                   }}>
                     {userProfile.reportsSubmitted}
@@ -331,7 +331,7 @@ const DashboardPage = () => {
                   
                   <p style={{
                     fontSize: theme.typography.fontSize.base,
-                    color: theme.colors.neutral.gray[600],
+                    color: theme.colors.text.secondary,
                   }}>
                     {STRINGS.REPORTS_SUBMITTED}
                   </p>
@@ -343,7 +343,7 @@ const DashboardPage = () => {
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
             gap: theme.spacing[6],
             marginBottom: theme.spacing[8],
           }}>
@@ -353,7 +353,7 @@ const DashboardPage = () => {
                 <h3 style={{
                   fontSize: theme.typography.fontSize.xl,
                   fontWeight: theme.typography.fontWeight.bold,
-                  color: theme.colors.neutral.gray[900],
+                  color: theme.colors.text.primary,
                   marginBottom: theme.spacing[4],
                 }}>
                   Safety Score Trend
@@ -368,7 +368,7 @@ const DashboardPage = () => {
                           <stop offset="95%" stopColor={theme.colors.primary.main} stopOpacity={0}/>
                         </linearGradient>
                       </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke={theme.colors.neutral.gray[200]} />
+                      <CartesianGrid strokeDasharray="3 3" stroke={theme.colors.border.default} />
                       <XAxis dataKey="month" stroke={theme.colors.neutral.gray[500]} />
                       <YAxis stroke={theme.colors.neutral.gray[500]} />
                       <Tooltip 
@@ -398,7 +398,7 @@ const DashboardPage = () => {
                 <h3 style={{
                   fontSize: theme.typography.fontSize.xl,
                   fontWeight: theme.typography.fontWeight.bold,
-                  color: theme.colors.neutral.gray[900],
+                  color: theme.colors.text.primary,
                   marginBottom: theme.spacing[4],
                 }}>
                   Violation Breakdown
@@ -439,7 +439,7 @@ const DashboardPage = () => {
                 <h3 style={{
                   fontSize: theme.typography.fontSize.xl,
                   fontWeight: theme.typography.fontWeight.bold,
-                  color: theme.colors.neutral.gray[900],
+                  color: theme.colors.text.primary,
                 }}>
                   {STRINGS.RECENT_ACTIVITY}
                 </h3>
@@ -460,16 +460,16 @@ const DashboardPage = () => {
                       gap: theme.spacing[4],
                       padding: theme.spacing[4],
                       borderRadius: theme.borderRadius.lg,
-                      background: theme.colors.neutral.gray[50],
-                      border: `1px solid ${theme.colors.neutral.gray[200]}`,
+                      background: theme.colors.background.tertiary,
+                      border: `1px solid ${theme.colors.border.default}`,
                     }}
                   >
                     <div style={{
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      width: '40px',
-                      height: '40px',
+                      width: theme.componentSizes.icon.lg,
+                      height: theme.componentSizes.icon.lg,
                       borderRadius: theme.borderRadius.full,
                       background: `${getActivityColor(activity.type)}20`,
                       color: getActivityColor(activity.type),
@@ -481,7 +481,7 @@ const DashboardPage = () => {
                       <h4 style={{
                         fontSize: theme.typography.fontSize.base,
                         fontWeight: theme.typography.fontWeight.semibold,
-                        color: theme.colors.neutral.gray[900],
+                        color: theme.colors.text.primary,
                         marginBottom: theme.spacing[1],
                       }}>
                         {activity.title}
@@ -492,7 +492,7 @@ const DashboardPage = () => {
                         alignItems: 'center',
                         gap: theme.spacing[4],
                         fontSize: theme.typography.fontSize.sm,
-                        color: theme.colors.neutral.gray[600],
+                        color: theme.colors.text.secondary,
                       }}>
                         <span style={{ display: 'flex', alignItems: 'center', gap: theme.spacing[1] }}>
                           <MapPin size={14} />
