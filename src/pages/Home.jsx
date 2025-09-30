@@ -1,396 +1,553 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import * as Dialog from '@radix-ui/react-dialog';
 import { 
   Shield, 
-  TrendingUp, 
-  Users, 
+  AlertTriangle, 
   MapPin, 
-  AlertTriangle,
-  CheckCircle,
+  BarChart3, 
+  Play, 
+  ArrowRight, 
+  Zap,
   Eye,
-  Award,
-  ArrowRight,
-  Play,
+  Camera,
+  Users,
   Star,
-  Zap
+  X
 } from 'lucide-react';
-import { STRINGS, ROUTES } from '../constants/index.js';
+import { theme } from '../styles/theme.js';
 
-const HomePage = () => {
-  const navigate = useNavigate();
-
-  const stats = [
-    { icon: Shield, value: '480,583', label: 'Road Accidents (2023)', color: 'text-red-400' },
-    { icon: TrendingUp, value: '172,890', label: 'Lives Lost', color: 'text-yellow-400' },
-    { icon: Users, value: '10M+', label: 'Drivers Monitored', color: 'text-blue-400' },
-    { icon: CheckCircle, value: '85%', label: 'Safety Improvement', color: 'text-green-400' },
-  ];
-
+const Home = () => {
   const features = [
     {
-      icon: Eye,
-      title: 'Real-time Violation Detection',
-      description: 'AI-powered system detects helmet violations, overspeeding, and traffic rule violations in real-time.',
-      color: 'from-cyan-500 to-blue-500',
-      bgColor: 'bg-cyan-500/10',
-    },
-    {
-      icon: MapPin,
-      title: 'Hazard Reporting',
-      description: 'Citizens can report potholes, road damage, and infrastructure issues with location-based mapping.',
-      color: 'from-emerald-500 to-green-500',
-      bgColor: 'bg-emerald-500/10',
-    },
-    {
-      icon: Award,
-      title: 'Safety Score System',
-      description: 'Comprehensive scoring system that tracks driving behavior and rewards safe practices.',
-      color: 'from-purple-500 to-pink-500',
-      bgColor: 'bg-purple-500/10',
+      icon: Camera,
+      title: "Violation Detection",
+      description: "Real-time detection of helmet violations, overspeeding, wrong-side driving",
+      color: theme.colors.primary.main
     },
     {
       icon: AlertTriangle,
-      title: 'Instant Alerts',
-      description: 'Immediate notifications to authorities and emergency services for accidents and violations.',
-      color: 'from-amber-500 to-orange-500',
-      bgColor: 'bg-amber-500/10',
+      title: "Hazard Recognition", 
+      description: "AI-powered detection of potholes, accidents, and road obstacles",
+      color: "#f59e0b"
     },
+    {
+      icon: BarChart3,
+      title: "Citizen Safety Score",
+      description: "Dynamic scoring system for driver behavior and safety compliance", 
+      color: "#10b981"
+    },
+    {
+      icon: MapPin,
+      title: "Traffic Analytics",
+      description: "Smart traffic flow monitoring and congestion optimization",
+      color: "#3b82f6"
+    },
+    {
+      icon: Eye,
+      title: "Transparency Portal",
+      description: "Appeal violations, view evidence, track safety improvements",
+      color: theme.colors.secondary
+    },
+    {
+      icon: Star,
+      title: "Policy Integration", 
+      description: "Automated retraining triggers, insurance benefits, license rewards",
+      color: "#06b6d4"
+    }
   ];
 
-  const heroStyle = {
-    minHeight: '100vh',
-    background: 'linear-gradient(135deg, #0A0A0F 0%, #1A1A2E 100%)',
-    color: '#FFFFFF',
-    position: 'relative',
-    overflow: 'hidden',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  };
-
-  const containerStyle = {
-    maxWidth: '1200px',
-    margin: '0 auto',
-    padding: '0 24px',
-    textAlign: 'center',
-    position: 'relative',
-    zIndex: 10,
-  };
-
-  const titleStyle = {
-    fontSize: 'clamp(3rem, 8vw, 6rem)',
-    fontWeight: '900',
-    marginBottom: '32px',
-    lineHeight: '1.1',
-  };
-
-  const subtitleStyle = {
-    fontSize: 'clamp(1.125rem, 3vw, 1.5rem)',
-    color: '#CBD5E1',
-    marginBottom: '48px',
-    lineHeight: '1.6',
-    maxWidth: '800px',
-    margin: '0 auto 48px',
-  };
-
-  const buttonStyle = {
-    padding: '16px 32px',
-    fontSize: '1.125rem',
-    fontWeight: '700',
-    borderRadius: '16px',
-    border: 'none',
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: '12px',
-    textDecoration: 'none',
-    margin: '0 8px',
-  };
-
-  const primaryButtonStyle = {
-    ...buttonStyle,
-    background: 'linear-gradient(135deg, #6A5AE0 0%, #8B5CF6 50%, #EC4899 100%)',
-    color: '#FFFFFF',
-    boxShadow: '0 8px 32px rgba(106, 90, 224, 0.3)',
-  };
-
-  const secondaryButtonStyle = {
-    ...buttonStyle,
-    background: 'rgba(255, 255, 255, 0.05)',
-    color: '#FFFFFF',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
-    backdropFilter: 'blur(20px)',
-  };
-
-  const sectionStyle = {
-    padding: '80px 24px',
-    maxWidth: '1200px',
-    margin: '0 auto',
-  };
-
-  const cardStyle = {
-    background: 'rgba(255, 255, 255, 0.05)',
-    backdropFilter: 'blur(20px)',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
-    borderRadius: '20px',
-    padding: '32px',
-    textAlign: 'center',
-    transition: 'all 0.3s ease',
-  };
-
   return (
-    <div style={{ minHeight: '100vh', background: '#0A0A0F', color: '#FFFFFF' }}>
+    <div style={{
+      minHeight: '100vh',
+      background: theme.colors.background.gradient,
+      position: 'relative'
+    }}>
 
-      <section style={heroStyle}>        
 
-        <motion.div
-          animate={{
-            y: [0, -20, 0],
-            x: [0, 15, 0],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-          style={{
-            position: 'absolute',
-            top: '80px',
-            left: '32px',
-            width: '256px',
-            height: '256px',
-            background: 'radial-gradient(circle, rgba(139, 92, 246, 0.2) 0%, transparent 70%)',
-            borderRadius: '50%',
-            filter: 'blur(60px)',
-          }}
-        />
-        <motion.div
-          animate={{
-            y: [0, 30, 0],
-            x: [0, -20, 0],
-          }}
-          transition={{
-            duration: 14,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-          style={{
-            position: 'absolute',
-            bottom: '80px',
-            right: '48px',
-            width: '320px',
-            height: '320px',
-            background: 'radial-gradient(circle, rgba(236, 72, 153, 0.15) 0%, transparent 70%)',
-            borderRadius: '50%',
-            filter: 'blur(80px)',
-          }}
-        />
+      {/* Hero Section */}
+      <div style={{ 
+        padding: 'clamp(40px, 8vw, 80px) clamp(16px, 4vw, 24px)', 
+        position: 'relative' 
+      }}>
+        <div style={{ 
+          maxWidth: '1000px', 
+          margin: '0 auto', 
+          textAlign: 'center',
+          overflow: 'hidden'
+        }}>
+          
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              padding: 'clamp(8px, 2vw, 12px) clamp(12px, 3vw, 20px)',
+              background: theme.colors.background.glass,
+              border: `1px solid ${theme.colors.border.light}`,
+              borderRadius: '999px',
+              marginBottom: 'clamp(24px, 5vw, 32px)',
+              backdropFilter: 'blur(10px)',
+              maxWidth: '90%',
+              textAlign: 'center'
+            }}
+          >
+            <Zap size={16} style={{ color: theme.colors.primary.main, marginRight: '8px', flexShrink: 0 }} />
+            <span style={{
+              color: theme.colors.text.secondary,
+              fontSize: 'clamp(12px, 2.5vw, 14px)',
+              fontWeight: '600',
+              lineHeight: '1.4'
+            }}>
+              India's First AI-Powered Road Safety System
+            </span>
+          </motion.div>
 
-        <div style={containerStyle}>
+          {/* Main Heading */}
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            style={{
+              fontSize: 'clamp(2.5rem, 8vw, 5rem)',
+              fontWeight: '800',
+              lineHeight: '1.1',
+              marginBottom: 'clamp(16px, 4vw, 24px)',
+              background: theme.colors.text.gradient,
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              wordBreak: 'break-word',
+              hyphens: 'auto'
+            }}
+          >
+            S.A.F.E India
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            style={{
+              fontSize: 'clamp(1.1rem, 3vw, 1.5rem)',
+              color: theme.colors.text.secondary,
+              marginBottom: 'clamp(12px, 3vw, 16px)',
+              fontWeight: '600',
+              wordBreak: 'break-word'
+            }}
+          >
+            Smart, Adaptive & Forensic Evaluation
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            style={{
+              fontSize: 'clamp(0.9rem, 2.5vw, 1.2rem)',
+              color: theme.colors.text.muted,
+              marginBottom: 'clamp(32px, 6vw, 48px)',
+              maxWidth: '90%',
+              margin: '0 auto clamp(32px, 6vw, 48px)',
+              lineHeight: '1.7',
+              padding: '0 clamp(8px, 2vw, 16px)'
+            }}
+          >
+            Revolutionizing road safety through cutting-edge AI technology, real-time violation detection, 
+            intelligent hazard recognition, and comprehensive citizen safety scoring system.
+          </motion.p>
+
+          {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ delay: 0.4 }}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 'clamp(12px, 3vw, 16px)',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginBottom: 'clamp(48px, 8vw, 64px)',
+              width: '100%',
+              padding: '0 clamp(16px, 4vw, 24px)'
+            }}
           >
-            <h1 style={titleStyle}>
-              <span className="gradient-text">S.A.F.E India</span>
-            </h1>
-            <p style={subtitleStyle}>
-              Smart, Adaptive & Forensic Evaluation for national road safety. 
-              Building safer roads through AI-powered monitoring and enforcement.
-            </p>
-            
-            <motion.div
-              style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.6 }}
+            <div style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 'clamp(12px, 3vw, 16px)',
+              justifyContent: 'center',
+              width: '100%',
+              maxWidth: '500px'
+            }}
+          >
+            <Dialog.Root>
+              <Dialog.Trigger asChild>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{
+                    padding: 'clamp(12px, 3vw, 16px) clamp(24px, 6vw, 32px)',
+                    background: theme.colors.primary.gradient,
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '12px',
+                    fontSize: 'clamp(14px, 3vw, 16px)',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    boxShadow: theme.shadows.electric,
+                    minWidth: 'clamp(140px, 30vw, 180px)',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  <Zap size={18} />
+                  Get Started
+                </motion.button>
+              </Dialog.Trigger>
+              <Dialog.Portal>
+                <Dialog.Overlay style={{
+                  position: 'fixed',
+                  inset: 0,
+                  background: 'rgba(0, 0, 0, 0.6)',
+                  backdropFilter: 'blur(4px)',
+                  zIndex: 50
+                }} />
+                <Dialog.Content style={{
+                  position: 'fixed',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  background: theme.colors.background.modal,
+                  border: `1px solid ${theme.colors.border.light}`,
+                  borderRadius: '16px',
+                  padding: '32px',
+                  maxWidth: '400px',
+                  width: '90%',
+                  zIndex: 51,
+                  boxShadow: theme.shadows.modal
+                }}>
+                  <Dialog.Title style={{
+                    fontSize: '24px',
+                    fontWeight: '700',
+                    color: theme.colors.text.primary,
+                    marginBottom: '16px'
+                  }}>
+                    Join S.A.F.E India
+                  </Dialog.Title>
+                  <Dialog.Description style={{
+                    color: theme.colors.text.secondary,
+                    marginBottom: '24px',
+                    lineHeight: '1.6'
+                  }}>
+                    Start your journey towards safer roads. Create your citizen safety profile and begin tracking your road safety score.
+                  </Dialog.Description>
+                  <div style={{ display: 'flex', gap: '12px' }}>
+                    <button style={{
+                      flex: 1,
+                      padding: '12px 24px',
+                      background: theme.colors.primary.gradient,
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontWeight: '600',
+                      cursor: 'pointer'
+                    }}>
+                      Sign Up
+                    </button>
+                    <Dialog.Close asChild>
+                      <button style={{
+                        padding: '12px 24px',
+                        background: theme.colors.background.secondary,
+                        color: theme.colors.text.primary,
+                        border: `1px solid ${theme.colors.border.light}`,
+                        borderRadius: '8px',
+                        fontWeight: '600',
+                        cursor: 'pointer'
+                      }}>
+                        Cancel
+                      </button>
+                    </Dialog.Close>
+                  </div>
+                  <Dialog.Close asChild>
+                    <button style={{
+                      position: 'absolute',
+                      top: '16px',
+                      right: '16px',
+                      background: 'transparent',
+                      border: 'none',
+                      color: theme.colors.text.secondary,
+                      cursor: 'pointer'
+                    }}>
+                      <X size={20} />
+                    </button>
+                  </Dialog.Close>
+                </Dialog.Content>
+              </Dialog.Portal>
+            </Dialog.Root>
+
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              style={{
+                padding: 'clamp(12px, 3vw, 16px) clamp(24px, 6vw, 32px)',
+                background: theme.colors.background.glass,
+                color: theme.colors.text.primary,
+                border: `1px solid ${theme.colors.border.light}`,
+                borderRadius: '12px',
+                fontSize: 'clamp(14px, 3vw, 16px)',
+                fontWeight: '600',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                backdropFilter: 'blur(10px)',
+                minWidth: 'clamp(140px, 30vw, 180px)',
+                whiteSpace: 'nowrap'
+              }}
             >
-              <motion.button
-                style={primaryButtonStyle}
-                onClick={() => navigate(ROUTES.DASHBOARD)}
-                whileHover={{ scale: 1.05, boxShadow: '0 12px 40px rgba(106, 90, 224, 0.4)' }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Get Started
-                <ArrowRight size={20} />
-              </motion.button>
-              <motion.button
-                style={secondaryButtonStyle}
-                whileHover={{ scale: 1.05, background: 'rgba(255, 255, 255, 0.1)' }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Play size={18} />
-                Watch Demo
-              </motion.button>
-            </motion.div>
+              <Play size={18} />
+              Watch Demo
+            </motion.button>
+            </div>
+          </motion.div>
+
+          {/* Stats */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(150px, 25vw, 200px), 1fr))',
+              gap: 'clamp(16px, 4vw, 32px)',
+              marginBottom: 'clamp(48px, 10vw, 80px)',
+              padding: '0 clamp(8px, 2vw, 16px)'
+            }}
+          >
+            {[
+              { number: '480K+', label: 'Annual Accidents', color: '#ef4444' },
+              { number: '172K+', label: 'Lives Lost', color: '#f59e0b' },
+              { number: '95%', label: 'Preventable Cases', color: '#10b981' }
+            ].map((stat, index) => (
+              <div key={index} style={{ textAlign: 'center' }}>
+                <div style={{
+                  fontSize: 'clamp(24px, 6vw, 32px)',
+                  fontWeight: '800',
+                  color: stat.color,
+                  marginBottom: 'clamp(4px, 2vw, 8px)'
+                }}>
+                  {stat.number}
+                </div>
+                <div style={{
+                  color: theme.colors.text.muted,
+                  fontSize: 'clamp(14px, 3vw, 16px)',
+                  lineHeight: '1.4'
+                }}>
+                  {stat.label}
+                </div>
+              </div>
+            ))}
           </motion.div>
         </div>
-      </section>
+      </div>
 
-
-      <section style={{ ...sectionStyle, background: 'linear-gradient(145deg, #111118 0%, #1A1A2E 100%)' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          style={{ textAlign: 'center', marginBottom: '64px' }}
-        >
-          <h2 style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', fontWeight: '800', marginBottom: '24px' }}>
-            <span className="gradient-text">The Problem We're Solving</span>
-          </h2>
-          <p style={{ fontSize: '1.25rem', color: '#CBD5E1', maxWidth: '800px', margin: '0 auto' }}>
-            India faces a massive road safety crisis. Our AI-powered platform provides the solution.
-          </p>
-        </motion.div>
-        
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '32px' }}>
-          {stats.map((stat, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.6 }}
-              whileHover={{ scale: 1.05, y: -8 }}
-            >
-              <div style={cardStyle}>
-                <div style={{ 
-                  display: 'inline-flex', 
-                  padding: '16px', 
-                  borderRadius: '50%', 
-                  marginBottom: '24px',
-                  background: `${stat.color.includes('red') ? 'rgba(239, 68, 68, 0.2)' : 
-                              stat.color.includes('yellow') ? 'rgba(245, 158, 11, 0.2)' :
-                              stat.color.includes('blue') ? 'rgba(59, 130, 246, 0.2)' :
-                              'rgba(34, 197, 94, 0.2)'}`
-                }}>
-                  <stat.icon size={32} style={{ 
-                    color: stat.color.includes('red') ? '#EF4444' : 
-                           stat.color.includes('yellow') ? '#F59E0B' :
-                           stat.color.includes('blue') ? '#3B82F6' :
-                           '#22C55E'
-                  }} />
-                </div>
-                <h3 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: '900', marginBottom: '12px', color: '#FFFFFF' }}>
-                  {stat.value}
-                </h3>
-                <p style={{ fontSize: '0.95rem', color: '#CBD5E1', fontWeight: '500' }}>
-                  {stat.label}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-
-      <section style={sectionStyle}>
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          style={{ textAlign: 'center', marginBottom: '64px' }}
-        >
-          <h2 style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', fontWeight: '800', marginBottom: '24px' }}>
-            <span style={{ 
-              background: 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
+      {/* Features Section */}
+      <div style={{ padding: '0 clamp(16px, 4vw, 24px) clamp(48px, 10vw, 80px)' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            style={{ textAlign: 'center', marginBottom: '64px' }}
+          >
+            <h2 style={{
+              fontSize: 'clamp(1.8rem, 5vw, 3rem)',
+              fontWeight: '700',
+              color: theme.colors.text.primary,
+              marginBottom: 'clamp(12px, 3vw, 16px)',
+              lineHeight: '1.2'
             }}>
-              Advanced Features
-            </span>
-          </h2>
-          <p style={{ fontSize: '1.25rem', color: '#CBD5E1', maxWidth: '800px', margin: '0 auto' }}>
-            Comprehensive safety monitoring powered by cutting-edge AI technology
-          </p>
-        </motion.div>
+              Comprehensive Safety Ecosystem
+            </h2>
+            <p style={{
+              fontSize: 'clamp(16px, 3vw, 18px)',
+              color: theme.colors.text.secondary,
+              maxWidth: '90%',
+              margin: '0 auto',
+              lineHeight: '1.6',
+              padding: '0 clamp(8px, 2vw, 16px)'
+            }}>
+              Our integrated platform combines AI-powered detection, behavioral analytics, 
+              and policy automation for unprecedented road safety management.
+            </p>
+          </motion.div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '32px' }}>
-          {features.map((feature, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.2, duration: 0.6 }}
-              whileHover={{ y: -8, scale: 1.02 }}
-            >
-              <div style={{
-                ...cardStyle,
-                height: '100%',
-                background: 'rgba(255, 255, 255, 0.03)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                backdropFilter: 'blur(20px)',
-                textAlign: 'left'
-              }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(280px, 80vw, 350px), 1fr))',
+            gap: 'clamp(16px, 4vw, 24px)',
+            justifyItems: 'center'
+          }}>
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -5 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                style={{
+                  background: theme.colors.background.card,
+                  border: `1px solid ${theme.colors.border.light}`,
+                  borderRadius: '16px',
+                  padding: 'clamp(20px, 5vw, 32px) clamp(16px, 4vw, 24px)',
+                  backdropFilter: 'blur(10px)',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  width: '100%',
+                  maxWidth: '400px'
+                }}
+              >
                 <div style={{ 
-                  display: 'inline-flex', 
-                  padding: '16px', 
-                  borderRadius: '16px', 
-                  marginBottom: '24px',
-                  background: feature.bgColor || 'rgba(139, 92, 246, 0.2)',
-                  transition: 'all 0.3s ease'
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  marginBottom: 'clamp(12px, 3vw, 16px)',
+                  flexWrap: 'wrap',
+                  gap: '12px'
                 }}>
-                  <feature.icon size={40} color={feature.iconColor || '#8B5CF6'} />
+                  <div style={{
+                    width: 'clamp(40px, 10vw, 48px)',
+                    height: 'clamp(40px, 10vw, 48px)',
+                    borderRadius: '12px',
+                    background: `${feature.color}20`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0
+                  }}>
+                    <feature.icon size={22} color={feature.color} />
+                  </div>
+                  <h3 style={{
+                    fontSize: 'clamp(18px, 4vw, 20px)',
+                    fontWeight: '600',
+                    color: theme.colors.text.primary,
+                    lineHeight: '1.3'
+                  }}>
+                    {feature.title}
+                  </h3>
                 </div>
-                <h3 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '16px', color: '#FFFFFF' }}>
-                  {feature.title}
-                </h3>
-                <p style={{ color: '#CBD5E1', fontSize: '1.125rem', lineHeight: '1.6' }}>
+                <p style={{
+                  color: theme.colors.text.muted,
+                  lineHeight: '1.6',
+                  fontSize: 'clamp(14px, 3vw, 16px)'
+                }}>
                   {feature.description}
                 </p>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))}
+          </div>
         </div>
-      </section>
+      </div>
 
-
-      <section style={{ 
-        ...sectionStyle, 
-        background: 'linear-gradient(145deg, rgba(139, 92, 246, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%)',
-        textAlign: 'center'
-      }}>
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <h2 style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', fontWeight: '800', marginBottom: '24px' }}>
-            <span style={{ 
-              background: 'linear-gradient(135deg, #A78BFA 0%, #F472B6 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}>
-              Ready to Make Roads Safer?
-            </span>
+      {/* CTA Section */}
+      <div style={{ padding: '0 clamp(16px, 4vw, 24px) clamp(48px, 10vw, 80px)' }}>
+        <div style={{
+          maxWidth: '90%',
+          margin: '0 auto',
+          textAlign: 'center',
+          background: theme.colors.background.glass,
+          border: `1px solid ${theme.colors.border.light}`,
+          borderRadius: '20px',
+          padding: 'clamp(24px, 6vw, 48px) clamp(16px, 4vw, 32px)',
+          backdropFilter: 'blur(20px)'
+        }}>
+          <h2 style={{
+            fontSize: 'clamp(20px, 5vw, 28px)',
+            fontWeight: '700',
+            color: theme.colors.text.primary,
+            marginBottom: 'clamp(12px, 3vw, 16px)',
+            lineHeight: '1.3'
+          }}>
+            Ready to Transform Road Safety?
           </h2>
-          <p style={{ fontSize: '1.25rem', color: '#CBD5E1', marginBottom: '48px', maxWidth: '640px', margin: '0 auto 48px' }}>
-            Join thousands of citizens already contributing to India's road safety revolution.
+          <p style={{
+            fontSize: 'clamp(16px, 3vw, 18px)',
+            color: theme.colors.text.secondary,
+            marginBottom: 'clamp(24px, 5vw, 32px)',
+            lineHeight: '1.6',
+            padding: '0 clamp(8px, 2vw, 16px)'
+          }}>
+            Join thousands of citizens building a safer India through smart technology and community action.
           </p>
-          
-          <motion.button
-            onClick={() => navigate(ROUTES.DASHBOARD)}
-            style={primaryButtonStyle}
-            whileHover={{ scale: 1.05, boxShadow: '0 12px 40px rgba(106, 90, 224, 0.4)' }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <Shield size={24} />
-            Get Started Today
-            <Zap size={20} />
-          </motion.button>
-        </motion.div>
-      </section>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 'clamp(12px, 3vw, 16px)',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+            <div style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 'clamp(12px, 3vw, 16px)',
+              justifyContent: 'center'
+            }}>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              style={{
+                padding: 'clamp(12px, 3vw, 16px) clamp(24px, 6vw, 32px)',
+                background: theme.colors.primary.gradient,
+                color: 'white',
+                border: 'none',
+                borderRadius: '12px',
+                fontSize: 'clamp(14px, 3vw, 16px)',
+                fontWeight: '600',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                boxShadow: theme.shadows.electric,
+                minWidth: 'clamp(140px, 35vw, 180px)',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              <Users size={18} />
+              Join Community
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              style={{
+                padding: 'clamp(12px, 3vw, 16px) clamp(24px, 6vw, 32px)',
+                background: theme.colors.background.secondary,
+                color: theme.colors.text.primary,
+                border: `1px solid ${theme.colors.border.light}`,
+                borderRadius: '12px',
+                fontSize: 'clamp(14px, 3vw, 16px)',
+                fontWeight: '600',
+                cursor: 'pointer',
+                minWidth: 'clamp(140px, 35vw, 180px)',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              Learn More
+            </motion.button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default HomePage;
+export default Home;
