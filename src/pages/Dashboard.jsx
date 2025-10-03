@@ -14,7 +14,7 @@ import {
   User
 } from 'lucide-react';
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { Card, Button } from '../components/index.js';
+import { Card, Button, LoadingAnimation } from '../components/index.js';
 import { theme } from '../styles/theme.js';
 import { STRINGS } from '../constants/index.js';
 
@@ -150,14 +150,15 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="dashboard-page">
+    <LoadingAnimation>
+      <div className="dashboard-page">
 
-      <motion.section
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        style={headerStyles}
-        className="dashboard-header"
+        <motion.section
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          style={headerStyles}
+          className="dashboard-header"
       >
         <motion.div variants={itemVariants}>
           <h1 style={{
@@ -512,6 +513,7 @@ const DashboardPage = () => {
         </motion.div>
       </div>
     </div>
+    </LoadingAnimation>
   );
 };
 

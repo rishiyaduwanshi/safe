@@ -8,12 +8,74 @@ body {
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+  background: #0A0A0F;
   color: #fff;
   overflow-x: hidden;
+  cursor: none; /* Hide default cursor */
 }
 
-html { scroll-behavior: smooth; }
+/* Show cursor on mobile */
+@media (max-width: 768px) {
+  body {
+    cursor: auto;
+  }
+  .cursor,
+  .cursor-trail,
+  .cursor-light {
+    display: none !important;
+  }
+}
+
+html {
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #0A0A0F;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+/* Cursor interaction enhancements */
+* {
+  cursor: none !important;
+}
+
+/* Interactive elements */
+button,
+a,
+[role="button"],
+input,
+textarea,
+select {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button:hover,
+a:hover,
+[role="button"]:hover {
+  transform: translateY(-1px);
+}
+
+/* Enhanced glassmorphism effects */
+.glass-card {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
 
 @layer components {
   .animate-float { animation: float 6s ease-in-out infinite; }

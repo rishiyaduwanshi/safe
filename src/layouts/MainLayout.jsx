@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
+import { CursorEffect, BackgroundPattern, SpotlightEffect } from '../components/index.js';
 import theme from '../styles/theme.js';
 
 
@@ -10,13 +11,22 @@ const MainLayout = () => {
       minHeight: '100vh', 
       display: 'flex', 
       flexDirection: 'column',
-      background: 'linear-gradient(135deg, #0A0A0F 0%, #1A1A2E 100%)'
+      background: '#0A0A0F',
+      position: 'relative',
+      overflow: 'hidden'
     }}>
+      {/* Visual Effects */}
+      <BackgroundPattern />
+      <SpotlightEffect />
+      <CursorEffect />
+      
       <Header />
       <main style={{ 
         flex: '1', 
         display: 'flex', 
-        flexDirection: 'column'
+        flexDirection: 'column',
+        position: 'relative',
+        zIndex: 2
       }}>
         <div style={{ 
           flex: '1', 
