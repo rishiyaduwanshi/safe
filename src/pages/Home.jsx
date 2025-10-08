@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import * as Dialog from '@radix-ui/react-dialog';
 import { 
@@ -16,7 +15,7 @@ import {
   X
 } from 'lucide-react';
 import { theme } from '../styles/theme.js';
-import SpotlightEffect from '../components/SpotlightEffect.jsx';
+import SpotlightEffect from '../components/SpotLightEffect.jsx';
 
 const Home = () => {
   const features = [
