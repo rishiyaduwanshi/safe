@@ -1,8 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
-import { CursorEffect, BackgroundPattern, SpotlightEffect } from '../components/index.js';
-import theme from '../styles/theme.js';
+import {  BackgroundPattern  } from '../components/index.js';
 
 
 const MainLayout = () => {
@@ -15,10 +14,7 @@ const MainLayout = () => {
       position: 'relative',
       overflow: 'hidden'
     }}>
-      {/* Visual Effects */}
       <BackgroundPattern />
-      <SpotlightEffect />
-      <CursorEffect />
       
       <Header />
       <main style={{ 

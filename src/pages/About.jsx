@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Target, Users, Globe } from 'lucide-react';
-import { Card } from '../components/index.js';
+import { Card, SpotlightEffect } from '../components/index.js';
 import { theme } from '../styles/theme.js';
 import { STRINGS } from '../constants/index.js';
 
@@ -55,9 +55,9 @@ const AboutPage = () => {
 
   return (
     <div className="about-page">
+    <SpotlightEffect/>  
 
       <section style={{
-        background: theme.colors.background.gradient,
         color: theme.colors.neutral.white,
         padding: `${theme.spacing[16]} ${theme.spacing[6]}`,
         textAlign: 'center',
@@ -183,7 +183,6 @@ const AboutPage = () => {
 
 
       <section style={{
-        background: theme.colors.background.secondary,
         padding: `${theme.spacing[16]} ${theme.spacing[6]}`,
       }}>
         <motion.div

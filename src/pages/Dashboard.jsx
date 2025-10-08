@@ -14,7 +14,7 @@ import {
   User
 } from 'lucide-react';
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { Card, Button, LoadingAnimation } from '../components/index.js';
+import { Card, Button, LoadingAnimation, SpotlightEffect } from '../components/index.js';
 import { theme } from '../styles/theme.js';
 import { STRINGS } from '../constants/index.js';
 
@@ -22,9 +22,8 @@ import { STRINGS } from '../constants/index.js';
  * Dashboard Page for Driver Safety Score and Activity
  */
 const DashboardPage = () => {
-  // Sample data (in real app, this would come from API)
   const userProfile = {
-    name: 'Rajesh Kumar',
+    name: 'Saksham Agarwal',
     safetyScore: 78,
     level: 'Good Driver',
     joinDate: '2023-08-15',
@@ -100,7 +99,7 @@ const DashboardPage = () => {
 
   // Styles
   const headerStyles = {
-    background: theme.colors.background.gradient,
+    // background: theme.colors.background.gradient,
     color: theme.colors.text.primary,
     padding: `${theme.spacing[12]} ${theme.spacing[6]} ${theme.spacing[8]}`,
     textAlign: 'center',
@@ -152,6 +151,7 @@ const DashboardPage = () => {
   return (
     <LoadingAnimation>
       <div className="dashboard-page">
+      <SpotlightEffect/>
 
         <motion.section
           variants={containerVariants}

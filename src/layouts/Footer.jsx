@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Shield, Heart, Github, Twitter, Linkedin, Mail } from 'lucide-react';
 import { theme } from '../styles/theme.js';
 import { STRINGS, ROUTES } from '../constants/index.js';
+import SpotlightEffect from '../components/SpotlightEffect.jsx';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -81,6 +82,7 @@ const Footer = () => {
       style={footerStyles}
       className="footer"
     >
+    <SpotlightEffect/>
       <div style={containerStyles}>
 
         <div style={gridStyles}>

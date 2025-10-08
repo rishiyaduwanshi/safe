@@ -16,6 +16,7 @@ import {
   X
 } from 'lucide-react';
 import { theme } from '../styles/theme.js';
+import SpotlightEffect from '../components/SpotlightEffect.jsx';
 
 const Home = () => {
   const features = [
@@ -62,7 +63,8 @@ const Home = () => {
       minHeight: '100vh',
       background: theme.colors.background.gradient,
       position: 'relative'
-    }}>
+    }}> 
+    <SpotlightEffect/>
 
 
       {/* Hero Section */}
