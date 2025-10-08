@@ -85,6 +85,28 @@ export const colors = {
     red: '#EF4444', // Danger red
     blue: '#3B82F6', // Info blue
   },
+
+  // Status colors with main property for compatibility
+  success: {
+    main: '#10B981',
+    light: '#34D399',
+    dark: '#059669',
+  },
+  error: {
+    main: '#EF4444',
+    light: '#F87171',
+    dark: '#DC2626',
+  },
+  warning: {
+    main: '#F59E0B',
+    light: '#FBBF24',
+    dark: '#D97706',
+  },
+  info: {
+    main: '#3B82F6',
+    light: '#60A5FA',
+    dark: '#2563EB',
+  },
   
   // Neutral grays
   neutral: {

@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Target, Users, Globe } from 'lucide-react';
 import { Card, SpotlightEffect } from '../components/index.js';

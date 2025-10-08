@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
 import { theme } from '../styles/theme.js';
@@ -70,6 +69,11 @@ const Card = ({
       padding: theme.spacing[12],
       borderRadius: theme.borderRadius['3xl'],
     },
+    full: { 
+      padding: theme.spacing[8],
+      borderRadius: theme.borderRadius['3xl'],
+      width: '100%',
+    },
   };
 
   // Animation variants
@@ -100,13 +104,13 @@ const Card = ({
   };
 
   const cardStyles = {
-    borderRadius: sizes[size].borderRadius || theme.borderRadius.xl,
+    borderRadius: sizes[size]?.borderRadius || theme.borderRadius.xl,
     position: 'relative',
     overflow: 'hidden',
     cursor: clickable ? 'pointer' : 'default',
     transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
     ...variants[glassmorphic ? 'glass' : variant],
-    ...sizes[size],
+    ...(sizes[size] || sizes.md),
     ...(gradient && {
       background: `linear-gradient(135deg, ${theme.colors.accent} 0%, ${theme.colors.secondary} 100%)`,
       color: theme.colors.neutral.white,

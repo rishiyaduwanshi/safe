@@ -82,8 +82,8 @@ importers:
         specifier: ^16.4.0
         version: 16.4.0
       portpilot:
-        specifier: 1.2.0
-        version: 1.2.0(@types/node@24.6.0)
+        specifier: ^1.0.2
+        version: 1.0.2(@types/node@24.6.0)
       postcss:
         specifier: ^8.5.6
         version: 8.5.6
@@ -1915,8 +1915,8 @@ packages:
     resolution: {integrity: sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==}
     engines: {node: '>=12'}
 
-  portpilot@1.2.0:
-    resolution: {integrity: sha512-48C5McGrW5kUPimPfsj9N9tsatjjTjypGeFSRVxEMQjeBBRazCRinKY6AsIWkdxjUjqmI7FYgcFLG79hErYLqw==}
+  portpilot@1.0.2:
+    resolution: {integrity: sha512-otK2qdpH0ONuxQroWpd0G/V59A/YlUPOjAu5mVv4cFbd0Hg71Z3ujp2eYl/hg3q9/OitmjfCg7nJdzwvHhRmbw==}
     engines: {node: '>=20'}
     hasBin: true
 
@@ -3874,7 +3874,7 @@ snapshots:
 
   picomatch@4.0.3: {}
 
-  portpilot@1.2.0(@types/node@24.6.0):
+  portpilot@1.0.2(@types/node@24.6.0):
     dependencies:
       ajv: 8.17.1
       chalk: 5.6.2
