@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 const SpotlightEffect = () => {
@@ -18,7 +18,6 @@ const SpotlightEffect = () => {
 
   return (
     <>
-      {/* Main spotlight that follows cursor */}
       <motion.div
         className="spotlight-main"
         animate={{

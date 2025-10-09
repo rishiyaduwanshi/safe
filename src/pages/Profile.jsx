@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Card, Button, LoadingAnimation } from '../components/index.js';
+import { Card, LoadingAnimation, SpotlightEffect } from '../components/index.js';
 import { theme } from '../styles/theme.js';
 
 const ProfilePage = () => {
@@ -145,10 +145,9 @@ const ProfilePage = () => {
   };
 
   useEffect(() => {
-    // Simulate loading and score animation
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1500);
+    }, 600);
 
     const scoreTimer = setTimeout(() => {
       const animateScore = () => {
@@ -171,7 +170,7 @@ const ProfilePage = () => {
       clearTimeout(timer);
       clearTimeout(scoreTimer);
     };
-  }, []);
+  }, [safetyData.currentScore]);
 
   if (isLoading) {
     return (
@@ -220,6 +219,7 @@ const ProfilePage = () => {
       padding: `${theme.spacing[8]} ${theme.spacing[6]}`,
       background: theme.colors.background.gradient,
     }}>
+      <SpotlightEffect/>
       <LoadingAnimation>
         <div style={{
           maxWidth: '1200px',

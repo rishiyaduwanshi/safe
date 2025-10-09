@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card, Button, LoadingAnimation } from '../components/index.js';
 import { theme } from '../styles/theme.js';
