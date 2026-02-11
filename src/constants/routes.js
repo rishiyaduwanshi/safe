@@ -15,6 +15,19 @@ export const ROUTES = {
   TERMS: '/terms',
 };
 
+export const QUICKLINKS = [
+  ["Home", "/"],
+  ["Dashboard", "/dashboard"],
+  ["Report", "/report"],
+  ["About", "/about"]
+]
+
+export const LEGALLINKS = [
+  ["Privacy Policy", "/privacy"],
+  ["Terms of service", "/terms"],
+  ["Contact Us", "/contact"]
+]
+
 // Navigation Menu Items
 export const MENU_ITEMS = [
   { label: 'Home', path: ROUTES.HOME, icon: 'Home' },

@@ -1,118 +1,50 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Shield, Heart, Github, Twitter, Linkedin, Mail } from 'lucide-react';
-import { theme } from '../styles/theme.js';
-import { STRINGS, ROUTES } from '../constants/index.js';
+import { STRINGS } from '../constants/index.js';
 import SpotlightEffect from '../components/SpotLightEffect.jsx';
+import { LEGALLINKS, QUICKLINKS } from '../constants/routes.js';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-
-  const footerStyles = {
-    background: theme?.colors?.background?.secondary || '#111118',
-    color: theme?.colors?.text?.primary || '#F8FAFC',
-    padding: `${theme.spacing[16]} ${theme.spacing[6]} ${theme.spacing[8]}`,
-    marginTop: 'auto',
-  };
-
-  const containerStyles = {
-    maxWidth: theme.containers.xl,
-    margin: '0 auto',
-  };
-
-  const gridStyles = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-    gap: theme.spacing[12],
-    marginBottom: theme.spacing[12],
-  };
-
-  const sectionTitleStyles = {
-    fontSize: theme.typography.fontSize.lg,
-    fontWeight: theme.typography.fontWeight.bold,
-    marginBottom: theme.spacing[4],
-    color: theme.colors.neutral.white,
-  };
-
-  const linkStyles = {
-    color: theme.colors.neutral.gray[300],
-    textDecoration: 'none',
-    fontSize: theme.typography.fontSize.sm,
-    transition: theme.animations.transition.normal,
-    display: 'block',
-    marginBottom: theme.spacing[2],
-  };
-
-  const socialIconStyles = {
-    color: theme.colors.neutral.gray[300],
-    transition: theme.animations.transition.normal,
-    cursor: 'pointer',
-  };
-
-  const dividerStyles = {
-    height: theme.borderWidth.thin,
-    background: theme.colors.border.default,
-    margin: `${theme.spacing[8]} 0`,
-  };
-
-  const bottomStyles = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: theme.spacing[4],
-    textAlign: 'center',
-  };
-
-  const logoStyles = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: theme.spacing[3],
-    fontSize: theme.typography.fontSize.xl,
-    fontWeight: theme.typography.fontWeight.bold,
-    color: theme.colors.neutral.white,
-    marginBottom: theme.spacing[4],
-  };
 
   return (
     <motion.footer
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
-      style={footerStyles}
-      className="footer"
+      className='bg-secondary px-4 sm:px-8 md:px-16 py-6 mt-4 pt-12 relative overflow-hidden'
     >
-    <SpotlightEffect/>
-      <div style={containerStyles}>
+      <SpotlightEffect />
+      <div className='max-w-7xl mx-auto relative z-10'>
 
-        <div style={gridStyles}>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12'>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <div style={logoStyles}>
+            <div className='flex items-center gap-3 text-xl font-bold text-white mb-4'>
               <Shield size={28} />
               <span>{STRINGS.APP_NAME}</span>
             </div>
-            <p style={{ 
-              color: theme.colors.neutral.gray[300], 
-              lineHeight: theme.typography.lineHeight.relaxed,
-              marginBottom: theme.spacing[4],
-            }}>
+            <p className='text-gray-300 leading-relaxed mb-4'>
               {STRINGS.APP_DESCRIPTION}
             </p>
-            <div style={{ display: 'flex', gap: theme.spacing[4] }}>
+            <div className='flex gap-4'>
               {[Github, Twitter, Linkedin, Mail].map((Icon, index) => (
                 <motion.div
                   key={index}
-                  whileHover={{ 
-                    scale: 1.2, 
-                    color: theme.colors.primary.light 
+                  whileHover={{
+                    scale: 1.2,
                   }}
                   whileTap={{ scale: 0.9 }}
                 >
-                  <Icon size={20} style={socialIconStyles} />
+                  <Icon
+                    size={20}
+                    className='text-gray-300 hover:text-violet-400 transition-colors duration-300 cursor-pointer'
+                  />
                 </motion.div>
               ))}
             </div>
@@ -124,40 +56,17 @@ const Footer = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h3 style={sectionTitleStyles}>Quick Links</h3>
-            <nav>
-              <Link 
-                to={ROUTES.HOME} 
-                style={linkStyles}
-                onMouseEnter={(e) => e.target.style.color = theme.colors.primary.light}
-                onMouseLeave={(e) => e.target.style.color = theme.colors.neutral.gray[300]}
-              >
-                Home
-              </Link>
-              <Link 
-                to={ROUTES.DASHBOARD} 
-                style={linkStyles}
-                onMouseEnter={(e) => e.target.style.color = theme.colors.primary.light}
-                onMouseLeave={(e) => e.target.style.color = theme.colors.neutral.gray[300]}
-              >
-                Dashboard
-              </Link>
-              <Link 
-                to={ROUTES.REPORT} 
-                style={linkStyles}
-                onMouseEnter={(e) => e.target.style.color = theme.colors.primary.light}
-                onMouseLeave={(e) => e.target.style.color = theme.colors.neutral.gray[300]}
-              >
-                Report Hazard
-              </Link>
-              <Link 
-                to={ROUTES.ABOUT} 
-                style={linkStyles}
-                onMouseEnter={(e) => e.target.style.color = theme.colors.primary.light}
-                onMouseLeave={(e) => e.target.style.color = theme.colors.neutral.gray[300]}
-              >
-                About Us
-              </Link>
+            <h3 className='text-lg font-bold mb-4 text-white'>Quick Links</h3>
+            <nav className='flex flex-col gap-2'>
+              {QUICKLINKS.map((q, idx) => (
+                <Link
+                  key={idx}
+                  to={q[1]}
+                  className='text-gray-300 text-sm hover:text-violet-400 transition-colors duration-300 no-underline'
+                >
+                  {q[0]}
+                </Link>
+              ))}
             </nav>
           </motion.div>
 
@@ -167,32 +76,17 @@ const Footer = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <h3 style={sectionTitleStyles}>Legal</h3>
-            <nav>
-              <Link 
-                to={ROUTES.PRIVACY} 
-                style={linkStyles}
-                onMouseEnter={(e) => e.target.style.color = theme.colors.primary.light}
-                onMouseLeave={(e) => e.target.style.color = theme.colors.neutral.gray[300]}
-              >
-                Privacy Policy
-              </Link>
-              <Link 
-                to={ROUTES.TERMS} 
-                style={linkStyles}
-                onMouseEnter={(e) => e.target.style.color = theme.colors.primary.light}
-                onMouseLeave={(e) => e.target.style.color = theme.colors.neutral.gray[300]}
-              >
-                Terms of Service
-              </Link>
-              <Link 
-                to={ROUTES.CONTACT} 
-                style={linkStyles}
-                onMouseEnter={(e) => e.target.style.color = theme.colors.primary.light}
-                onMouseLeave={(e) => e.target.style.color = theme.colors.neutral.gray[300]}
-              >
-                Contact Us
-              </Link>
+            <h3 className='text-lg font-bold mb-4 text-white'>Legal</h3>
+            <nav className='flex flex-col gap-2'>
+              {LEGALLINKS.map((q, idx) => (
+                <Link
+                  key={idx}
+                  to={q[1]}
+                  className='text-gray-300 text-sm hover:text-violet-400 transition-colors duration-300 no-underline'
+                >
+                  {q[0]}
+                </Link>
+              ))}
             </nav>
           </motion.div>
 
@@ -202,12 +96,12 @@ const Footer = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            <h3 style={sectionTitleStyles}>Contact</h3>
-            <div style={{ color: theme.colors.neutral.gray[300] }}>
-              <p style={{ marginBottom: theme.spacing[2] }}>
+            <h3 className='text-lg font-bold mb-4 text-white'>Contact</h3>
+            <div className='text-gray-300 text-sm space-y-3'>
+              <p>
                 Email: support@safeindia.gov.in
               </p>
-              <p style={{ marginBottom: theme.spacing[2] }}>
+              <p>
                 Phone: +91-11-1234-5678
               </p>
               <p>
@@ -218,32 +112,21 @@ const Footer = () => {
         </div>
 
 
-        <div style={dividerStyles} />
+        <div className='border-t border-gray-800 my-8' />
 
 
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          style={bottomStyles}
+          className='flex flex-col text-center items-center gap-4'
         >
-          <p style={{ 
-            color: theme.colors.neutral.gray[400],
-            fontSize: theme.typography.fontSize.sm,
-            display: 'flex',
-            alignItems: 'center',
-            gap: theme.spacing[2],
-          }}>
-            © {currentYear} {STRINGS.APP_NAME}. Made with 
+          <p className='text-gray-400 text-sm flex items-center justify-center gap-2 flex-wrap'>
+            © {currentYear} {STRINGS.APP_NAME}. Made with
             <motion.span
-              animate={{ 
-                color: [
-                  theme.colors.safety.red, 
-                  theme.colors.accent.pink, 
-                  theme.colors.safety.red
-                ]
-              }}
-              transition={{ duration: 2, repeat: Infinity }}
+              className='text-red-500 inline-flex'
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
             >
               <Heart size={16} fill="currentColor" />
             </motion.span>
