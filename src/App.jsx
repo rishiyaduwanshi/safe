@@ -27,6 +27,22 @@ const router = createBrowserRouter([
         element: <AboutPage />,
       },
       {
+        path: ROUTES.LOGIN,
+        element: (
+          <ProtectedRoute requireAuth={false}>
+            <SignIn />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: ROUTES.REGISTER,
+        element: (
+          <ProtectedRoute requireAuth={false}>
+            <SignUp />
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: ROUTES.DASHBOARD,
         element: (
           <ProtectedRoute>
@@ -51,23 +67,6 @@ const router = createBrowserRouter([
         ),
       },
     ],
-  },
-  // Authentication routes (outside MainLayout for full-screen auth pages)
-  {
-    path: ROUTES.LOGIN,
-    element: (
-      <ProtectedRoute requireAuth={false}>
-        <SignIn />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: ROUTES.REGISTER,
-    element: (
-      <ProtectedRoute requireAuth={false}>
-        <SignUp />
-      </ProtectedRoute>
-    ),
   },
 ]);
 
