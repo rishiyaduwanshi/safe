@@ -1,13 +1,16 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { MainLayout } from './layouts/index.js';
 import { ROUTES } from './constants/index.js';
-import './App.css'
+import { AuthProvider } from './contexts/AuthContext.jsx';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
 
 import HomePage from './pages/Home.jsx';
 import DashboardPage from './pages/Dashboard.jsx';
 import ReportPage from './pages/Report.jsx';
 import ProfilePage from './pages/Profile.jsx';
 import AboutPage from './pages/About.jsx';
+import SignIn from './pages/SignIn.jsx';
+import SignUp from './pages/SignUp.jsx';
 
 
 const router = createBrowserRouter([
@@ -25,22 +28,55 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.DASHBOARD,
-        element: <DashboardPage />,
+        element: (
+          <ProtectedRoute>
+            <DashboardPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: ROUTES.REPORT,
-        element: <ReportPage />,
+        element: (
+          <ProtectedRoute>
+            <ReportPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: ROUTES.PROFILE,
-        element: <ProfilePage />,
+        element: (
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
+        ),
       },
     ],
+  },
+  // Authentication routes (outside MainLayout for full-screen auth pages)
+  {
+    path: ROUTES.LOGIN,
+    element: (
+      <ProtectedRoute requireAuth={false}>
+        <SignIn />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: ROUTES.REGISTER,
+    element: (
+      <ProtectedRoute requireAuth={false}>
+        <SignUp />
+      </ProtectedRoute>
+    ),
   },
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  );
 }
 
 export default App

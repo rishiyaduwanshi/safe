@@ -1,6 +1,6 @@
 // API Configuration
 export const API_CONFIG = {
-  BASE_URL: 'https://api.safeindia.gov.in/v1',
+  BASE_URL: 'http://localhost:4040/api/v1',
   TIMEOUT: 10000,
   RETRY_ATTEMPTS: 3,
 };
@@ -8,43 +8,43 @@ export const API_CONFIG = {
 // API Endpoints
 export const API_ENDPOINTS = {
   // Authentication
-  LOGIN: '/auth/login',
-  REGISTER: '/auth/register',
-  LOGOUT: '/auth/logout',
-  REFRESH_TOKEN: '/auth/refresh',
-  
+  LOGIN: '/auth/signin',
+  REGISTER: '/auth/signup',
+  LOGOUT: '/auth/signout',
+  REFRESH_TOKEN: '/auth/refresh-token',
+
   // User Management
   USER_PROFILE: '/user/profile',
   UPDATE_PROFILE: '/user/update',
   CHANGE_PASSWORD: '/user/change-password',
-  
+
   // Safety Score
   SAFETY_SCORE: '/score/current',
   SCORE_HISTORY: '/score/history',
   SCORE_BREAKDOWN: '/score/breakdown',
-  
+
   // Violations
   VIOLATIONS: '/violations',
   VIOLATION_DETAILS: '/violations/:id',
   APPEAL_VIOLATION: '/violations/:id/appeal',
-  
+
   // Reports
   SUBMIT_REPORT: '/reports',
   USER_REPORTS: '/reports/user',
   REPORT_DETAILS: '/reports/:id',
   UPDATE_REPORT_STATUS: '/reports/:id/status',
-  
+
   // Analytics (Admin)
   ANALYTICS_OVERVIEW: '/admin/analytics/overview',
   VIOLATION_STATS: '/admin/analytics/violations',
   GEOGRAPHIC_DATA: '/admin/analytics/geographic',
   SAFETY_TRENDS: '/admin/analytics/trends',
-  
+
   // Location Services
   GEOCODE: '/location/geocode',
   REVERSE_GEOCODE: '/location/reverse-geocode',
   NEARBY_HAZARDS: '/location/nearby-hazards',
-  
+
   // File Upload
   UPLOAD_IMAGE: '/upload/image',
   UPLOAD_DOCUMENT: '/upload/document',

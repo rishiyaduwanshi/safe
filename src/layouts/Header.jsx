@@ -1,24 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Menu, 
-  X, 
-  Shield, 
-  Home, 
-  TrendingUp, 
-  FileText, 
-  User, 
-  Info 
+import {
+  Menu,
+  X,
+  Shield,
+  Home,
+  TrendingUp,
+  FileText,
+  User,
+  Info,
+  LogIn,
+  LogOut,
+  UserPlus
 } from 'lucide-react';
 import { theme } from '../styles/theme.js';
 import { ROUTES, STRINGS } from '../constants/index.js';
+import { useAuth } from '../contexts/AuthContext.jsx';
 
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { isAuthenticated, user, signout, isLoading } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,13 +33,49 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navigation = [
+  // Public navigation items (always visible)
+  const publicNavigation = [
     { name: 'Home', path: '/', icon: Home },
+    { name: 'About', path: ROUTES.ABOUT, icon: Info },
+  ];
+
+  // Protected navigation items (only visible when authenticated) 
+  const protectedNavigation = [
     { name: 'Dashboard', path: ROUTES.DASHBOARD, icon: TrendingUp },
     { name: 'Report', path: ROUTES.REPORT, icon: FileText },
     { name: 'Profile', path: ROUTES.PROFILE, icon: User },
-    { name: 'About', path: ROUTES.ABOUT, icon: Info },
   ];
+
+  // Auth navigation items (only visible when not authenticated)
+  const authNavigation = [
+    { name: 'Sign In', path: ROUTES.LOGIN, icon: LogIn },
+    { name: 'Sign Up', path: ROUTES.REGISTER, icon: UserPlus },
+  ];
+
+  // Get navigation items based on auth state
+  const getNavigationItems = () => {
+    const items = [...publicNavigation];
+
+    if (isAuthenticated) {
+      items.push(...protectedNavigation);
+    } else {
+      items.push(...authNavigation);
+    }
+
+    return items;
+  };
+
+  const navigation = getNavigationItems();
+
+  // Handle logout
+  const handleLogout = async () => {
+    try {
+      await signout();
+      setIsMenuOpen(false);
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
 
   const headerStyle = {
     position: 'fixed',
@@ -43,12 +84,12 @@ const Header = () => {
     right: 0,
     zIndex: 1000,
     height: '70px',
-    background: scrolled 
-      ? 'rgba(10, 10, 15, 0.98)' 
+    background: scrolled
+      ? 'rgba(10, 10, 15, 0.98)'
       : 'rgba(10, 10, 15, 0.85)',
     backdropFilter: scrolled ? 'blur(32px)' : 'blur(16px)',
-    borderBottom: scrolled 
-      ? '1px solid rgba(255, 255, 255, 0.12)' 
+    borderBottom: scrolled
+      ? '1px solid rgba(255, 255, 255, 0.12)'
       : '1px solid rgba(255, 255, 255, 0.05)',
     transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
     WebkitBackdropFilter: scrolled ? 'blur(32px)' : 'blur(16px)',
@@ -132,12 +173,12 @@ const Header = () => {
     fontWeight: '500',
     fontFamily: theme.typography.fontFamily.primary.join(', '),
     color: isActive ? '#FFFFFF' : 'rgba(255, 255, 255, 0.8)',
-    background: isActive 
-      ? 'linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.15) 100%)' 
+    background: isActive
+      ? 'linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.15) 100%)'
       : 'rgba(255, 255, 255, 0.03)',
     borderRadius: '12px',
-    border: isActive 
-      ? '1px solid rgba(99, 102, 241, 0.3)' 
+    border: isActive
+      ? '1px solid rgba(99, 102, 241, 0.3)'
       : '1px solid rgba(255, 255, 255, 0.08)',
     transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
     marginBottom: '8px',
@@ -160,8 +201,9 @@ const Header = () => {
 
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(12px, 3vw, 20px)', flex: 1, justifyContent: 'flex-end' }}>
+          {/* Desktop Navigation */}
           <nav style={{ ...navStyle, display: window.innerWidth >= 768 ? 'flex' : 'none' }}>
-            {navigation.filter(item => item.path !== '/dashboard').map((item) => (
+            {navigation.filter(item => !item.path.includes('/login') && !item.path.includes('/register')).map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
@@ -172,37 +214,131 @@ const Header = () => {
             ))}
           </nav>
 
-          <Link 
-            to="/dashboard"
-            style={{
-              display: window.innerWidth >= 768 ? 'flex' : 'none',
-              alignItems: 'center',
-              gap: '8px',
-              padding: 'clamp(8px, 2vw, 10px) clamp(16px, 4vw, 20px)',
-              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
-              color: '#FFFFFF',
-              textDecoration: 'none',
-              fontSize: 'clamp(12px, 3vw, 14px)',
-              fontWeight: '600',
-              borderRadius: '10px',
-              border: 'none',
-              cursor: 'pointer',
-              transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-              boxShadow: '0 4px 14px 0 rgba(99, 102, 241, 0.3)',
-              whiteSpace: 'nowrap',
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.transform = 'translateY(-1px)';
-              e.target.style.boxShadow = '0 6px 20px 0 rgba(99, 102, 241, 0.4)';
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.transform = 'translateY(0)';
-              e.target.style.boxShadow = '0 4px 14px 0 rgba(99, 102, 241, 0.3)';
-            }}
-          >
-            <TrendingUp size={16} />
-            Dashboard
-          </Link>
+          {/* Desktop Auth Actions */}
+          <div style={{ display: window.innerWidth >= 768 ? 'flex' : 'none', alignItems: 'center', gap: '8px' }}>
+            {isAuthenticated ? (
+              <>
+                {/* User Info */}
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '8px 12px',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  borderRadius: '8px',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  fontSize: '14px',
+                }}>
+                  <User size={16} />
+                  <span>{user?.name || user?.email?.split('@')[0] || 'User'}</span>
+                </div>
+
+                {/* Logout Button */}
+                <button
+                  onClick={handleLogout}
+                  disabled={isLoading}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '8px 12px',
+                    background: 'rgba(220, 38, 38, 0.1)',
+                    border: '1px solid rgba(220, 38, 38, 0.3)',
+                    color: 'rgba(220, 38, 38, 0.9)',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    cursor: isLoading ? 'not-allowed' : 'pointer',
+                    opacity: isLoading ? 0.7 : 1,
+                    transition: 'all 0.2s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isLoading) {
+                      e.target.style.background = 'rgba(220, 38, 38, 0.2)';
+                      e.target.style.color = 'rgba(220, 38, 38, 1)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isLoading) {
+                      e.target.style.background = 'rgba(220, 38, 38, 0.1)';
+                      e.target.style.color = 'rgba(220, 38, 38, 0.9)';
+                    }
+                  }}
+                >
+                  <LogOut size={14} />
+                  {isLoading ? 'Logging out...' : 'Logout'}
+                </button>
+              </>
+            ) : (
+              <>
+                {/* Login Button */}
+                <Link
+                  to={ROUTES.LOGIN}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: 'clamp(8px, 2vw, 10px) clamp(12px, 3vw, 16px)',
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    color: 'rgba(255, 255, 255, 0.9)',
+                    textDecoration: 'none',
+                    fontSize: 'clamp(12px, 3vw, 14px)',
+                    fontWeight: '500',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                    whiteSpace: 'nowrap',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.background = 'rgba(255, 255, 255, 0.12)';
+                    e.target.style.color = '#FFFFFF';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.background = 'rgba(255, 255, 255, 0.08)';
+                    e.target.style.color = 'rgba(255, 255, 255, 0.9)';
+                  }}
+                >
+                  <LogIn size={14} />
+                  Sign In
+                </Link>
+
+                {/* Register Button */}
+                <Link
+                  to={ROUTES.REGISTER}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: 'clamp(8px, 2vw, 10px) clamp(12px, 3vw, 16px)',
+                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    color: '#FFFFFF',
+                    textDecoration: 'none',
+                    fontSize: 'clamp(12px, 3vw, 14px)',
+                    fontWeight: '600',
+                    borderRadius: '8px',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                    boxShadow: '0 4px 14px 0 rgba(99, 102, 241, 0.3)',
+                    whiteSpace: 'nowrap',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.transform = 'translateY(-1px)';
+                    e.target.style.boxShadow = '0 6px 20px 0 rgba(99, 102, 241, 0.4)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.transform = 'translateY(0)';
+                    e.target.style.boxShadow = '0 4px 14px 0 rgba(99, 102, 241, 0.3)';
+                  }}
+                >
+                  <UserPlus size={14} />
+                  Sign Up
+                </Link>
+              </>
+            )}
+          </div>
         </div>
 
         <button
@@ -234,6 +370,7 @@ const Header = () => {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
           >
+            {/* Mobile Navigation Links */}
             {navigation.map((item) => {
               const IconComponent = item.icon;
               return (
@@ -248,6 +385,58 @@ const Header = () => {
                 </Link>
               );
             })}
+
+            {/* Mobile Auth Actions */}
+            {isAuthenticated ? (
+              <>
+                {/* User Info */}
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  padding: '16px 20px',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  fontSize: '16px',
+                  fontWeight: '500',
+                  marginBottom: '8px',
+                }}>
+                  <User size={20} />
+                  <div>
+                    <div>{user?.name || 'User'}</div>
+                    <div style={{ fontSize: '14px', opacity: 0.7 }}>{user?.email}</div>
+                  </div>
+                </div>
+
+                {/* Mobile Logout Button */}
+                <button
+                  onClick={handleLogout}
+                  disabled={isLoading}
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    padding: '16px 20px',
+                    background: 'rgba(220, 38, 38, 0.1)',
+                    border: '1px solid rgba(220, 38, 38, 0.3)',
+                    color: 'rgba(220, 38, 38, 0.9)',
+                    borderRadius: '12px',
+                    fontSize: '16px',
+                    fontWeight: '500',
+                    cursor: isLoading ? 'not-allowed' : 'pointer',
+                    opacity: isLoading ? 0.7 : 1,
+                    transition: 'all 0.2s ease',
+                    marginTop: '16px',
+                  }}
+                >
+                  <LogOut size={20} />
+                  {isLoading ? 'Logging out...' : 'Logout'}
+                </button>
+              </>
+            ) : null}
           </motion.div>
         )}
       </AnimatePresence>

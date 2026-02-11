@@ -53,23 +53,23 @@ const Card = ({
 
   // Size variants
   const sizes = {
-    sm: { 
+    sm: {
       padding: theme.spacing[6],
       borderRadius: theme.borderRadius['2xl'],
     },
-    md: { 
+    md: {
       padding: theme.spacing[8],
       borderRadius: theme.borderRadius['3xl'],
     },
-    lg: { 
+    lg: {
       padding: theme.spacing[10],
       borderRadius: theme.borderRadius['3xl'],
     },
-    xl: { 
+    xl: {
       padding: theme.spacing[12],
       borderRadius: theme.borderRadius['3xl'],
     },
-    full: { 
+    full: {
       padding: theme.spacing[8],
       borderRadius: theme.borderRadius['3xl'],
       width: '100%',
@@ -79,16 +79,16 @@ const Card = ({
   // Animation variants
   const animationVariants = {
     initial: { opacity: 0, y: 30, scale: 0.92 },
-    animate: { 
-      opacity: 1, 
-      y: 0, 
+    animate: {
+      opacity: 1,
+      y: 0,
       scale: 1,
       transition: { duration: 0.6, ease: 'easeOut' }
     },
     hover: clickable ? {
       scale: 1.03,
       y: -8,
-      boxShadow: variant === 'glow' 
+      boxShadow: variant === 'glow'
         ? `0 0 60px rgba(106, 90, 224, 0.4), 0 32px 64px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15)`
         : `0 32px 64px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15)`,
       transition: { duration: 0.3, ease: 'easeOut' }
@@ -130,7 +130,7 @@ const Card = ({
       {...props}
     >
       {loading && (
-        <div 
+        <div
           style={{
             position: 'absolute',
             top: 0,

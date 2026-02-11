@@ -139,11 +139,11 @@ const Button = ({
     hover: {
       scale: 1.03,
       y: -4,
-      boxShadow: variant === 'electric' 
+      boxShadow: variant === 'electric'
         ? `0 0 60px rgba(106, 90, 224, 0.6), 0 12px 40px rgba(0, 0, 0, 0.4)`
         : variant === 'primary'
-        ? `0 12px 40px rgba(106, 90, 224, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.2) inset`
-        : `0 12px 32px rgba(0, 0, 0, 0.3)`,
+          ? `0 12px 40px rgba(106, 90, 224, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.2) inset`
+          : `0 12px 32px rgba(0, 0, 0, 0.3)`,
       transition: { duration: 0.3, ease: 'easeOut' }
     },
     tap: {
