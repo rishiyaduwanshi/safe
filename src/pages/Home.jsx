@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion';
 import * as Dialog from '@radix-ui/react-dialog';
-import { 
-  Shield, 
-  AlertTriangle, 
-  MapPin, 
-  BarChart3, 
-  Play, 
-  ArrowRight, 
+import {
+  Shield,
+  AlertTriangle,
+  MapPin,
+  BarChart3,
+  Play,
+  ArrowRight,
   Zap,
   Eye,
   Camera,
@@ -14,7 +14,6 @@ import {
   Star,
   X
 } from 'lucide-react';
-import { theme } from '../styles/theme.js';
 import SpotlightEffect from '../components/SpotLightEffect.jsx';
 
 const Home = () => {
@@ -23,18 +22,18 @@ const Home = () => {
       icon: Camera,
       title: "Violation Detection",
       description: "Real-time detection of helmet violations, overspeeding, wrong-side driving",
-      color: theme.colors.primary.main
+      color: "#6366F1"
     },
     {
       icon: AlertTriangle,
-      title: "Hazard Recognition", 
+      title: "Hazard Recognition",
       description: "AI-powered detection of potholes, accidents, and road obstacles",
       color: "#f59e0b"
     },
     {
       icon: BarChart3,
       title: "Citizen Safety Score",
-      description: "Dynamic scoring system for driver behavior and safety compliance", 
+      description: "Dynamic scoring system for driver behavior and safety compliance",
       color: "#10b981"
     },
     {
@@ -47,62 +46,33 @@ const Home = () => {
       icon: Eye,
       title: "Transparency Portal",
       description: "Appeal violations, view evidence, track safety improvements",
-      color: theme.colors.secondary
+      color: "#111118"
     },
     {
       icon: Star,
-      title: "Policy Integration", 
+      title: "Policy Integration",
       description: "Automated retraining triggers, insurance benefits, license rewards",
       color: "#06b6d4"
     }
   ];
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: theme.colors.background.gradient,
-      position: 'relative'
-    }}> 
-    <SpotlightEffect/>
+    <div className="min-h-screen bg-linear-to-b from-background-primary via-background-secondary to-background-tertiary relative">
+      <SpotlightEffect />
 
 
       {/* Hero Section */}
-      <div style={{ 
-        padding: `${theme.spacing.responsive.section} ${theme.spacing.responsive.container}`, 
-        position: 'relative' 
-      }}>
-        <div style={{ 
-          maxWidth: theme.containers.hero, 
-          margin: '0 auto', 
-          textAlign: 'center',
-          overflow: 'hidden'
-        }}>
-          
+      <div className="py-16 px-6 md:py-20 md:px-8 relative">
+        <div className="max-w-4xl mx-auto text-center overflow-hidden">
+
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              padding: `${theme.spacing.responsive.sm} ${theme.spacing.responsive.lg}`,
-              background: theme.colors.background.glass,
-              border: `1px solid ${theme.colors.border.light}`,
-              borderRadius: theme.borderRadius.full,
-              marginBottom: theme.spacing.responsive['2xl'],
-              backdropFilter: 'blur(10px)',
-              maxWidth: '90%',
-              textAlign: 'center'
-            }}
+            className="inline-flex items-center px-4 py-2 md:px-6 md:py-3 bg-white/5 border border-white/10 rounded-full mb-8 md:mb-12 backdrop-blur-md max-w-[90%] text-center"
           >
-            <Zap size={16} style={{ color: theme.colors.primary.main, marginRight: theme.spacing[2], flexShrink: 0 }} />
-            <span style={{
-              color: theme.colors.text.secondary,
-              fontSize: theme.typography.fontSize.responsive.badge,
-              fontWeight: theme.typography.fontWeight.semibold,
-              lineHeight: theme.typography.lineHeight.snug,
-              fontFamily: theme.typography.fontFamily.primary.join(', ')
-            }}>
+            <Zap size={16} className="text-primary mr-2 shrink-0" />
+            <span className="text-slate-300 text-sm md:text-base font-semibold leading-snug">
               India's First AI-Powered Road Safety System
             </span>
           </motion.div>
@@ -112,18 +82,7 @@ const Home = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            style={{
-              fontSize: theme.typography.fontSize.responsive.hero,
-              fontWeight: theme.typography.fontWeight.extrabold,
-              lineHeight: '1.1',
-              marginBottom: theme.spacing.responsive.xl,
-              background: theme.colors.text.gradient,
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              wordBreak: 'break-word',
-              hyphens: 'auto'
-            }}
+            className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6 md:mb-8 bg-linear-to-r from-white to-slate-300 bg-clip-text text-transparent wrap-break-words"
           >
             S.A.F.E India
           </motion.h1>
@@ -132,13 +91,7 @@ const Home = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            style={{
-              fontSize: theme.typography.fontSize.responsive.xl,
-              color: theme.colors.text.secondary,
-              marginBottom: theme.spacing.responsive.lg,
-              fontWeight: theme.typography.fontWeight.semibold,
-              wordBreak: 'break-word'
-            }}
+            className="text-xl md:text-2xl text-slate-300 mb-4 md:mb-6 font-semibold break-words"
           >
             Smart, Adaptive & Forensic Evaluation
           </motion.p>
@@ -147,17 +100,9 @@ const Home = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            style={{
-              fontSize: theme.typography.fontSize.responsive.lg,
-              color: theme.colors.text.muted,
-              marginBottom: theme.spacing.responsive['2xl'],
-              maxWidth: '90%',
-              margin: `0 auto ${theme.spacing.responsive['2xl']}`,
-              lineHeight: theme.typography.lineHeight.loose,
-              padding: `0 ${theme.spacing.responsive.container}`
-            }}
+            className="text-base md:text-lg text-slate-400 mb-12 md:mb-16 max-w-[90%] mx-auto leading-loose px-4 md:px-6"
           >
-            Revolutionizing road safety through cutting-edge AI technology, real-time violation detection, 
+            Revolutionizing road safety through cutting-edge AI technology, real-time violation detection,
             intelligent hazard recognition, and comprehensive citizen safety scoring system.
           </motion.p>
 
@@ -166,164 +111,56 @@ const Home = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: theme.spacing.responsive.lg,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginBottom: theme.spacing.responsive.section,
-              width: '100%',
-              padding: `0 ${theme.spacing.responsive.container}`
-            }}
+            className="flex flex-col gap-4 md:gap-6 justify-center items-center mb-16 md:mb-20 w-full px-4 md:px-6"
           >
-            <div style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: theme.spacing.responsive.lg,
-              justifyContent: 'center',
-              width: '100%',
-              maxWidth: theme.containers.md
-            }}
-          >
-            <Dialog.Root>
-              <Dialog.Trigger asChild>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  style={{
-                    padding: `${theme.spacing.responsive.md} ${theme.spacing.responsive.xl}`,
-                    background: theme.colors.primary.gradient,
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: theme.borderRadius.xl,
-                    fontSize: theme.typography.fontSize.responsive.button,
-                    fontWeight: theme.typography.fontWeight.semibold,
-                    fontFamily: theme.typography.fontFamily.primary.join(', '),
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: theme.spacing[2],
-                    boxShadow: theme.shadows.electric,
-                    minWidth: theme.componentSizes.button.minWidthLarge,
-                    whiteSpace: 'nowrap'
-                  }}
-                >
-                  <Zap size={18} />
-                  Get Started
-                </motion.button>
-              </Dialog.Trigger>
-              <Dialog.Portal>
-                <Dialog.Overlay style={{
-                  position: 'fixed',
-                  inset: 0,
-                  background: 'rgba(0, 0, 0, 0.6)',
-                  backdropFilter: 'blur(4px)',
-                  zIndex: 50
-                }} />
-                <Dialog.Content style={{
-                  position: 'fixed',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  background: theme.colors.background.modal,
-                  border: `1px solid ${theme.colors.border.light}`,
-                  borderRadius: theme.borderRadius['2xl'],
-                  padding: theme.spacing.responsive['2xl'],
-                  maxWidth: theme.containers.card,
-                  width: '90%',
-                  zIndex: 51,
-                  boxShadow: theme.shadows.modal
-                }}>
-                  <Dialog.Title style={{
-                    fontSize: theme.typography.fontSize['2xl'],
-                    fontWeight: theme.typography.fontWeight.bold,
-                    color: theme.colors.text.primary,
-                    marginBottom: theme.spacing[4],
-                    fontFamily: theme.typography.fontFamily.heading.join(', ')
-                  }}>
-                    Join S.A.F.E India
-                  </Dialog.Title>
-                  <Dialog.Description style={{
-                    color: theme.colors.text.secondary,
-                    marginBottom: theme.spacing[6],
-                    lineHeight: theme.typography.lineHeight.relaxed,
-                    fontFamily: theme.typography.fontFamily.primary.join(', ')
-                  }}>
-                    Start your journey towards safer roads. Create your citizen safety profile and begin tracking your road safety score.
-                  </Dialog.Description>
-                  <div style={{ display: 'flex', gap: theme.spacing[3] }}>
-                    <button style={{
-                      flex: 1,
-                      padding: `${theme.spacing[3]} ${theme.spacing[6]}`,
-                      background: theme.colors.primary.gradient,
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: theme.borderRadius.lg,
-                      fontWeight: theme.typography.fontWeight.semibold,
-                      fontFamily: theme.typography.fontFamily.primary.join(', '),
-                      cursor: 'pointer'
-                    }}>
-                      Sign Up
-                    </button>
+            <div className="flex flex-wrap gap-4 md:gap-6 justify-center w-full max-w-2xl">
+              <Dialog.Root>
+                <Dialog.Trigger asChild>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-6 py-3 md:px-8 md:py-4 bg-linear-to-r from-primary via-primary-light to-tertiary text-white border-none rounded-xl text-sm md:text-base font-semibold cursor-pointer flex items-center justify-center gap-2 shadow-[0_8px_24px_rgba(99,102,241,0.4)] min-w-35 md:min-w-45 whitespace-nowrap"
+                  >
+                    <Zap size={18} />
+                    Get Started
+                  </motion.button>
+                </Dialog.Trigger>
+                <Dialog.Portal>
+                  <Dialog.Overlay className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50" />
+                  <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background-primary border border-white/10 rounded-2xl p-8 max-w-md w-[90%] z-[51] shadow-[0_25px_50px_rgba(0,0,0,0.6)]">
+                    <Dialog.Title className="text-2xl font-bold text-white mb-4">
+                      Join S.A.F.E India
+                    </Dialog.Title>
+                    <Dialog.Description className="text-slate-300 mb-6 leading-relaxed">
+                      Start your journey towards safer roads. Create your citizen safety profile and begin tracking your road safety score.
+                    </Dialog.Description>
+                    <div className="flex gap-3">
+                      <button className="flex-1 px-6 py-3 bg-gradient-to-r from-primary via-primary-light to-tertiary text-white border-none rounded-lg font-semibold cursor-pointer">
+                        Sign Up
+                      </button>
+                      <Dialog.Close asChild>
+                        <button className="px-6 py-3 bg-background-secondary text-white border border-white/10 rounded-lg font-semibold cursor-pointer">
+                          Cancel
+                        </button>
+                      </Dialog.Close>
+                    </div>
                     <Dialog.Close asChild>
-                      <button style={{
-                        padding: `${theme.spacing[3]} ${theme.spacing[6]}`,
-                        background: theme.colors.background.secondary,
-                        color: theme.colors.text.primary,
-                        border: `1px solid ${theme.colors.border.light}`,
-                        borderRadius: theme.borderRadius.lg,
-                        fontWeight: theme.typography.fontWeight.semibold,
-                        fontFamily: theme.typography.fontFamily.primary.join(', '),
-                        cursor: 'pointer'
-                      }}>
-                        Cancel
+                      <button className="absolute top-4 right-4 bg-transparent border-none text-slate-400 cursor-pointer">
+                        <X size={20} />
                       </button>
                     </Dialog.Close>
-                  </div>
-                  <Dialog.Close asChild>
-                    <button style={{
-                      position: 'absolute',
-                      top: theme.spacing[4],
-                      right: theme.spacing[4],
-                      background: 'transparent',
-                      border: 'none',
-                      color: theme.colors.text.secondary,
-                      cursor: 'pointer'
-                    }}>
-                      <X size={20} />
-                    </button>
-                  </Dialog.Close>
-                </Dialog.Content>
-              </Dialog.Portal>
-            </Dialog.Root>
+                  </Dialog.Content>
+                </Dialog.Portal>
+              </Dialog.Root>
 
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              style={{
-                padding: `${theme.spacing.responsive.md} ${theme.spacing.responsive.xl}`,
-                background: theme.colors.background.glass,
-                color: theme.colors.text.primary,
-                border: `1px solid ${theme.colors.border.light}`,
-                borderRadius: theme.borderRadius.xl,
-                fontSize: theme.typography.fontSize.responsive.button,
-                fontWeight: theme.typography.fontWeight.semibold,
-                fontFamily: theme.typography.fontFamily.primary.join(', '),
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: theme.spacing[2],
-                backdropFilter: 'blur(10px)',
-                minWidth: theme.componentSizes.button.minWidthLarge,
-                whiteSpace: 'nowrap'
-              }}
-            >
-              <Play size={18} />
-              Watch Demo
-            </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-6 py-3 md:px-8 md:py-4 bg-white/5 text-white border border-white/10 rounded-xl text-sm md:text-base font-semibold cursor-pointer flex items-center justify-center gap-2 backdrop-blur-md min-w-[140px] md:min-w-[180px] whitespace-nowrap"
+              >
+                <Play size={18} />
+                Watch Demo
+              </motion.button>
             </div>
           </motion.div>
 
@@ -332,35 +169,18 @@ const Home = () => {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(150px, 25vw, 200px), 1fr))',
-              gap: theme.spacing.responsive.xl,
-              marginBottom: theme.spacing.responsive.section,
-              padding: `0 ${theme.spacing.responsive.container}`
-            }}
+            className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 mb-16 md:mb-20 px-4 md:px-6"
           >
             {[
               { number: '480K+', label: 'Annual Accidents', color: '#ef4444' },
               { number: '172K+', label: 'Lives Lost', color: '#f59e0b' },
               { number: '95%', label: 'Preventable Cases', color: '#10b981' }
             ].map((stat, index) => (
-              <div key={index} style={{ textAlign: 'center' }}>
-                <div style={{
-                  fontSize: theme.typography.fontSize.responsive['3xl'],
-                  fontWeight: theme.typography.fontWeight.extrabold,
-                  color: stat.color,
-                  marginBottom: theme.spacing.responsive.xs,
-                  fontFamily: theme.typography.fontFamily.heading.join(', ')
-                }}>
+              <div key={index} className="text-center">
+                <div className="text-3xl md:text-4xl font-extrabold mb-1 md:mb-2" style={{ color: stat.color }}>
                   {stat.number}
                 </div>
-                <div style={{
-                  color: theme.colors.text.muted,
-                  fontSize: theme.typography.fontSize.responsive.button,
-                  lineHeight: theme.typography.lineHeight.snug,
-                  fontFamily: theme.typography.fontFamily.primary.join(', ')
-                }}>
+                <div className="text-slate-400 text-sm md:text-base leading-snug">
                   {stat.label}
                 </div>
               </div>
@@ -370,44 +190,24 @@ const Home = () => {
       </div>
 
       {/* Features Section */}
-      <div style={{ padding: `0 ${theme.spacing.responsive.container} ${theme.spacing.responsive.section}` }}>
-        <div style={{ maxWidth: theme.containers.xl, margin: '0 auto' }}>
+      <div className="px-6 pb-16 md:px-8 md:pb-20">
+        <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            style={{ textAlign: 'center', marginBottom: theme.spacing.responsive['3xl'] }}
+            className="text-center mb-12 md:mb-16"
           >
-            <h2 style={{
-              fontSize: theme.typography.fontSize.responsive['4xl'],
-              fontWeight: theme.typography.fontWeight.bold,
-              color: theme.colors.text.primary,
-              marginBottom: theme.spacing.responsive.lg,
-              lineHeight: theme.typography.lineHeight.tight,
-              fontFamily: theme.typography.fontFamily.heading.join(', ')
-            }}>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6 leading-tight">
               Comprehensive Safety Ecosystem
             </h2>
-            <p style={{
-              fontSize: theme.typography.fontSize.responsive.lg,
-              color: theme.colors.text.secondary,
-              maxWidth: '90%',
-              margin: '0 auto',
-              lineHeight: theme.typography.lineHeight.relaxed,
-              padding: `0 ${theme.spacing.responsive.container}`,
-              fontFamily: theme.typography.fontFamily.primary.join(', ')
-            }}>
-              Our integrated platform combines AI-powered detection, behavioral analytics, 
+            <p className="text-base md:text-lg text-slate-300 max-w-[90%] mx-auto leading-relaxed px-4 md:px-6">
+              Our integrated platform combines AI-powered detection, behavioral analytics,
               and policy automation for unprecedented road safety management.
             </p>
           </motion.div>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(280px, 80vw, 350px), 1fr))',
-            gap: theme.spacing.responsive.xl,
-            justifyItems: 'center'
-          }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 justify-items-center">
             {features.map((feature, index) => (
               <motion.div
                 key={index}
@@ -416,53 +216,20 @@ const Home = () => {
                 whileHover={{ y: -5 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                style={{
-                  background: theme.colors.background.card,
-                  border: `1px solid ${theme.colors.border.light}`,
-                  borderRadius: theme.borderRadius['2xl'],
-                  padding: `${theme.spacing.responsive.xl} ${theme.spacing.responsive.lg}`,
-                  backdropFilter: 'blur(10px)',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  width: '100%',
-                  maxWidth: theme.containers.card
-                }}
+                className="bg-background-card border border-white/10 rounded-2xl p-6 md:p-8 backdrop-blur-md cursor-pointer transition-all duration-300 w-full max-w-md"
               >
-                <div style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  marginBottom: theme.spacing.responsive.lg,
-                  flexWrap: 'wrap',
-                  gap: theme.spacing[3]
-                }}>
-                  <div style={{
-                    width: theme.componentSizes.card.iconBox,
-                    height: theme.componentSizes.card.iconBox,
-                    borderRadius: theme.borderRadius.xl,
-                    background: `${feature.color}20`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0
-                  }}>
+                <div className="flex items-center mb-4 md:mb-6 flex-wrap gap-3">
+                  <div
+                    className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
+                    style={{ background: `${feature.color}20` }}
+                  >
                     <feature.icon size={22} color={feature.color} />
                   </div>
-                  <h3 style={{
-                    fontSize: theme.typography.fontSize.responsive.xl,
-                    fontWeight: theme.typography.fontWeight.semibold,
-                    color: theme.colors.text.primary,
-                    lineHeight: theme.typography.lineHeight.tight,
-                    fontFamily: theme.typography.fontFamily.heading.join(', ')
-                  }}>
+                  <h3 className="text-lg md:text-xl font-semibold text-white leading-tight">
                     {feature.title}
                   </h3>
                 </div>
-                <p style={{
-                  color: theme.colors.text.muted,
-                  lineHeight: theme.typography.lineHeight.relaxed,
-                  fontSize: theme.typography.fontSize.responsive.button,
-                  fontFamily: theme.typography.fontFamily.primary.join(', ')
-                }}>
+                <p className="text-slate-400 leading-relaxed text-sm md:text-base">
                   {feature.description}
                 </p>
               </motion.div>
@@ -472,94 +239,31 @@ const Home = () => {
       </div>
 
       {/* CTA Section */}
-      <div style={{ padding: `0 ${theme.spacing.responsive.container} ${theme.spacing.responsive.section}` }}>
-        <div style={{
-          maxWidth: theme.containers.lg,
-          margin: '0 auto',
-          textAlign: 'center',
-          background: theme.colors.background.glass,
-          border: `1px solid ${theme.colors.border.light}`,
-          borderRadius: theme.borderRadius['3xl'],
-          padding: `${theme.spacing.responsive['2xl']} ${theme.spacing.responsive.xl}`,
-          backdropFilter: 'blur(20px)'
-        }}>
-          <h2 style={{
-            fontSize: theme.typography.fontSize.responsive['2xl'],
-            fontWeight: theme.typography.fontWeight.bold,
-            color: theme.colors.text.primary,
-            marginBottom: theme.spacing.responsive.lg,
-            lineHeight: theme.typography.lineHeight.tight,
-            fontFamily: theme.typography.fontFamily.heading.join(', ')
-          }}>
+      <div className="px-6 pb-16 md:px-8 md:pb-20">
+        <div className="max-w-5xl mx-auto text-center bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12 backdrop-blur-xl">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4 md:mb-6 leading-tight">
             Ready to Transform Road Safety?
           </h2>
-          <p style={{
-            fontSize: theme.typography.fontSize.responsive.lg,
-            color: theme.colors.text.secondary,
-            marginBottom: theme.spacing.responsive['2xl'],
-            lineHeight: theme.typography.lineHeight.relaxed,
-            padding: `0 ${theme.spacing.responsive.container}`,
-            fontFamily: theme.typography.fontFamily.primary.join(', ')
-          }}>
+          <p className="text-base md:text-lg text-slate-300 mb-8 md:mb-12 leading-relaxed px-4 md:px-6">
             Join thousands of citizens building a safer India through smart technology and community action.
           </p>
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: theme.spacing.responsive.lg,
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
-            <div style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: 'clamp(12px, 3vw, 16px)',
-              justifyContent: 'center'
-            }}>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              style={{
-                padding: `${theme.spacing.responsive.md} ${theme.spacing.responsive.xl}`,
-                background: theme.colors.primary.gradient,
-                color: 'white',
-                border: 'none',
-                borderRadius: theme.borderRadius.xl,
-                fontSize: theme.typography.fontSize.responsive.button,
-                fontWeight: theme.typography.fontWeight.semibold,
-                fontFamily: theme.typography.fontFamily.primary.join(', '),
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: theme.spacing[2],
-                boxShadow: theme.shadows.electric,
-                minWidth: theme.componentSizes.button.minWidthLarge,
-                whiteSpace: 'nowrap'
-              }}
-            >
-              <Users size={18} />
-              Join Community
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              style={{
-                padding: `${theme.spacing.responsive.md} ${theme.spacing.responsive.xl}`,
-                background: theme.colors.background.secondary,
-                color: theme.colors.text.primary,
-                border: `1px solid ${theme.colors.border.light}`,
-                borderRadius: theme.borderRadius.xl,
-                fontSize: theme.typography.fontSize.responsive.button,
-                fontWeight: theme.typography.fontWeight.semibold,
-                fontFamily: theme.typography.fontFamily.primary.join(', '),
-                cursor: 'pointer',
-                minWidth: theme.componentSizes.button.minWidthLarge,
-                whiteSpace: 'nowrap'
-              }}
-            >
-              Learn More
-            </motion.button>
+          <div className="flex flex-col gap-4 md:gap-6 justify-center items-center">
+            <div className="flex flex-wrap gap-3 md:gap-4 justify-center">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-6 py-3 md:px-8 md:py-4 bg-linear-to-r from-primary via-primary-light to-tertiary text-white border-none rounded-xl text-sm md:text-base font-semibold cursor-pointer flex items-center justify-center gap-2 shadow-[0_8px_24px_rgba(99,102,241,0.4)] min-w-[140px] md:min-w-45 whitespace-nowrap"
+              >
+                <Users size={18} />
+                Join Community
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-6 py-3 md:px-8 md:py-4 bg-background-secondary text-white border border-white/10 rounded-xl text-sm md:text-base font-semibold cursor-pointer min-w-35 md:min-w-45 whitespace-nowrap"
+              >
+                Learn More
+              </motion.button>
             </div>
           </div>
         </div>

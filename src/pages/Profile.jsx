@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card, LoadingAnimation, SpotlightEffect } from '../components/index.js';
-import { theme } from '../styles/theme.js';
 
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -129,19 +128,19 @@ const ProfilePage = () => {
   ];
 
   const getScoreColor = (score) => {
-    if (score >= 900) return theme.colors.success.main;
-    if (score >= 750) return theme.colors.warning.main;
-    if (score >= 500) return theme.colors.info.main;
-    return theme.colors.error.main;
+    if (score >= 900) return '#10B981';
+    if (score >= 750) return '#F59E0B';
+    if (score >= 500) return '#3B82F6';
+    return '#EF4444';
   };
 
   const getScoreGrade = (score) => {
-    if (score >= 900) return { grade: 'A+', color: theme.colors.success.main };
-    if (score >= 800) return { grade: 'A', color: theme.colors.success.main };
-    if (score >= 700) return { grade: 'B+', color: theme.colors.warning.main };
-    if (score >= 600) return { grade: 'B', color: theme.colors.warning.main };
-    if (score >= 500) return { grade: 'C', color: theme.colors.info.main };
-    return { grade: 'D', color: theme.colors.error.main };
+    if (score >= 900) return { grade: 'A+', color: '#10B981' };
+    if (score >= 800) return { grade: 'A', color: '#10B981' };
+    if (score >= 700) return { grade: 'B+', color: '#F59E0B' };
+    if (score >= 600) return { grade: 'B', color: '#F59E0B' };
+    if (score >= 500) return { grade: 'C', color: '#3B82F6' };
+    return { grade: 'D', color: '#EF4444' };
   };
 
   useEffect(() => {
@@ -174,36 +173,15 @@ const ProfilePage = () => {
 
   if (isLoading) {
     return (
-      <div style={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: theme.colors.background.gradient,
-      }}>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background-primary via-background-secondary to-background-tertiary">
         <LoadingAnimation>
           <Card variant="glass" size="lg">
-            <div style={{ textAlign: 'center', padding: theme.spacing[8] }}>
-              <div style={{
-                width: '60px',
-                height: '60px',
-                border: `3px solid ${theme.colors.primary.main}`,
-                borderTop: '3px solid transparent',
-                borderRadius: '50%',
-                animation: 'spin 1s linear infinite',
-                margin: '0 auto 20px auto',
-              }} />
-              <h2 style={{
-                color: theme.colors.text.primary,
-                fontSize: theme.typography.fontSize.xl,
-                marginBottom: theme.spacing[2],
-              }}>
+            <div className="text-center p-8">
+              <div className="w-15 h-15 border-3 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-5" />
+              <h2 className="text-white text-xl mb-2">
                 Loading Your Profile...
               </h2>
-              <p style={{
-                color: theme.colors.text.secondary,
-                fontSize: theme.typography.fontSize.base,
-              }}>
+              <p className="text-slate-300 text-base">
                 Fetching your safety data and statistics
               </p>
             </div>
@@ -214,129 +192,64 @@ const ProfilePage = () => {
   }
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      padding: `${theme.spacing[8]} ${theme.spacing[6]}`,
-      background: theme.colors.background.gradient,
-    }}>
-      <SpotlightEffect/>
+    <div className="min-h-screen py-8 px-6 bg-gradient-to-b from-background-primary via-background-secondary to-background-tertiary">
+      <SpotlightEffect />
       <LoadingAnimation>
-        <div style={{
-          maxWidth: '1200px',
-          margin: '0 auto',
-        }}>
+        <div className="max-w-screen-xl mx-auto">
           {/* Header Section */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            style={{ 
-              marginBottom: theme.spacing[8] 
-            }}
+            className="mb-8"
           >
             <Card variant="glass" size="full">
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: theme.spacing[6],
-                flexWrap: 'wrap',
-              }}>
+              <div className="flex items-center gap-6 flex-wrap">
                 {/* Profile Avatar */}
-                <div style={{
-                  position: 'relative',
-                }}>
-                  <div style={{
-                    width: '120px',
-                    height: '120px',
-                    borderRadius: '50%',
-                    background: theme.colors.primary.gradient,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: theme.typography.fontSize['4xl'],
-                    fontWeight: theme.typography.fontWeight.bold,
-                    color: '#ffffff',
-                    border: `4px solid ${theme.colors.primary.main}`,
-                  }}>
+                <div className="relative">
+                  <div
+                    className="w-30 h-30 rounded-full bg-gradient-to-br from-primary via-primary-light to-tertiary flex items-center justify-center text-4xl font-bold text-white"
+                    style={{ border: '4px solid #6366F1' }}
+                  >
                     {userData.name.split(' ').map(n => n[0]).join('')}
                   </div>
-                  <div style={{
-                    position: 'absolute',
-                    bottom: '-5px',
-                    right: '-5px',
-                    background: getScoreGrade(safetyData.currentScore).color,
-                    color: '#ffffff',
-                    padding: `${theme.spacing[1]} ${theme.spacing[2]}`,
-                    borderRadius: theme.borderRadius.full,
-                    fontSize: theme.typography.fontSize.sm,
-                    fontWeight: theme.typography.fontWeight.bold,
-                    border: `2px solid ${theme.colors.background.card}`,
-                  }}>
+                  <div
+                    className="absolute -bottom-1 -right-1 text-white px-2 py-1 rounded-full text-sm font-bold border-2"
+                    style={{
+                      background: getScoreGrade(safetyData.currentScore).color,
+                      borderColor: '#1e293b'
+                    }}
+                  >
                     {getScoreGrade(safetyData.currentScore).grade}
                   </div>
                 </div>
 
                 {/* Profile Info */}
-                <div style={{ flex: 1, minWidth: '300px' }}>
-                  <h1 style={{
-                    fontSize: theme.typography.fontSize['3xl'],
-                    fontWeight: theme.typography.fontWeight.bold,
-                    color: theme.colors.text.primary,
-                    marginBottom: theme.spacing[2],
-                  }}>
+                <div className="flex-1 min-w-[300px]">
+                  <h1 className="text-3xl font-bold text-white mb-2">
                     {userData.name}
                   </h1>
-                  <p style={{
-                    fontSize: theme.typography.fontSize.lg,
-                    color: theme.colors.text.secondary,
-                    marginBottom: theme.spacing[4],
-                  }}>
+                  <p className="text-lg text-slate-300 mb-4">
                     License: {userData.licenseNumber} • {userData.vehicleType}
                   </p>
-                  <div style={{
-                    display: 'flex',
-                    gap: theme.spacing[4],
-                    flexWrap: 'wrap',
-                  }}>
-                    <div style={{
-                      background: theme.colors.success.main + '20',
-                      padding: `${theme.spacing[2]} ${theme.spacing[3]}`,
-                      borderRadius: theme.borderRadius.lg,
-                      color: theme.colors.success.main,
-                      fontSize: theme.typography.fontSize.sm,
-                      fontWeight: theme.typography.fontWeight.semibold,
-                    }}>
+                  <div className="flex gap-4 flex-wrap">
+                    <div className="px-3 py-2 rounded-lg text-sm font-semibold" style={{ background: '#10B98120', color: '#10B981' }}>
                       🛡️ Verified Driver
                     </div>
-                    <div style={{
-                      background: theme.colors.primary.main + '20',
-                      padding: `${theme.spacing[2]} ${theme.spacing[3]}`,
-                      borderRadius: theme.borderRadius.lg,
-                      color: theme.colors.primary.main,
-                      fontSize: theme.typography.fontSize.sm,
-                      fontWeight: theme.typography.fontWeight.semibold,
-                    }}>
+                    <div className="px-3 py-2 rounded-lg text-sm font-semibold" style={{ background: '#6366F120', color: '#6366F1' }}>
                       📍 Punjab, India
                     </div>
                   </div>
                 </div>
 
                 {/* Safety Score */}
-                <div style={{
-                  textAlign: 'center',
-                  minWidth: '200px',
-                }}>
-                  <div style={{
-                    position: 'relative',
-                    width: '150px',
-                    height: '150px',
-                    margin: '0 auto',
-                  }}>
-                    <svg width="150" height="150" style={{ transform: 'rotate(-90deg)' }}>
+                <div className="text-center min-w-[200px]">
+                  <div className="relative w-[150px] h-[150px] mx-auto">
+                    <svg width="150" height="150" className="-rotate-90">
                       <circle
                         cx="75"
                         cy="75"
                         r="65"
-                        stroke={theme.colors.border.secondary}
+                        stroke="rgba(255,255,255,0.1)"
                         strokeWidth="10"
                         fill="transparent"
                       />
@@ -350,38 +263,23 @@ const ProfilePage = () => {
                         strokeLinecap="round"
                         strokeDasharray={`${2 * Math.PI * 65}`}
                         strokeDashoffset={`${2 * Math.PI * 65 * (1 - safetyScore / safetyData.maxScore)}`}
-                        style={{ transition: 'stroke-dashoffset 2s ease-in-out' }}
+                        className="transition-all duration-2000 ease-in-out"
                       />
                     </svg>
-                    <div style={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      textAlign: 'center',
-                    }}>
-                      <div style={{
-                        fontSize: theme.typography.fontSize['2xl'],
-                        fontWeight: theme.typography.fontWeight.bold,
-                        color: getScoreColor(safetyScore),
-                      }}>
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                      <div
+                        className="text-2xl font-bold"
+                        style={{ color: getScoreColor(safetyScore) }}
+                      >
                         {safetyScore}
                       </div>
-                      <div style={{
-                        fontSize: theme.typography.fontSize.sm,
-                        color: theme.colors.text.secondary,
-                      }}>
+                      <div className="text-sm text-slate-300">
                         Safety Score
                       </div>
                     </div>
                   </div>
                   {safetyData.improvementFromLastMonth > 0 && (
-                    <div style={{
-                      marginTop: theme.spacing[2],
-                      color: theme.colors.success.main,
-                      fontSize: theme.typography.fontSize.sm,
-                      fontWeight: theme.typography.fontWeight.medium,
-                    }}>
+                    <div className="mt-2 text-sm font-medium" style={{ color: '#10B981' }}>
                       ↗️ +{safetyData.improvementFromLastMonth} this month
                     </div>
                   )}
@@ -391,15 +289,7 @@ const ProfilePage = () => {
           </motion.div>
 
           {/* Tab Navigation */}
-          <div style={{
-            display: 'flex',
-            marginBottom: theme.spacing[6],
-            borderRadius: theme.borderRadius.xl,
-            background: theme.colors.background.secondary,
-            padding: theme.spacing[2],
-            flexWrap: 'wrap',
-            gap: theme.spacing[2],
-          }}>
+          <div className="flex mb-6 rounded-xl bg-background-secondary p-2 flex-wrap gap-2">
             {[
               { id: 'overview', label: '📊 Overview', icon: '📊' },
               { id: 'violations', label: '⚠️ Violations', icon: '⚠️' },
@@ -409,25 +299,10 @@ const ProfilePage = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                style={{
-                  flex: 1,
-                  minWidth: '120px',
-                  padding: theme.spacing[3],
-                  border: 'none',
-                  borderRadius: theme.borderRadius.lg,
-                  background: activeTab === tab.id 
-                    ? theme.colors.primary.gradient 
-                    : 'transparent',
-                  color: activeTab === tab.id 
-                    ? '#ffffff' 
-                    : theme.colors.text.secondary,
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  fontWeight: activeTab === tab.id 
-                    ? theme.typography.fontWeight.bold 
-                    : theme.typography.fontWeight.medium,
-                  fontSize: theme.typography.fontSize.base,
-                }}
+                className={`flex-1 min-w-[120px] p-3 border-none rounded-lg cursor-pointer transition-all duration-300 text-base ${activeTab === tab.id
+                    ? 'bg-gradient-to-r from-primary via-primary-light to-tertiary text-white font-bold'
+                    : 'bg-transparent text-slate-300 font-medium'
+                  }`}
               >
                 {tab.label}
               </button>
@@ -444,17 +319,13 @@ const ProfilePage = () => {
               transition={{ duration: 0.3 }}
             >
               {activeTab === 'overview' && (
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                  gap: theme.spacing[6],
-                }}>
+                <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6">
                   {/* Statistics Cards */}
                   {[
-                    { title: 'Total Distance', value: safetyData.totalDistance, icon: '🛣️', color: theme.colors.info.main },
-                    { title: 'Safe Trips', value: safetyData.safeTrips, icon: '✅', color: theme.colors.success.main },
-                    { title: 'Current Rank', value: `${safetyData.rank} (Top ${safetyData.percentile}%)`, icon: '🎖️', color: theme.colors.warning.main },
-                    { title: 'Violation-Free Streak', value: `${safetyData.violationFreeStreak} days`, icon: '🔥', color: theme.colors.error.main }
+                    { title: 'Total Distance', value: safetyData.totalDistance, icon: '🛣️', color: '#3B82F6' },
+                    { title: 'Safe Trips', value: safetyData.safeTrips, icon: '✅', color: '#10B981' },
+                    { title: 'Current Rank', value: `${safetyData.rank} (Top ${safetyData.percentile}%)`, icon: '🎖️', color: '#F59E0B' },
+                    { title: 'Violation-Free Streak', value: `${safetyData.violationFreeStreak} days`, icon: '🔥', color: '#EF4444' }
                   ].map((stat, index) => (
                     <motion.div
                       key={stat.title}
@@ -463,25 +334,14 @@ const ProfilePage = () => {
                       transition={{ delay: index * 0.1 }}
                     >
                       <Card variant="elevated" size="full">
-                        <div style={{ textAlign: 'center', padding: theme.spacing[4] }}>
-                          <div style={{
-                            fontSize: '2.5rem',
-                            marginBottom: theme.spacing[3],
-                          }}>
+                        <div className="text-center p-4">
+                          <div className="text-[2.5rem] mb-3">
                             {stat.icon}
                           </div>
-                          <h3 style={{
-                            fontSize: theme.typography.fontSize.xl,
-                            fontWeight: theme.typography.fontWeight.bold,
-                            color: stat.color,
-                            marginBottom: theme.spacing[2],
-                          }}>
+                          <h3 className="text-xl font-bold mb-2" style={{ color: stat.color }}>
                             {stat.value}
                           </h3>
-                          <p style={{
-                            fontSize: theme.typography.fontSize.base,
-                            color: theme.colors.text.secondary,
-                          }}>
+                          <p className="text-base text-slate-400">
                             {stat.title}
                           </p>
                         </div>
@@ -490,57 +350,37 @@ const ProfilePage = () => {
                   ))}
 
                   {/* Recent Activity */}
-                  <div style={{ gridColumn: '1 / -1' }}>
+                  <div className="col-[1/-1]">
                     <Card variant="glass" size="full">
-                      <h3 style={{
-                        fontSize: theme.typography.fontSize.xl,
-                        fontWeight: theme.typography.fontWeight.bold,
-                        color: theme.colors.text.primary,
-                        marginBottom: theme.spacing[4],
-                      }}>
+                      <h3 className="text-xl font-bold text-white mb-4">
                         📱 Recent Activity
                       </h3>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: theme.spacing[3] }}>
+                      <div className="flex flex-col gap-3">
                         {recentActivity.map((activity) => (
                           <div
                             key={activity.id}
-                            style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'space-between',
-                              padding: theme.spacing[3],
-                              background: theme.colors.background.card,
-                              borderRadius: theme.borderRadius.lg,
-                              border: `1px solid ${theme.colors.border.secondary}`,
-                            }}
+                            className="flex items-center justify-between p-3 rounded-lg border"
+                            style={{ background: '#1e293b', borderColor: '#334155' }}
                           >
-                            <div style={{ flex: 1 }}>
-                              <p style={{
-                                color: theme.colors.text.primary,
-                                fontSize: theme.typography.fontSize.base,
-                                marginBottom: theme.spacing[1],
-                              }}>
+                            <div className="flex-1">
+                              <p className="text-white text-base mb-1">
                                 {activity.message}
                               </p>
-                              <p style={{
-                                color: theme.colors.text.secondary,
-                                fontSize: theme.typography.fontSize.sm,
-                              }}>
+                              <p className="text-slate-400 text-sm">
                                 {activity.timestamp}
                               </p>
                             </div>
-                            <div style={{
-                              padding: `${theme.spacing[1]} ${theme.spacing[2]}`,
-                              borderRadius: theme.borderRadius.lg,
-                              background: activity.points.startsWith('+') 
-                                ? theme.colors.success.main + '20'
-                                : theme.colors.error.main + '20',
-                              color: activity.points.startsWith('+') 
-                                ? theme.colors.success.main
-                                : theme.colors.error.main,
-                              fontSize: theme.typography.fontSize.sm,
-                              fontWeight: theme.typography.fontWeight.semibold,
-                            }}>
+                            <div
+                              className="px-2 py-1 rounded-lg text-sm font-semibold"
+                              style={{
+                                background: activity.points.startsWith('+')
+                                  ? '#10B98120'
+                                  : '#EF444420',
+                                color: activity.points.startsWith('+')
+                                  ? '#10B981'
+                                  : '#EF4444'
+                              }}
+                            >
                               {activity.points}
                             </div>
                           </div>
@@ -553,107 +393,63 @@ const ProfilePage = () => {
 
               {activeTab === 'violations' && (
                 <Card variant="glass" size="full">
-                  <h3 style={{
-                    fontSize: theme.typography.fontSize.xl,
-                    fontWeight: theme.typography.fontWeight.bold,
-                    color: theme.colors.text.primary,
-                    marginBottom: theme.spacing[6],
-                  }}>
+                  <h3 className="text-xl font-bold text-white mb-6">
                     ⚠️ Violation History
                   </h3>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: theme.spacing[4] }}>
+                  <div className="flex flex-col gap-4">
                     {violationHistory.map((violation) => (
                       <div
                         key={violation.id}
-                        style={{
-                          padding: theme.spacing[4],
-                          background: theme.colors.background.card,
-                          borderRadius: theme.borderRadius.lg,
-                          border: `1px solid ${theme.colors.border.secondary}`,
-                        }}
+                        className="p-4 rounded-lg border"
+                        style={{ background: '#1e293b', borderColor: '#334155' }}
                       >
-                        <div style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'flex-start',
-                          marginBottom: theme.spacing[3],
-                          flexWrap: 'wrap',
-                          gap: theme.spacing[2],
-                        }}>
+                        <div className="flex justify-between items-start mb-3 flex-wrap gap-2">
                           <div>
-                            <h4 style={{
-                              fontSize: theme.typography.fontSize.lg,
-                              fontWeight: theme.typography.fontWeight.semibold,
-                              color: theme.colors.text.primary,
-                              marginBottom: theme.spacing[1],
-                            }}>
+                            <h4 className="text-lg font-semibold text-white mb-1">
                               {violation.type}
                             </h4>
-                            <p style={{
-                              color: theme.colors.text.secondary,
-                              fontSize: theme.typography.fontSize.base,
-                            }}>
+                            <p className="text-slate-400 text-base">
                               📍 {violation.location} • 📅 {violation.date}
                             </p>
                           </div>
-                          <div style={{
-                            display: 'flex',
-                            gap: theme.spacing[2],
-                            alignItems: 'center',
-                          }}>
-                            <div style={{
-                              padding: `${theme.spacing[1]} ${theme.spacing[2]}`,
-                              borderRadius: theme.borderRadius.lg,
-                              background: violation.severity === 'High' 
-                                ? theme.colors.error.main + '20'
-                                : violation.severity === 'Medium'
-                                ? theme.colors.warning.main + '20'
-                                : theme.colors.info.main + '20',
-                              color: violation.severity === 'High' 
-                                ? theme.colors.error.main
-                                : violation.severity === 'Medium'
-                                ? theme.colors.warning.main
-                                : theme.colors.info.main,
-                              fontSize: theme.typography.fontSize.sm,
-                              fontWeight: theme.typography.fontWeight.medium,
-                            }}>
+                          <div className="flex gap-2 items-center">
+                            <div
+                              className="px-2 py-1 rounded-lg text-sm font-medium"
+                              style={{
+                                background: violation.severity === 'High'
+                                  ? '#EF444420'
+                                  : violation.severity === 'Medium'
+                                    ? '#F59E0B20'
+                                    : '#3B82F620',
+                                color: violation.severity === 'High'
+                                  ? '#EF4444'
+                                  : violation.severity === 'Medium'
+                                    ? '#F59E0B'
+                                    : '#3B82F6'
+                              }}
+                            >
                               {violation.severity}
                             </div>
-                            <div style={{
-                              padding: `${theme.spacing[1]} ${theme.spacing[2]}`,
-                              borderRadius: theme.borderRadius.lg,
-                              background: violation.status === 'Paid' 
-                                ? theme.colors.success.main + '20'
-                                : theme.colors.warning.main + '20',
-                              color: violation.status === 'Paid' 
-                                ? theme.colors.success.main
-                                : theme.colors.warning.main,
-                              fontSize: theme.typography.fontSize.sm,
-                              fontWeight: theme.typography.fontWeight.medium,
-                            }}>
+                            <div
+                              className="px-2 py-1 rounded-lg text-sm font-medium"
+                              style={{
+                                background: violation.status === 'Paid'
+                                  ? '#10B98120'
+                                  : '#F59E0B20',
+                                color: violation.status === 'Paid'
+                                  ? '#10B981'
+                                  : '#F59E0B'
+                              }}
+                            >
                               {violation.status}
                             </div>
                           </div>
                         </div>
-                        <div style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          flexWrap: 'wrap',
-                          gap: theme.spacing[2],
-                        }}>
-                          <div style={{
-                            color: theme.colors.text.primary,
-                            fontSize: theme.typography.fontSize.lg,
-                            fontWeight: theme.typography.fontWeight.semibold,
-                          }}>
+                        <div className="flex justify-between items-center flex-wrap gap-2">
+                          <div className="text-white text-lg font-semibold">
                             Fine: {violation.fine}
                           </div>
-                          <div style={{
-                            color: theme.colors.error.main,
-                            fontSize: theme.typography.fontSize.base,
-                            fontWeight: theme.typography.fontWeight.medium,
-                          }}>
+                          <div className="text-base font-medium" style={{ color: '#EF4444' }}>
                             Points: {violation.points}
                           </div>
                         </div>
@@ -664,11 +460,7 @@ const ProfilePage = () => {
               )}
 
               {activeTab === 'achievements' && (
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                  gap: theme.spacing[4],
-                }}>
+                <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
                   {achievements.map((achievement, index) => (
                     <motion.div
                       key={achievement.title}
@@ -677,84 +469,47 @@ const ProfilePage = () => {
                       transition={{ delay: index * 0.1 }}
                     >
                       <Card variant={achievement.earned ? "elevated" : "outlined"} size="full">
-                        <div style={{
-                          padding: theme.spacing[4],
-                          textAlign: 'center',
-                          position: 'relative',
-                          opacity: achievement.earned ? 1 : 0.7,
-                        }}>
-                          <div style={{
-                            fontSize: '3rem',
-                            marginBottom: theme.spacing[3],
-                            filter: achievement.earned ? 'none' : 'grayscale(1)',
-                          }}>
+                        <div
+                          className="p-4 text-center relative"
+                          style={{ opacity: achievement.earned ? 1 : 0.7 }}
+                        >
+                          <div
+                            className="text-[3rem] mb-3"
+                            style={{ filter: achievement.earned ? 'none' : 'grayscale(1)' }}
+                          >
                             {achievement.icon}
                           </div>
-                          <h4 style={{
-                            fontSize: theme.typography.fontSize.lg,
-                            fontWeight: theme.typography.fontWeight.bold,
-                            color: achievement.earned 
-                              ? theme.colors.text.primary 
-                              : theme.colors.text.secondary,
-                            marginBottom: theme.spacing[2],
-                          }}>
+                          <h4
+                            className="text-lg font-bold mb-2"
+                            style={{ color: achievement.earned ? '#ffffff' : '#94a3b8' }}
+                          >
                             {achievement.title}
                           </h4>
-                          <p style={{
-                            color: theme.colors.text.secondary,
-                            fontSize: theme.typography.fontSize.base,
-                            marginBottom: theme.spacing[3],
-                          }}>
+                          <p className="text-slate-400 text-base mb-3">
                             {achievement.description}
                           </p>
                           {achievement.earned ? (
-                            <div style={{
-                              color: theme.colors.success.main,
-                              fontSize: theme.typography.fontSize.sm,
-                              fontWeight: theme.typography.fontWeight.medium,
-                            }}>
+                            <div className="text-sm font-medium" style={{ color: '#10B981' }}>
                               ✅ Earned on {achievement.date}
                             </div>
                           ) : (
                             <div>
-                              <div style={{
-                                background: theme.colors.background.secondary,
-                                borderRadius: theme.borderRadius.full,
-                                height: '8px',
-                                marginBottom: theme.spacing[2],
-                                overflow: 'hidden',
-                              }}>
-                                <div style={{
-                                  background: theme.colors.primary.gradient,
-                                  height: '100%',
-                                  width: `${achievement.progress}%`,
-                                  borderRadius: theme.borderRadius.full,
-                                  transition: 'width 1s ease-in-out',
-                                }} />
+                              <div className="bg-slate-700 rounded-full h-2 mb-2 overflow-hidden">
+                                <div
+                                  className="bg-gradient-to-r from-primary via-primary-light to-tertiary h-full rounded-full transition-all duration-1000 ease-in-out"
+                                  style={{ width: `${achievement.progress}%` }}
+                                />
                               </div>
-                              <div style={{
-                                color: theme.colors.text.secondary,
-                                fontSize: theme.typography.fontSize.sm,
-                              }}>
+                              <div className="text-slate-400 text-sm">
                                 {achievement.progress}% complete
                               </div>
                             </div>
                           )}
                           {achievement.earned && (
-                            <div style={{
-                              position: 'absolute',
-                              top: theme.spacing[2],
-                              right: theme.spacing[2],
-                              background: theme.colors.success.main,
-                              color: '#ffffff',
-                              borderRadius: theme.borderRadius.full,
-                              width: '24px',
-                              height: '24px',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              fontSize: '12px',
-                            }}>
+                            <div
+                              className="absolute top-2 right-2 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs"
+                              style={{ background: '#10B981' }}
+                            >
                               ✓
                             </div>
                           )}
@@ -766,21 +521,12 @@ const ProfilePage = () => {
               )}
 
               {activeTab === 'personal' && (
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-                  gap: theme.spacing[6],
-                }}>
+                <div className="grid grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-6">
                   <Card variant="glass" size="full">
-                    <h3 style={{
-                      fontSize: theme.typography.fontSize.xl,
-                      fontWeight: theme.typography.fontWeight.bold,
-                      color: theme.colors.text.primary,
-                      marginBottom: theme.spacing[4],
-                    }}>
+                    <h3 className="text-xl font-bold text-white mb-4">
                       👤 Personal Information
                     </h3>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: theme.spacing[4] }}>
+                    <div className="flex flex-col gap-4">
                       {[
                         { label: 'Full Name', value: userData.name, icon: '👤' },
                         { label: 'Driver ID', value: userData.id, icon: '🆔' },
@@ -791,30 +537,15 @@ const ProfilePage = () => {
                       ].map((item) => (
                         <div
                           key={item.label}
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: theme.spacing[3],
-                            padding: theme.spacing[3],
-                            background: theme.colors.background.card,
-                            borderRadius: theme.borderRadius.lg,
-                            border: `1px solid ${theme.colors.border.secondary}`,
-                          }}
+                          className="flex items-center gap-3 p-3 rounded-lg border"
+                          style={{ background: '#1e293b', borderColor: '#334155' }}
                         >
-                          <div style={{ fontSize: '1.5rem' }}>{item.icon}</div>
-                          <div style={{ flex: 1 }}>
-                            <div style={{
-                              fontSize: theme.typography.fontSize.sm,
-                              color: theme.colors.text.secondary,
-                              marginBottom: theme.spacing[1],
-                            }}>
+                          <div className="text-2xl">{item.icon}</div>
+                          <div className="flex-1">
+                            <div className="text-sm text-slate-400 mb-1">
                               {item.label}
                             </div>
-                            <div style={{
-                              fontSize: theme.typography.fontSize.base,
-                              color: theme.colors.text.primary,
-                              fontWeight: theme.typography.fontWeight.medium,
-                            }}>
+                            <div className="text-base text-white font-medium">
                               {item.value}
                             </div>
                           </div>
@@ -824,15 +555,10 @@ const ProfilePage = () => {
                   </Card>
 
                   <Card variant="glass" size="full">
-                    <h3 style={{
-                      fontSize: theme.typography.fontSize.xl,
-                      fontWeight: theme.typography.fontWeight.bold,
-                      color: theme.colors.text.primary,
-                      marginBottom: theme.spacing[4],
-                    }}>
+                    <h3 className="text-xl font-bold text-white mb-4">
                       📄 License Information
                     </h3>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: theme.spacing[4] }}>
+                    <div className="flex flex-col gap-4">
                       {[
                         { label: 'License Number', value: userData.licenseNumber, icon: '📋' },
                         { label: 'Vehicle Type', value: userData.vehicleType, icon: '🏍️' },
@@ -841,30 +567,15 @@ const ProfilePage = () => {
                       ].map((item) => (
                         <div
                           key={item.label}
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: theme.spacing[3],
-                            padding: theme.spacing[3],
-                            background: theme.colors.background.card,
-                            borderRadius: theme.borderRadius.lg,
-                            border: `1px solid ${theme.colors.border.secondary}`,
-                          }}
+                          className="flex items-center gap-3 p-3 rounded-lg border"
+                          style={{ background: '#1e293b', borderColor: '#334155' }}
                         >
-                          <div style={{ fontSize: '1.5rem' }}>{item.icon}</div>
-                          <div style={{ flex: 1 }}>
-                            <div style={{
-                              fontSize: theme.typography.fontSize.sm,
-                              color: theme.colors.text.secondary,
-                              marginBottom: theme.spacing[1],
-                            }}>
+                          <div className="text-2xl">{item.icon}</div>
+                          <div className="flex-1">
+                            <div className="text-sm text-slate-400 mb-1">
                               {item.label}
                             </div>
-                            <div style={{
-                              fontSize: theme.typography.fontSize.base,
-                              color: theme.colors.text.primary,
-                              fontWeight: theme.typography.fontWeight.medium,
-                            }}>
+                            <div className="text-base text-white font-medium">
                               {item.value}
                             </div>
                           </div>
@@ -872,33 +583,18 @@ const ProfilePage = () => {
                       ))}
                     </div>
 
-                    <div style={{
-                      marginTop: theme.spacing[6],
-                      padding: theme.spacing[4],
-                      background: theme.colors.success.main + '10',
-                      borderRadius: theme.borderRadius.lg,
-                      border: `1px solid ${theme.colors.success.main}30`,
-                    }}>
-                      <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: theme.spacing[2],
-                        marginBottom: theme.spacing[2],
-                      }}>
-                        <div style={{ fontSize: '1.5rem' }}>✅</div>
-                        <div style={{
-                          color: theme.colors.success.main,
-                          fontWeight: theme.typography.fontWeight.bold,
-                          fontSize: theme.typography.fontSize.base,
-                        }}>
+                    <div
+                      className="mt-6 p-4 rounded-lg border"
+                      style={{ background: '#10B98110', borderColor: '#10B98130' }}
+                    >
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="text-2xl">✅</div>
+                        <div className="font-bold text-base" style={{ color: '#10B981' }}>
                           License Status: Valid
                         </div>
                       </div>
-                      <p style={{
-                        color: theme.colors.text.secondary,
-                        fontSize: theme.typography.fontSize.sm,
-                      }}>
-                        Your driving license is currently valid and will expire on {userData.expiryDate}. 
+                      <p className="text-slate-400 text-sm">
+                        Your driving license is currently valid and will expire on {userData.expiryDate}.
                         You'll receive a reminder 60 days before expiry.
                       </p>
                     </div>
@@ -909,15 +605,6 @@ const ProfilePage = () => {
           </AnimatePresence>
         </div>
       </LoadingAnimation>
-
-      <style>
-        {`
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-        `}
-      </style>
     </div>
   );
 };

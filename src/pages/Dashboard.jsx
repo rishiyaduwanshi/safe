@@ -1,20 +1,16 @@
 ﻿import { motion } from 'framer-motion';
-import { 
-  Shield, 
-  TrendingUp, 
+import {
+  Shield,
+  TrendingUp,
   TrendingDown,
-  AlertTriangle, 
-  CheckCircle, 
+  AlertTriangle,
+  CheckCircle,
   MapPin,
-  Calendar,
-  Award,
-  Eye,
   Clock,
   User
 } from 'lucide-react';
-import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { Card, Button, LoadingAnimation, SpotlightEffect } from '../components/index.js';
-import { theme } from '../styles/theme.js';
 import { STRINGS } from '../constants/index.js';
 
 /**
@@ -42,10 +38,10 @@ const DashboardPage = () => {
   ];
 
   const violationTypes = [
-    { name: 'Helmet', value: 3, color: theme.colors.safety.red },
-    { name: 'Speeding', value: 2, color: theme.colors.accent.orange },
-    { name: 'Signal', value: 2, color: theme.colors.accent.purple },
-    { name: 'Parking', value: 1, color: theme.colors.accent.cyan },
+    { name: 'Helmet', value: 3, color: '#EF4444' },
+    { name: 'Speeding', value: 2, color: '#FBBF24' },
+    { name: 'Signal', value: 2, color: '#A78BFA' },
+    { name: 'Parking', value: 1, color: '#22D3EE' },
   ];
 
   const recentActivity = [
@@ -96,37 +92,11 @@ const DashboardPage = () => {
     },
   };
 
-  // Styles
-  const headerStyles = {
-    // background: theme.colors.background.gradient,
-    color: theme.colors.text.primary,
-    padding: `${theme.spacing[12]} ${theme.spacing[6]} ${theme.spacing[8]}`,
-    textAlign: 'center',
-  };
-
-  const contentStyles = {
-    maxWidth: theme.containers.xl,
-    margin: '0 auto',
-    padding: theme.spacing[6],
-  };
-
-  const gridStyles = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-    gap: theme.spacing[6],
-    marginBottom: theme.spacing[8],
-  };
-
-  const chartContainerStyles = {
-    height: '300px',
-    marginTop: theme.spacing[4],
-  };
-
   const getSafetyScoreColor = (score) => {
-    if (score >= 85) return theme.colors.safety.green;
-    if (score >= 70) return theme.colors.accent.cyan;
-    if (score >= 55) return theme.colors.safety.yellow;
-    return theme.colors.safety.red;
+    if (score >= 85) return '#10B981';
+    if (score >= 70) return '#22D3EE';
+    if (score >= 55) return '#F59E0B';
+    return '#EF4444';
   };
 
   const getActivityIcon = (type) => {
@@ -140,378 +110,246 @@ const DashboardPage = () => {
 
   const getActivityColor = (type) => {
     switch (type) {
-      case 'violation': return theme.colors.safety.red;
-      case 'safe_drive': return theme.colors.safety.green;
-      case 'report': return theme.colors.accent.cyan;
-      default: return theme.colors.neutral.gray[500];
+      case 'violation': return '#EF4444';
+      case 'safe_drive': return '#10B981';
+      case 'report': return '#22D3EE';
+      default: return '#64748B';
     }
   };
 
   return (
     <LoadingAnimation>
       <div className="dashboard-page">
-      <SpotlightEffect/>
+        <SpotlightEffect />
 
         <motion.section
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          style={headerStyles}
-          className="dashboard-header"
-      >
-        <motion.div variants={itemVariants}>
-          <h1 style={{
-            fontSize: theme.typography.fontSize['4xl'],
-            fontWeight: theme.typography.fontWeight.bold,
-            marginBottom: theme.spacing[2],
-          }}>
-            {STRINGS.DASHBOARD_WELCOME}, {userProfile.name}!
-          </h1>
-          <p style={{
-            fontSize: theme.typography.fontSize.lg,
-            opacity: 0.9,
-          }}>
-            Track your safety performance and contribute to safer roads
-          </p>
-        </motion.div>
-      </motion.section>
-
-
-      <div style={contentStyles}>
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+          className="text-white py-12 px-6 pb-8 text-center"
         >
-
-          <div style={gridStyles} className="metrics-grid">
-
-            <motion.div variants={itemVariants}>
-              <Card variant="elevated" size="lg">
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: theme.spacing[2],
-                    marginBottom: theme.spacing[4],
-                  }}>
-                    <Shield size={24} color={getSafetyScoreColor(userProfile.safetyScore)} />
-                    <h3 style={{
-                      fontSize: theme.typography.fontSize.xl,
-                      fontWeight: theme.typography.fontWeight.bold,
-                      color: theme.colors.text.primary,
-                    }}>
-                      {STRINGS.SAFETY_SCORE_TITLE}
-                    </h3>
-                  </div>
-                  
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    style={{
-                      fontSize: theme.typography.fontSize['5xl'],
-                      fontWeight: theme.typography.fontWeight.black,
-                      color: getSafetyScoreColor(userProfile.safetyScore),
-                      marginBottom: theme.spacing[2],
-                    }}
-                  >
-                    {userProfile.safetyScore}
-                  </motion.div>
-                  
-                  <p style={{
-                    fontSize: theme.typography.fontSize.lg,
-                    color: theme.colors.text.secondary,
-                    marginBottom: theme.spacing[4],
-                  }}>
-                    {userProfile.level}
-                  </p>
-                  
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: theme.spacing[2] }}>
-                    <TrendingUp size={16} color={theme.colors.safety.green} />
-                    <span style={{ fontSize: theme.typography.fontSize.sm, color: theme.colors.safety.green }}>
-                      +2 from last month
-                    </span>
-                  </div>
-                </div>
-              </Card>
-            </motion.div>
-
-
-            <motion.div variants={itemVariants}>
-              <Card variant="elevated" size="lg">
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{
-                    display: 'inline-flex',
-                    padding: theme.spacing[3],
-                    borderRadius: theme.borderRadius.full,
-                    background: `${theme.colors.safety.green}20`,
-                    color: theme.colors.safety.green,
-                    marginBottom: theme.spacing[4],
-                  }}>
-                    <CheckCircle size={28} />
-                  </div>
-                  
-                  <h3 style={{
-                    fontSize: theme.typography.fontSize['3xl'],
-                    fontWeight: theme.typography.fontWeight.bold,
-                    color: theme.colors.text.primary,
-                    marginBottom: theme.spacing[2],
-                  }}>
-                    {userProfile.safeDrives}
-                  </h3>
-                  
-                  <p style={{
-                    fontSize: theme.typography.fontSize.base,
-                    color: theme.colors.text.secondary,
-                  }}>
-                    {STRINGS.SAFE_DRIVES}
-                  </p>
-                </div>
-              </Card>
-            </motion.div>
-
-
-            <motion.div variants={itemVariants}>
-              <Card variant="elevated" size="lg">
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{
-                    display: 'inline-flex',
-                    padding: theme.spacing[3],
-                    borderRadius: theme.borderRadius.full,
-                    background: `${theme.colors.safety.red}20`,
-                    color: theme.colors.safety.red,
-                    marginBottom: theme.spacing[4],
-                  }}>
-                    <AlertTriangle size={28} />
-                  </div>
-                  
-                  <h3 style={{
-                    fontSize: theme.typography.fontSize['3xl'],
-                    fontWeight: theme.typography.fontWeight.bold,
-                    color: theme.colors.text.primary,
-                    marginBottom: theme.spacing[2],
-                  }}>
-                    {userProfile.violations}
-                  </h3>
-                  
-                  <p style={{
-                    fontSize: theme.typography.fontSize.base,
-                    color: theme.colors.text.secondary,
-                  }}>
-                    {STRINGS.VIOLATIONS_DETECTED}
-                  </p>
-                </div>
-              </Card>
-            </motion.div>
-
-
-            <motion.div variants={itemVariants}>
-              <Card variant="elevated" size="lg">
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{
-                    display: 'inline-flex',
-                    padding: theme.spacing[3],
-                    borderRadius: theme.borderRadius.full,
-                    background: `${theme.colors.accent.cyan}20`,
-                    color: theme.colors.accent.cyan,
-                    marginBottom: theme.spacing[4],
-                  }}>
-                    <MapPin size={28} />
-                  </div>
-                  
-                  <h3 style={{
-                    fontSize: theme.typography.fontSize['3xl'],
-                    fontWeight: theme.typography.fontWeight.bold,
-                    color: theme.colors.text.primary,
-                    marginBottom: theme.spacing[2],
-                  }}>
-                    {userProfile.reportsSubmitted}
-                  </h3>
-                  
-                  <p style={{
-                    fontSize: theme.typography.fontSize.base,
-                    color: theme.colors.text.secondary,
-                  }}>
-                    {STRINGS.REPORTS_SUBMITTED}
-                  </p>
-                </div>
-              </Card>
-            </motion.div>
-          </div>
-
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-            gap: theme.spacing[6],
-            marginBottom: theme.spacing[8],
-          }}>
-
-            <motion.div variants={itemVariants}>
-              <Card variant="elevated" size="lg">
-                <h3 style={{
-                  fontSize: theme.typography.fontSize.xl,
-                  fontWeight: theme.typography.fontWeight.bold,
-                  color: theme.colors.text.primary,
-                  marginBottom: theme.spacing[4],
-                }}>
-                  Safety Score Trend
-                </h3>
-                
-                <div style={chartContainerStyles}>
-                  <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={safetyScoreHistory}>
-                      <defs>
-                        <linearGradient id="scoreGradient" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor={theme.colors.primary.main} stopOpacity={0.3}/>
-                          <stop offset="95%" stopColor={theme.colors.primary.main} stopOpacity={0}/>
-                        </linearGradient>
-                      </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke={theme.colors.border.default} />
-                      <XAxis dataKey="month" stroke={theme.colors.neutral.gray[500]} />
-                      <YAxis stroke={theme.colors.neutral.gray[500]} />
-                      <Tooltip 
-                        contentStyle={{
-                          backgroundColor: theme.colors.neutral.white,
-                          border: 'none',
-                          borderRadius: theme.borderRadius.lg,
-                          boxShadow: theme.shadows.lg,
-                        }}
-                      />
-                      <Area 
-                        type="monotone" 
-                        dataKey="score" 
-                        stroke={theme.colors.primary.main}
-                        strokeWidth={3}
-                        fill="url(#scoreGradient)" 
-                      />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </div>
-              </Card>
-            </motion.div>
-
-
-            <motion.div variants={itemVariants}>
-              <Card variant="elevated" size="lg">
-                <h3 style={{
-                  fontSize: theme.typography.fontSize.xl,
-                  fontWeight: theme.typography.fontWeight.bold,
-                  color: theme.colors.text.primary,
-                  marginBottom: theme.spacing[4],
-                }}>
-                  Violation Breakdown
-                </h3>
-                
-                <div style={chartContainerStyles}>
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={violationTypes}
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={80}
-                        dataKey="value"
-                        label={({ name, value }) => `${name}: ${value}`}
-                      >
-                        {violationTypes.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                      </Pie>
-                      <Tooltip />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
-              </Card>
-            </motion.div>
-          </div>
-
-
           <motion.div variants={itemVariants}>
-            <Card variant="elevated" size="lg">
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: theme.spacing[6],
-              }}>
-                <h3 style={{
-                  fontSize: theme.typography.fontSize.xl,
-                  fontWeight: theme.typography.fontWeight.bold,
-                  color: theme.colors.text.primary,
-                }}>
-                  {STRINGS.RECENT_ACTIVITY}
-                </h3>
-                
-                <Button variant="ghost" size="sm">
-                  View All
-                </Button>
-              </div>
-              
-              <div style={{ display: 'flex', flexDirection: 'column', gap: theme.spacing[4] }}>
-                {recentActivity.map((activity) => (
-                  <motion.div
-                    key={activity.id}
-                    whileHover={{ scale: 1.02 }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: theme.spacing[4],
-                      padding: theme.spacing[4],
-                      borderRadius: theme.borderRadius.lg,
-                      background: theme.colors.background.tertiary,
-                      border: `1px solid ${theme.colors.border.default}`,
-                    }}
-                  >
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      width: theme.componentSizes.icon.lg,
-                      height: theme.componentSizes.icon.lg,
-                      borderRadius: theme.borderRadius.full,
-                      background: `${getActivityColor(activity.type)}20`,
-                      color: getActivityColor(activity.type),
-                    }}>
-                      {getActivityIcon(activity.type)}
-                    </div>
-                    
-                    <div style={{ flex: 1 }}>
-                      <h4 style={{
-                        fontSize: theme.typography.fontSize.base,
-                        fontWeight: theme.typography.fontWeight.semibold,
-                        color: theme.colors.text.primary,
-                        marginBottom: theme.spacing[1],
-                      }}>
-                        {activity.title}
-                      </h4>
-                      
-                      <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: theme.spacing[4],
-                        fontSize: theme.typography.fontSize.sm,
-                        color: theme.colors.text.secondary,
-                      }}>
-                        <span style={{ display: 'flex', alignItems: 'center', gap: theme.spacing[1] }}>
-                          <MapPin size={14} />
-                          {activity.location}
-                        </span>
-                        <span style={{ display: 'flex', alignItems: 'center', gap: theme.spacing[1] }}>
-                          <Clock size={14} />
-                          {activity.time}
-                        </span>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </Card>
+            <h1 className="text-4xl font-bold mb-2">
+              {STRINGS.DASHBOARD_WELCOME}, {userProfile.name}!
+            </h1>
+            <p className="text-lg opacity-90">
+              Track your safety performance and contribute to safer roads
+            </p>
           </motion.div>
-        </motion.div>
+        </motion.section>
+
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            {/* Metrics Grid */}
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6 mb-8">
+              {/* Safety Score Card */}
+              <motion.div variants={itemVariants}>
+                <Card variant="elevated" size="lg">
+                  <div className="text-center">
+                    <div className="inline-flex p-3 rounded-full bg-cyan-400/20 text-cyan-400 mb-4">
+                      <Shield size={28} />
+                    </div>
+
+                    <h3 className="text-3xl font-bold text-white mb-2">
+                      {userProfile.safetyScore}
+                    </h3>
+
+                    <p className="text-base text-slate-300">
+                      {STRINGS.SAFETY_SCORE_TITLE}
+                    </p>
+                  </div>
+                </Card>
+              </motion.div>
+
+              {/* Safe Drives Card */}
+              <motion.div variants={itemVariants}>
+                <Card variant="elevated" size="lg">
+                  <div className="text-center">
+                    <div className="inline-flex p-3 rounded-full bg-green-500/20 text-green-500 mb-4">
+                      <CheckCircle size={28} />
+                    </div>
+
+                    <h3 className="text-3xl font-bold text-white mb-2">
+                      {userProfile.safeDrives}
+                    </h3>
+
+                    <p className="text-base text-slate-300">
+                      {STRINGS.SAFE_DRIVES}
+                    </p>
+                  </div>
+                </Card>
+              </motion.div>
+
+              {/* Violations Card */}
+              <motion.div variants={itemVariants}>
+                <Card variant="elevated" size="lg">
+                  <div className="text-center">
+                    <div className="inline-flex p-3 rounded-full bg-red-500/20 text-red-500 mb-4">
+                      <AlertTriangle size={28} />
+                    </div>
+
+                    <h3 className="text-3xl font-bold text-white mb-2">
+                      {userProfile.violations}
+                    </h3>
+
+                    <p className="text-base text-slate-300">
+                      {STRINGS.VIOLATIONS_DETECTED}
+                    </p>
+                  </div>
+                </Card>
+              </motion.div>
+
+              {/* Reports Card */}
+              <motion.div variants={itemVariants}>
+                <Card variant="elevated" size="lg">
+                  <div className="text-center">
+                    <div className="inline-flex p-3 rounded-full bg-cyan-400/20 text-cyan-400 mb-4">
+                      <MapPin size={28} />
+                    </div>
+
+                    <h3 className="text-3xl font-bold text-white mb-2">
+                      {userProfile.reportsSubmitted}
+                    </h3>
+
+                    <p className="text-base text-slate-300">
+                      {STRINGS.REPORTS_SUBMITTED}
+                    </p>
+                  </div>
+                </Card>
+              </motion.div>
+            </div>
+
+            {/* Charts Grid */}
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(350px,1fr))] gap-6 mb-8">
+              {/* Safety Score Trend Chart */}
+              <motion.div variants={itemVariants}>
+                <Card variant="elevated" size="lg">
+                  <h3 className="text-xl font-bold text-white mb-4">
+                    Safety Score Trend
+                  </h3>
+
+                  <div className="h-75 mt-4">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={safetyScoreHistory}>
+                        <defs>
+                          <linearGradient id="scoreGradient" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#6366F1" stopOpacity={0.3} />
+                            <stop offset="95%" stopColor="#6366F1" stopOpacity={0} />
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(203, 213, 225, 0.2)" />
+                        <XAxis dataKey="month" stroke="#64748B" />
+                        <YAxis stroke="#64748B" />
+                        <Tooltip
+                          contentStyle={{
+                            backgroundColor: '#FFFFFF',
+                            border: 'none',
+                            borderRadius: '0.75rem',
+                            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+                          }}
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="score"
+                          stroke="#6366F1"
+                          strokeWidth={3}
+                          fill="url(#scoreGradient)"
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
+                </Card>
+              </motion.div>
+
+              {/* Violation Breakdown Chart */}
+              <motion.div variants={itemVariants}>
+                <Card variant="elevated" size="lg">
+                  <h3 className="text-xl font-bold text-white mb-4">
+                    Violation Breakdown
+                  </h3>
+
+                  <div className="h-75 mt-4">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={violationTypes}
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={80}
+                          dataKey="value"
+                          label={({ name, value }) => `${name}: ${value}`}
+                        >
+                          {violationTypes.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                </Card>
+              </motion.div>
+            </div>
+
+            {/* Recent Activity */}
+            <motion.div variants={itemVariants}>
+              <Card variant="elevated" size="lg">
+                <div className="flex justify-between items-center mb-6">
+                  <h3 className="text-xl font-bold text-white">
+                    {STRINGS.RECENT_ACTIVITY}
+                  </h3>
+
+                  <Button variant="ghost" size="sm">
+                    View All
+                  </Button>
+                </div>
+
+                <div className="flex flex-col gap-4">
+                  {recentActivity.map((activity) => (
+                    <motion.div
+                      key={activity.id}
+                      whileHover={{ scale: 1.02 }}
+                      className="flex items-center gap-4 p-4 rounded-lg bg-background-tertiary border border-white/5"
+                    >
+                      <div
+                        className="flex items-center justify-center w-10 h-10 rounded-full"
+                        style={{
+                          backgroundColor: `${getActivityColor(activity.type)}20`,
+                          color: getActivityColor(activity.type)
+                        }}
+                      >
+                        {getActivityIcon(activity.type)}
+                      </div>
+
+                      <div className="flex-1">
+                        <h4 className="text-base font-semibold text-white mb-1">
+                          {activity.title}
+                        </h4>
+
+                        <div className="flex items-center gap-4 text-sm text-slate-300">
+                          <span className="flex items-center gap-1">
+                            <MapPin size={14} />
+                            {activity.location}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Clock size={14} />
+                            {activity.time}
+                          </span>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </Card>
+            </motion.div>
+          </motion.div>
+        </div>
       </div>
-    </div>
     </LoadingAnimation>
   );
 };

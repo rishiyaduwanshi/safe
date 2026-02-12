@@ -76,7 +76,7 @@ const Card = ({
         // Size
         sizeClasses[size],
         // Gradient override
-        gradient && 'bg-gradient-to-br from-tertiary to-secondary-light text-white',
+        gradient && 'bg-linear-to-br from-tertiary to-secondary-light text-white',
         // Custom classes
         className
       )}

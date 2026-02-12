@@ -1,7 +1,6 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card, Button, LoadingAnimation } from '../components/index.js';
-import { theme } from '../styles/theme.js';
 
 const ReportPage = () => {
   const [activeTab, setActiveTab] = useState('hazard');
@@ -48,13 +47,13 @@ const ReportPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 2000));
-    
+
     setIsSubmitting(false);
     setSubmitted(true);
-    
+
     // Reset form after 3 seconds
     setTimeout(() => {
       setSubmitted(false);
@@ -72,41 +71,19 @@ const ReportPage = () => {
   const currentTypes = activeTab === 'hazard' ? hazardTypes : violationTypes;
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      padding: `${theme.spacing[8]} ${theme.spacing[6]}`,
-      background: theme.colors.background.gradient,
-    }}>
+    <div className="min-h-screen py-8 px-6 bg-gradient-to-b from-background-primary via-background-secondary to-background-tertiary">
       <LoadingAnimation>
-        <div style={{
-          maxWidth: '800px',
-          margin: '0 auto',
-        }}>
+        <div className="max-w-3xl mx-auto">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            style={{ 
-              textAlign: 'center', 
-              marginBottom: theme.spacing[8] 
-            }}
+            className="text-center mb-8"
           >
-            <h1 style={{
-              fontSize: theme.typography.fontSize['4xl'],
-              fontWeight: theme.typography.fontWeight.bold,
-              background: theme.colors.primary.gradient,
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              marginBottom: theme.spacing[4],
-            }}>
+            <h1 className="text-4xl font-bold bg-linear-to-r from-primary via-primary-light to-tertiary bg-clip-text text-transparent mb-4">
               Report System
             </h1>
-            <p style={{
-              fontSize: theme.typography.fontSize.lg,
-              color: theme.colors.text.secondary,
-              maxWidth: '600px',
-              margin: '0 auto',
-            }}>
+            <p className="text-lg text-slate-300 max-w-2xl mx-auto">
               Help make our roads safer by reporting hazards and violations. Your reports help authorities respond quickly and improve road conditions.
             </p>
           </motion.div>
@@ -115,13 +92,7 @@ const ReportPage = () => {
             {!submitted ? (
               <>
                 {/* Tab Navigation */}
-                <div style={{
-                  display: 'flex',
-                  marginBottom: theme.spacing[6],
-                  borderRadius: theme.borderRadius.lg,
-                  background: theme.colors.background.secondary,
-                  padding: theme.spacing[1],
-                }}>
+                <div className="flex mb-6 rounded-lg bg-background-secondary p-1">
                   {[
                     { id: 'hazard', label: '🚧 Report Hazard', desc: 'Road conditions & infrastructure' },
                     { id: 'violation', label: '⚠️ Report Violation', desc: 'Traffic rule violations' }
@@ -129,32 +100,15 @@ const ReportPage = () => {
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
-                      style={{
-                        flex: 1,
-                        padding: theme.spacing[4],
-                        border: 'none',
-                        borderRadius: theme.borderRadius.lg,
-                        background: activeTab === tab.id 
-                          ? theme.colors.primary.gradient 
-                          : 'transparent',
-                        color: activeTab === tab.id 
-                          ? '#ffffff' 
-                          : theme.colors.text.secondary,
-                        cursor: 'pointer',
-                        transition: 'all 0.3s ease',
-                        fontWeight: activeTab === tab.id 
-                          ? theme.typography.fontWeight.bold 
-                          : theme.typography.fontWeight.medium,
-                      }}
+                      className={`flex-1 p-4 border-none rounded-lg cursor-pointer transition-all duration-300 ${activeTab === tab.id
+                          ? 'bg-linear-to-r from-primary via-primary-light to-tertiary text-white font-bold'
+                          : 'bg-transparent text-slate-300 font-medium'
+                        }`}
                     >
-                      <div style={{ fontSize: theme.typography.fontSize.lg }}>
+                      <div className="text-lg">
                         {tab.label}
                       </div>
-                      <div style={{ 
-                        fontSize: theme.typography.fontSize.sm,
-                        opacity: 0.8,
-                        marginTop: theme.spacing[1]
-                      }}>
+                      <div className="text-sm opacity-80 mt-1">
                         {tab.desc}
                       </div>
                     </button>
@@ -163,21 +117,11 @@ const ReportPage = () => {
 
                 <form onSubmit={handleSubmit}>
                   {/* Type Selection */}
-                  <div style={{ marginBottom: theme.spacing[6] }}>
-                    <label style={{
-                      display: 'block',
-                      fontSize: theme.typography.fontSize.lg,
-                      fontWeight: theme.typography.fontWeight.semibold,
-                      color: theme.colors.text.primary,
-                      marginBottom: theme.spacing[3],
-                    }}>
+                  <div className="mb-6">
+                    <label className="block text-lg font-semibold text-white mb-3">
                       Select {activeTab === 'hazard' ? 'Hazard' : 'Violation'} Type
                     </label>
-                    <div style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                      gap: theme.spacing[3],
-                    }}>
+                    <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-3">
                       {currentTypes.map((type) => (
                         <motion.button
                           key={type.id}
@@ -185,25 +129,14 @@ const ReportPage = () => {
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           onClick={() => handleInputChange('type', type.id)}
+                          className={`p-4 rounded-lg bg-background-card text-white cursor-pointer transition-all duration-300 text-left ${formData.type === type.id ? 'border-2' : 'border'
+                            } border-white/10`}
                           style={{
-                            padding: theme.spacing[4],
-                            border: formData.type === type.id 
-                              ? `2px solid ${type.color}` 
-                              : `1px solid ${theme.colors.border.secondary}`,
-                            borderRadius: theme.borderRadius.lg,
-                            background: formData.type === type.id 
-                              ? `${type.color}20` 
-                              : theme.colors.background.card,
-                            color: theme.colors.text.primary,
-                            cursor: 'pointer',
-                            transition: 'all 0.3s ease',
-                            textAlign: 'left',
+                            borderColor: formData.type === type.id ? type.color : undefined,
+                            background: formData.type === type.id ? `${type.color}20` : undefined
                           }}
                         >
-                          <div style={{
-                            fontSize: theme.typography.fontSize.lg,
-                            fontWeight: theme.typography.fontWeight.medium,
-                          }}>
+                          <div className="text-lg font-medium">
                             {type.label}
                           </div>
                         </motion.button>
@@ -212,14 +145,8 @@ const ReportPage = () => {
                   </div>
 
                   {/* Location Input */}
-                  <div style={{ marginBottom: theme.spacing[6] }}>
-                    <label style={{
-                      display: 'block',
-                      fontSize: theme.typography.fontSize.lg,
-                      fontWeight: theme.typography.fontWeight.semibold,
-                      color: theme.colors.text.primary,
-                      marginBottom: theme.spacing[3],
-                    }}>
+                  <div className="mb-6">
+                    <label className="block text-lg font-semibold text-white mb-3">
                       📍 Location Details
                     </label>
                     <input
@@ -228,68 +155,38 @@ const ReportPage = () => {
                       onChange={(e) => handleInputChange('location', e.target.value)}
                       placeholder="Enter specific location, landmark, or coordinates"
                       required
-                      style={{
-                        width: '100%',
-                        padding: theme.spacing[4],
-                        border: `1px solid ${theme.colors.border.secondary}`,
-                        borderRadius: theme.borderRadius.lg,
-                        background: theme.colors.background.card,
-                        color: theme.colors.text.primary,
-                        fontSize: theme.typography.fontSize.base,
-                        outline: 'none',
-                        transition: 'all 0.3s ease',
-                      }}
+                      className="w-full p-4 border border-white/10 rounded-lg bg-background-card text-white text-base outline-none transition-all duration-300 focus:border-primary"
                     />
                   </div>
 
                   {/* Severity Level */}
-                  <div style={{ marginBottom: theme.spacing[6] }}>
-                    <label style={{
-                      display: 'block',
-                      fontSize: theme.typography.fontSize.lg,
-                      fontWeight: theme.typography.fontWeight.semibold,
-                      color: theme.colors.text.primary,
-                      marginBottom: theme.spacing[3],
-                    }}>
+                  <div className="mb-6">
+                    <label className="block text-lg font-semibold text-white mb-3">
                       ⚡ Severity Level
                     </label>
-                    <div style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
-                      gap: theme.spacing[3],
-                    }}>
+                    <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-3">
                       {severityLevels.map((level) => (
                         <motion.button
                           key={level.id}
                           type="button"
                           whileHover={{ scale: 1.02 }}
                           onClick={() => handleInputChange('severity', level.id)}
+                          className={`p-3 rounded-lg text-white cursor-pointer transition-all duration-300 text-center ${formData.severity === level.id ? 'border-2' : 'border'
+                            } border-white/10`}
                           style={{
-                            padding: theme.spacing[3],
-                            border: formData.severity === level.id 
-                              ? `2px solid ${level.color}` 
-                              : `1px solid ${theme.colors.border.secondary}`,
-                            borderRadius: theme.borderRadius.lg,
-                            background: formData.severity === level.id 
-                              ? `${level.color}20` 
-                              : theme.colors.background.card,
-                            color: theme.colors.text.primary,
-                            cursor: 'pointer',
-                            transition: 'all 0.3s ease',
-                            textAlign: 'center',
+                            borderColor: formData.severity === level.id ? level.color : undefined,
+                            background: formData.severity === level.id ? `${level.color}20` : '#1e293b'
                           }}
                         >
-                          <div style={{
-                            fontWeight: theme.typography.fontWeight.semibold,
-                            color: formData.severity === level.id ? level.color : theme.colors.text.primary,
-                          }}>
+                          <div
+                            className="font-semibold"
+                            style={{
+                              color: formData.severity === level.id ? level.color : 'white'
+                            }}
+                          >
                             {level.label}
                           </div>
-                          <div style={{
-                            fontSize: theme.typography.fontSize.sm,
-                            color: theme.colors.text.secondary,
-                            marginTop: theme.spacing[1],
-                          }}>
+                          <div className="text-sm text-slate-300 mt-1">
                             {level.description}
                           </div>
                         </motion.button>
@@ -298,14 +195,8 @@ const ReportPage = () => {
                   </div>
 
                   {/* Description */}
-                  <div style={{ marginBottom: theme.spacing[6] }}>
-                    <label style={{
-                      display: 'block',
-                      fontSize: theme.typography.fontSize.lg,
-                      fontWeight: theme.typography.fontWeight.semibold,
-                      color: theme.colors.text.primary,
-                      marginBottom: theme.spacing[3],
-                    }}>
+                  <div className="mb-6">
+                    <label className="block text-lg font-semibold text-white mb-3">
                       📝 Detailed Description
                     </label>
                     <textarea
@@ -314,30 +205,13 @@ const ReportPage = () => {
                       placeholder="Provide detailed information about the issue..."
                       required
                       rows={4}
-                      style={{
-                        width: '100%',
-                        padding: theme.spacing[4],
-                        border: `1px solid ${theme.colors.border.secondary}`,
-                        borderRadius: theme.borderRadius.lg,
-                        background: theme.colors.background.card,
-                        color: theme.colors.text.primary,
-                        fontSize: theme.typography.fontSize.base,
-                        outline: 'none',
-                        resize: 'vertical',
-                        minHeight: '120px',
-                      }}
+                      className="w-full p-4 border border-white/10 rounded-lg bg-background-card text-white text-base outline-none resize-vertical min-h-30"
                     />
                   </div>
 
                   {/* Contact Info */}
-                  <div style={{ marginBottom: theme.spacing[6] }}>
-                    <label style={{
-                      display: 'block',
-                      fontSize: theme.typography.fontSize.lg,
-                      fontWeight: theme.typography.fontWeight.semibold,
-                      color: theme.colors.text.primary,
-                      marginBottom: theme.spacing[3],
-                    }}>
+                  <div className="mb-6">
+                    <label className="block text-lg font-semibold text-white mb-3">
                       📞 Contact Information (Optional)
                     </label>
                     <input
@@ -345,16 +219,7 @@ const ReportPage = () => {
                       value={formData.contact}
                       onChange={(e) => handleInputChange('contact', e.target.value)}
                       placeholder="Phone number or email for follow-up"
-                      style={{
-                        width: '100%',
-                        padding: theme.spacing[4],
-                        border: `1px solid ${theme.colors.border.secondary}`,
-                        borderRadius: theme.borderRadius.lg,
-                        background: theme.colors.background.card,
-                        color: theme.colors.text.primary,
-                        fontSize: theme.typography.fontSize.base,
-                        outline: 'none',
-                      }}
+                      className="w-full p-4 border border-white/10 rounded-lg bg-background-card text-white text-base outline-none"
                     />
                   </div>
 
@@ -364,22 +229,11 @@ const ReportPage = () => {
                     variant="primary"
                     size="lg"
                     disabled={isSubmitting || !formData.type || !formData.location || !formData.description}
-                    style={{
-                      width: '100%',
-                      fontSize: theme.typography.fontSize.lg,
-                      fontWeight: theme.typography.fontWeight.semibold,
-                    }}
+                    className="w-full text-lg font-semibold"
                   >
                     {isSubmitting ? (
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: theme.spacing[2] }}>
-                        <div style={{
-                          width: '20px',
-                          height: '20px',
-                          border: '2px solid transparent',
-                          borderTop: '2px solid currentColor',
-                          borderRadius: '50%',
-                          animation: 'spin 1s linear infinite',
-                        }} />
+                      <div className="flex items-center justify-center gap-2">
+                        <div className="w-5 h-5 border-2 border-transparent border-t-current rounded-full animate-spin" />
                         Submitting Report...
                       </div>
                     ) : (
@@ -392,39 +246,18 @@ const ReportPage = () => {
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                style={{ 
-                  textAlign: 'center',
-                  padding: theme.spacing[8],
-                }}
+                className="text-center p-8"
               >
-                <div style={{
-                  fontSize: '4rem',
-                  marginBottom: theme.spacing[4],
-                }}>
+                <div className="text-6xl mb-4">
                   ✅
                 </div>
-                <h2 style={{
-                  fontSize: theme.typography.fontSize['2xl'],
-                  fontWeight: theme.typography.fontWeight.bold,
-                  color: theme.colors.primary.main,
-                  marginBottom: theme.spacing[3],
-                }}>
+                <h2 className="text-2xl font-bold text-primary mb-3">
                   Report Submitted Successfully!
                 </h2>
-                <p style={{
-                  fontSize: theme.typography.fontSize.lg,
-                  color: theme.colors.text.secondary,
-                  marginBottom: theme.spacing[4],
-                }}>
+                <p className="text-lg text-slate-300 mb-4">
                   Thank you for making our roads safer. Your report has been forwarded to the relevant authorities.
                 </p>
-                <div style={{
-                  background: theme.colors.primary.gradient,
-                  padding: theme.spacing[4],
-                  borderRadius: theme.borderRadius.lg,
-                  color: '#ffffff',
-                  fontWeight: theme.typography.fontWeight.medium,
-                }}>
+                <div className="bg-linear-to-r from-primary via-primary-light to-tertiary p-4 rounded-lg text-white font-medium">
                   🆔 Report ID: SAFE-{Date.now().toString().slice(-6)}
                 </div>
               </motion.div>
@@ -432,15 +265,6 @@ const ReportPage = () => {
           </Card>
         </div>
       </LoadingAnimation>
-
-      <style>
-        {`
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-        `}
-      </style>
     </div>
   );
 };
