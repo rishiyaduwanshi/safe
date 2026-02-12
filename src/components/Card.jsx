@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
-import { theme } from '../styles/theme.js';
 
 const Card = ({
   children,
@@ -14,66 +13,23 @@ const Card = ({
   onClick,
   ...props
 }) => {
-  // Card variants
-  const variants = {
-    default: {
-      background: `linear-gradient(145deg, rgba(20, 20, 25, 0.95) 0%, rgba(25, 25, 35, 0.9) 100%)`,
-      boxShadow: `0 20px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)`,
-      border: '1px solid rgba(255, 255, 255, 0.1)',
-      backdropFilter: 'blur(20px)',
-    },
-    dark: {
-      background: `linear-gradient(145deg, rgba(15, 15, 20, 0.98) 0%, rgba(20, 20, 30, 0.95) 100%)`,
-      boxShadow: `0 25px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08)`,
-      border: '1px solid rgba(255, 255, 255, 0.08)',
-      backdropFilter: 'blur(25px)',
-    },
-    elevated: {
-      background: theme.colors.background.card,
-      boxShadow: theme.shadows.cardHover,
-      border: `1px solid ${theme.colors.primary.main}30`,
-      backdropFilter: 'blur(30px)',
-    },
-    outlined: {
-      background: theme.colors.background.primary,
-      border: `2px solid ${theme.colors.primary.main}50`,
-      boxShadow: theme.shadows.card,
-      backdropFilter: 'blur(15px)',
-    },
-    glass: {
-      ...theme.glassmorphism.light,
-    },
-    glow: {
-      background: `linear-gradient(145deg, rgba(20, 20, 25, 0.9) 0%, rgba(25, 25, 35, 0.85) 100%)`,
-      boxShadow: `0 0 40px rgba(106, 90, 224, 0.3), 0 20px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)`,
-      border: '1px solid rgba(106, 90, 224, 0.3)',
-      backdropFilter: 'blur(20px)',
-    },
+  // Card variant classes using Tailwind
+  const variantClasses = {
+    default: 'bg-gradient-to-br from-[rgba(20,20,25,0.95)] to-[rgba(25,25,35,0.9)] shadow-[0_20px_40px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.1)] border border-white/10 backdrop-blur-xl',
+    dark: 'bg-gradient-to-br from-[rgba(15,15,20,0.98)] to-[rgba(20,20,30,0.95)] shadow-[0_25px_50px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] border border-white/[0.08] backdrop-blur-[25px]',
+    elevated: 'bg-background-card shadow-[0_20px_25px_-5px_rgba(0,0,0,0.4),0_10px_10px_-5px_rgba(0,0,0,0.2)] border border-primary/20 backdrop-blur-[30px]',
+    outlined: 'bg-background-primary border-2 border-primary/30 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.4),0_2px_4px_-1px_rgba(0,0,0,0.3)] backdrop-blur-[15px]',
+    glass: 'bg-white/5 backdrop-blur-xl saturate-[180%] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.3)]',
+    glow: 'bg-gradient-to-br from-[rgba(20,20,25,0.9)] to-[rgba(25,25,35,0.85)] shadow-[0_0_40px_rgba(106,90,224,0.3),0_20px_40px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.1)] border border-[rgba(106,90,224,0.3)] backdrop-blur-xl',
   };
 
-  // Size variants
-  const sizes = {
-    sm: {
-      padding: theme.spacing[6],
-      borderRadius: theme.borderRadius['2xl'],
-    },
-    md: {
-      padding: theme.spacing[8],
-      borderRadius: theme.borderRadius['3xl'],
-    },
-    lg: {
-      padding: theme.spacing[10],
-      borderRadius: theme.borderRadius['3xl'],
-    },
-    xl: {
-      padding: theme.spacing[12],
-      borderRadius: theme.borderRadius['3xl'],
-    },
-    full: {
-      padding: theme.spacing[8],
-      borderRadius: theme.borderRadius['3xl'],
-      width: '100%',
-    },
+  // Size classes using Tailwind
+  const sizeClasses = {
+    sm: 'p-6 rounded-2xl',
+    md: 'p-8 rounded-3xl',
+    lg: 'p-10 rounded-3xl',
+    xl: 'p-12 rounded-3xl',
+    full: 'p-8 rounded-3xl w-full',
   };
 
   // Animation variants
@@ -89,8 +45,8 @@ const Card = ({
       scale: 1.03,
       y: -8,
       boxShadow: variant === 'glow'
-        ? `0 0 60px rgba(106, 90, 224, 0.4), 0 32px 64px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15)`
-        : `0 32px 64px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15)`,
+        ? '0 0 60px rgba(106, 90, 224, 0.4), 0 32px 64px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15)'
+        : '0 32px 64px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
       transition: { duration: 0.3, ease: 'easeOut' }
     } : {
       y: -2,
@@ -103,20 +59,6 @@ const Card = ({
     } : {},
   };
 
-  const cardStyles = {
-    borderRadius: sizes[size]?.borderRadius || theme.borderRadius.xl,
-    position: 'relative',
-    overflow: 'hidden',
-    cursor: clickable ? 'pointer' : 'default',
-    transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-    ...variants[glassmorphic ? 'glass' : variant],
-    ...(sizes[size] || sizes.md),
-    ...(gradient && {
-      background: `linear-gradient(135deg, ${theme.colors.accent} 0%, ${theme.colors.secondary} 100%)`,
-      color: theme.colors.neutral.white,
-    }),
-  };
-
   return (
     <motion.div
       variants={animationVariants}
@@ -124,26 +66,25 @@ const Card = ({
       animate="animate"
       whileHover="hover"
       whileTap="tap"
-      style={cardStyles}
-      className={clsx('card', className)}
+      className={clsx(
+        // Base styles
+        'relative overflow-hidden transition-all duration-300 ease-out',
+        // Cursor
+        clickable ? 'cursor-pointer' : 'cursor-default',
+        // Variant
+        glassmorphic ? variantClasses.glass : variantClasses[variant],
+        // Size
+        sizeClasses[size],
+        // Gradient override
+        gradient && 'bg-gradient-to-br from-tertiary to-secondary-light text-white',
+        // Custom classes
+        className
+      )}
       onClick={clickable ? onClick : undefined}
       {...props}
     >
       {loading && (
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: 'rgba(255, 255, 255, 0.8)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 10,
-          }}
-        >
+        <div className="absolute inset-0 bg-white/80 flex items-center justify-center z-10">
           <div className="loading-spinner">Loading...</div>
         </div>
       )}
