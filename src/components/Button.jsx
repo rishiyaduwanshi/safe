@@ -16,7 +16,7 @@ const Button = ({
   ...props
 }) => {
   const variantClasses = {
-    primary: 'bg-gradient-to-br from-primary via-primary-light to-tertiary text-white shadow-[0_8px_32px_rgba(99,102,241,0.3),0_0_0_1px_rgba(255,255,255,0.1)_inset] font-bold hover:shadow-[0_12px_40px_rgba(106,90,224,0.4),0_0_0_1px_rgba(255,255,255,0.2)_inset]',
+    primary: 'bg-gradient text-white font-bold rounded-xl ',
     secondary: 'bg-background-card text-white border-2 border-primary backdrop-blur-xl shadow-[0_8px_24px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.1)] font-semibold',
     outline: 'bg-transparent text-primary border-2 border-primary shadow-[0_0_20px_rgba(99,102,241,0.2)] font-semibold hover:bg-primary/10',
     glass: 'bg-white/5 text-white border border-white/10 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.1)] font-semibold',

@@ -110,7 +110,7 @@ const DashboardPage = () => {
 
   return (
     <LoadingAnimation>
-      <div className="dashboard-page">
+      <div className="dashboard-page pb-8">
         <SpotlightEffect />
         <motion.section
           variants={containerVariants}

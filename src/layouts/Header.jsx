@@ -112,7 +112,7 @@ const Header = () => {
             {isAuthenticated ? (
               <>
                 {/* User Info */}
-                <div className="flex items-center gap-2 px-3 py-2 bg-white/5 rounded-lg border border-white/8 text-white/90 text-sm">
+                <div className="flex items-center gap-2 px-3 py-3 bg-white/5 rounded-lg border border-white/8 text-white/90 text-sm">
                   <User size={16} />
                   <span>{user?.name || user?.email?.split('@')[0] || 'User'}</span>
                 </div>
@@ -121,7 +121,7 @@ const Header = () => {
                 <button
                   onClick={handleLogout}
                   disabled={isLoading}
-                  className={`flex items-center gap-1.5 px-3 py-2 bg-red-600/10 border border-red-600/30 text-red-600/90 rounded-lg text-sm font-medium transition-all duration-200 ${isLoading
+                  className={`flex items-center gap-1.5 px-3 py-3 bg-red-600/10 border border-red-600/30 text-red-600/90 rounded-lg text-sm font-medium transition-all duration-200 ${isLoading
                     ? 'cursor-not-allowed opacity-70'
                     : 'hover:bg-red-600/20 hover:text-red-600'
                     }`}
@@ -135,7 +135,7 @@ const Header = () => {
                 {/* Login Button */}
                 <Link
                   to={ROUTES.LOGIN}
-                  className="flex items-center gap-1.5 px-3 lg:px-4 py-2 lg:py-2.5 bg-white/8 text-white/90 no-underline text-xs lg:text-sm font-medium rounded-lg border border-white/12 transition-all duration-200 whitespace-nowrap hover:bg-white/12 hover:text-white"
+                  className="flex items-center gap-1.5 px-3 lg:px-4 py-3 lg:py-2.5 bg-white/8 text-white/90 no-underline text-xs lg:text-sm font-medium rounded-lg border border-white/12 transition-all duration-200 whitespace-nowrap hover:bg-white/12 hover:text-white"
                 >
                   <LogIn size={14} />
                   Sign In
@@ -144,7 +144,7 @@ const Header = () => {
                 {/* Register Button */}
                 <Link
                   to={ROUTES.REGISTER}
-                  className="flex items-center gap-1.5 px-3 lg:px-4 py-2 lg:py-2.5 bg-linear-to-br from-indigo-500 to-purple-500 text-white no-underline text-xs lg:text-sm font-semibold rounded-lg transition-all duration-200 shadow-[0_4px_14px_0_rgba(99,102,241,0.3)] whitespace-nowrap hover:-translate-y-0.5 hover:shadow-[0_6px_20px_0_rgba(99,102,241,0.4)]"
+                  className="flex items-center gap-1.5 px-3 lg:px-4 py-3 lg:py-2.5 bg-linear-to-br from-indigo-500 to-purple-500 text-white no-underline text-xs lg:text-sm font-semibold rounded-lg transition-all duration-200  whitespace-nowrap hover:-translate-y-0.5"
                 >
                   <UserPlus size={14} />
                   Sign Up

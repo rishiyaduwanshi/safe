@@ -117,14 +117,14 @@ const Home = () => {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="px-6 py-3 md:px-8 md:py-4 bg-linear-to-r from-primary via-primary-light to-tertiary text-white border-none rounded-xl text-sm md:text-base font-semibold cursor-pointer flex items-center justify-center gap-2 shadow-[0_8px_24px_rgba(99,102,241,0.4)] min-w-35 md:min-w-45 whitespace-nowrap"
+                    className="px-6 py-3 md:px-8 md:py-4 rounded-xl text-sm md:text-base font-semibold cursor-pointer flex items-center justify-center gap-2 bg-gradient min-w-35 md:min-w-45 whitespace-nowrap "
                   >
                     <Zap size={18} />
                     Get Started
                   </motion.button>
                 </Dialog.Trigger>
                 <Dialog.Portal>
-                  <Dialog.Overlay className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50" />
+                  <Dialog.Overlay className="fixed inset-0  bg-black/60 backdrop-blur-sm z-50" />
                   <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background-primary border border-white/10 rounded-2xl p-8 max-w-md w-[90%] z-51 shadow-[0_25px_50px_rgba(0,0,0,0.6)]">
                     <Dialog.Title className="text-2xl font-bold text-white mb-4">
                       Join S.A.F.E India
@@ -250,7 +250,7 @@ const Home = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 md:px-8 md:py-4 bg-linear-to-r from-primary via-primary-light to-tertiary text-white border-none rounded-xl text-sm md:text-base font-semibold cursor-pointer flex items-center justify-center gap-2 shadow-[0_8px_24px_rgba(99,102,241,0.4)] min-w-35 md:min-w-45 whitespace-nowrap"
+                className="px-6 py-3 md:px-8 md:py-4 text-white border-none rounded-xl text-sm md:text-base font-semibold flex items-center justify-center gap-2 bg-gradient min-w-35 md:min-w-45 whitespace-nowrap"
               >
                 <Users size={18} />
                 Join Community
