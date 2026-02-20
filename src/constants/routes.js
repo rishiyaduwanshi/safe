@@ -1,3 +1,10 @@
+export const MOD_ROUTES = {
+  LOGIN: '/mod/login',
+  DASHBOARD: '/mod/dashboard',
+  REPORTS: '/mod/reports',
+  REPORTS_QUEUE: '/mod/reports/queue',
+};
+
 export const ROUTES = {
   HOME: '/',
   DASHBOARD: '/dashboard',

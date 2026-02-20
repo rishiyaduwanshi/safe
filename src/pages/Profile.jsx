@@ -208,7 +208,7 @@ const ProfilePage = () => {
               <button
                 key={tab.id} onClick={() => setActiveTab(tab.id)}
                 className={`flex-1 min-w-30 flex items-center justify-center gap-2 p-3 border-none rounded-lg cursor-pointer transition-all duration-300 text-base ${activeTab === tab.id
-                  ? 'bg-linear-to-r from-primary via-primary-light to-tertiary text-white font-bold'
+                  ? 'bg-gradient text-white font-bold'
                   : 'bg-transparent text-slate-300 font-medium'
                   }`}
               >
