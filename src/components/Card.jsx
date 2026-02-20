@@ -13,7 +13,6 @@ const Card = ({
   onClick,
   ...props
 }) => {
-  // Card variant classes using Tailwind
   const variantClasses = {
     default: 'bg-gradient-to-br from-[rgba(20,20,25,0.95)] to-[rgba(25,25,35,0.9)] shadow-[0_20px_40px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.1)] border border-white/10 backdrop-blur-xl',
     dark: 'bg-gradient-to-br from-[rgba(15,15,20,0.98)] to-[rgba(20,20,30,0.95)] shadow-[0_25px_50px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] border border-white/[0.08] backdrop-blur-[25px]',
@@ -23,7 +22,6 @@ const Card = ({
     glow: 'bg-gradient-to-br from-[rgba(20,20,25,0.9)] to-[rgba(25,25,35,0.85)] shadow-[0_0_40px_rgba(106,90,224,0.3),0_20px_40px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.1)] border border-[rgba(106,90,224,0.3)] backdrop-blur-xl',
   };
 
-  // Size classes using Tailwind
   const sizeClasses = {
     sm: 'p-6 rounded-2xl',
     md: 'p-8 rounded-3xl',
@@ -32,7 +30,6 @@ const Card = ({
     full: 'p-8 rounded-3xl w-full',
   };
 
-  // Animation variants
   const animationVariants = {
     initial: { opacity: 0, y: 30, scale: 0.92 },
     animate: {
@@ -67,17 +64,11 @@ const Card = ({
       whileHover="hover"
       whileTap="tap"
       className={clsx(
-        // Base styles
         'relative overflow-hidden transition-all duration-300 ease-out',
-        // Cursor
         clickable ? 'cursor-pointer' : 'cursor-default',
-        // Variant
         glassmorphic ? variantClasses.glass : variantClasses[variant],
-        // Size
         sizeClasses[size],
-        // Gradient override
         gradient && 'bg-linear-to-br from-tertiary to-secondary-light text-white',
-        // Custom classes
         className
       )}
       onClick={clickable ? onClick : undefined}

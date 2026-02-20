@@ -6,7 +6,6 @@ const ProtectedRoute = ({ children, requireAuth = true }) => {
     const { isAuthenticated, isLoading } = useAuth();
     const location = useLocation();
 
-    // Show loading while checking auth status
     if (isLoading) {
         return (
             <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
@@ -18,12 +17,10 @@ const ProtectedRoute = ({ children, requireAuth = true }) => {
         );
     }
 
-    // If route requires authentication but user is not authenticated
     if (requireAuth && !isAuthenticated) {
         return <Navigate to={ROUTES.LOGIN} state={{ from: location }} replace />;
     }
 
-    // If route is for non-authenticated users (login/signup) but user is authenticated
     if (!requireAuth && isAuthenticated) {
         const from = location.state?.from?.pathname || ROUTES.DASHBOARD;
         return <Navigate to={from} replace />;

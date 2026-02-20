@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { AlertTriangle, CheckCircle, FileText, Info, MapPin, Navigation, Send } from 'lucide-react';
+import { AlertTriangle, CheckCircle, FileText, Info, MapPin, Navigation, RefreshCw, Send } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Card, LoadingAnimation } from '../components/index.js';
@@ -14,7 +14,6 @@ const ReportPage = () => {
   const [reportResult, setReportResult] = useState(null);
   const [apiError, setApiError] = useState(null);
 
-  // React Hook Form
   const {
     register,
     handleSubmit: handleFormSubmit,
@@ -33,7 +32,6 @@ const ReportPage = () => {
     }
   });
 
-  // Location Hook
   const {
     location,
     isDetecting,
@@ -42,26 +40,29 @@ const ReportPage = () => {
     clearError: clearLocationError
   } = useLocation();
 
-  // Watch form values
   const reportText = watch('reportText');
 
-  // Auto-detect location on page load
+  const syncLocationToForm = (loc) => {
+    if (!loc) return;
+    setValue('location.lat', loc.lat);
+    setValue('location.lng', loc.lng);
+    setValue('location.address', loc.address);
+  };
+
   useEffect(() => {
     const autoDetectLocation = async () => {
       clearLocationError();
-      const detectedLocation = await detectLocationHook();
-
-      if (detectedLocation) {
-        setValue('location.lat', detectedLocation.lat);
-        setValue('location.lng', detectedLocation.lng);
-        setValue('location.address', detectedLocation.address);
-      }
+      syncLocationToForm(await detectLocationHook());
     };
-
     autoDetectLocation();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Form submission
+  const handleRedetect = async () => {
+    clearLocationError();
+    syncLocationToForm(await detectLocationHook(true));
+  };
+
   const onSubmit = async (formData) => {
     setIsSubmitting(true);
     setApiError(null);
@@ -87,8 +88,6 @@ const ReportPage = () => {
       if (data.success) {
         setReportResult(data.data.report);
         setSubmitted(true);
-
-        // Reset form after 5 seconds
         setTimeout(() => {
           setSubmitted(false);
           setReportResult(null);
@@ -161,16 +160,30 @@ const ReportPage = () => {
 
                   {/* Location Section */}
                   <div className="mb-6 p-4 bg-background-secondary rounded-lg border border-white/10">
-                    <div className="flex items-center gap-2 mb-4">
+                    <div className="flex items-center gap-2 mb-4 flex-wrap">
                       <MapPin className="w-5 h-5 text-primary" />
                       <label className="block text-lg font-semibold text-white">
                         Location Information
                       </label>
+
+                      {/* Detecting spinner */}
                       {isDetecting && (
-                        <div className="flex items-center gap-2 text-sm text-slate-400">
+                        <span className="flex items-center gap-1.5 text-sm text-slate-400">
                           <Navigation className="w-4 h-4 animate-pulse" />
                           Detecting...
-                        </div>
+                        </span>
+                      )}
+
+                      {/* Re-detect button */}
+                      {!isDetecting && (
+                        <button
+                          type="button"
+                          onClick={handleRedetect}
+                          className="ml-auto flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium bg-white/5 border border-white/10 text-slate-300 hover:text-white hover:border-primary/50 transition-all duration-200"
+                        >
+                          <RefreshCw className="w-3.5 h-3.5" />
+                          Re-detect
+                        </button>
                       )}
                     </div>
 

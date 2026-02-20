@@ -31,26 +31,22 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Public navigation items (always visible)
   const publicNavigation = [
     { name: 'Home', path: '/', icon: Home },
     { name: 'About', path: ROUTES.ABOUT, icon: Info },
   ];
 
-  // Protected navigation items (only visible when authenticated) 
   const protectedNavigation = [
     { name: 'Dashboard', path: ROUTES.DASHBOARD, icon: TrendingUp },
     { name: 'Report', path: ROUTES.REPORT, icon: FileText },
     { name: 'Profile', path: ROUTES.PROFILE, icon: User },
   ];
 
-  // Auth navigation items (only visible when not authenticated)
   const authNavigation = [
     { name: 'Sign In', path: ROUTES.LOGIN, icon: LogIn },
     { name: 'Sign Up', path: ROUTES.REGISTER, icon: UserPlus },
   ];
 
-  // Get navigation items based on auth state
   const getNavigationItems = () => {
     const items = [...publicNavigation];
 
@@ -65,7 +61,6 @@ const Header = () => {
 
   const navigation = getNavigationItems();
 
-  // Handle logout
   const handleLogout = async () => {
     try {
       await signout();

@@ -1,10 +1,8 @@
 import { createContext, useContext, useEffect, useReducer } from 'react';
 import { authApi } from '../constants/services.js';
 
-// Auth context
 const AuthContext = createContext();
 
-// Auth action types
 const AUTH_ACTIONS = {
     SET_LOADING: 'SET_LOADING',
     LOGIN_SUCCESS: 'LOGIN_SUCCESS',
@@ -13,7 +11,6 @@ const AUTH_ACTIONS = {
     CLEAR_ERROR: 'CLEAR_ERROR'
 };
 
-// Initial auth state
 const initialState = {
     user: null,
     isAuthenticated: false,
@@ -21,7 +18,6 @@ const initialState = {
     error: null
 };
 
-// Auth reducer
 function authReducer(state, action) {
     switch (action.type) {
         case AUTH_ACTIONS.SET_LOADING:
@@ -67,11 +63,9 @@ function authReducer(state, action) {
     }
 }
 
-// Auth provider component
 export function AuthProvider({ children }) {
     const [state, dispatch] = useReducer(authReducer, initialState);
 
-    // On page load - read userInfo cookie directly (no network call needed)
     useEffect(() => {
         const initializeAuth = async () => {
             try {
@@ -97,7 +91,6 @@ export function AuthProvider({ children }) {
         initializeAuth();
     }, []);
 
-    // Sign up function
     const signup = async (credentials) => {
         dispatch({ type: AUTH_ACTIONS.SET_LOADING, payload: true });
         dispatch({ type: AUTH_ACTIONS.CLEAR_ERROR });
@@ -122,7 +115,6 @@ export function AuthProvider({ children }) {
         }
     };
 
-    // Sign in function
     const signin = async (credentials) => {
         dispatch({ type: AUTH_ACTIONS.SET_LOADING, payload: true });
         dispatch({ type: AUTH_ACTIONS.CLEAR_ERROR });
@@ -147,7 +139,6 @@ export function AuthProvider({ children }) {
         }
     };
 
-    // Sign out function
     const signout = async () => {
         dispatch({ type: AUTH_ACTIONS.SET_LOADING, payload: true });
 
@@ -160,12 +151,10 @@ export function AuthProvider({ children }) {
         }
     };
 
-    // Clear error function
     const clearError = () => {
         dispatch({ type: AUTH_ACTIONS.CLEAR_ERROR });
     };
 
-    // Context value
     const value = {
         ...state,
         signup,
@@ -181,7 +170,6 @@ export function AuthProvider({ children }) {
     );
 }
 
-// Custom hook to use auth context
 export function useAuth() {
     const context = useContext(AuthContext);
 

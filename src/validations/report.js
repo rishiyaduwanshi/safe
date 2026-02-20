@@ -1,8 +1,3 @@
-/**
- * Report form validation schema
- * Simple validation without external dependencies
- */
-
 export const reportValidation = {
     reportText: {
         required: 'Please describe the issue',
@@ -44,11 +39,6 @@ export const reportValidation = {
     }
 };
 
-/**
- * Format report data for API submission
- * @param {Object} formData 
- * @returns {Object}
- */
 export const formatReportData = (formData) => {
     return {
         reportText: formData.reportText.trim(),

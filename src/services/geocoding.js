@@ -1,26 +1,13 @@
-/**
- * Geocoding Service using OpenStreetMap Nominatim API
- * Docs: https://nominatim.org/release-docs/latest/api/Reverse/
- * Free, Open Source, No API Key Required, CORS Enabled
- */
-
 const NOMINATIM_API_BASE = 'https://nominatim.openstreetmap.org';
 
-/**
- * Get address from coordinates using reverse geocoding
- * @param {number} latitude 
- * @param {number} longitude 
- * @returns {Promise<{success: boolean, address: string, data?: object, error?: string}>}
- */
 export const reverseGeocode = async (latitude, longitude) => {
     try {
-        // Nominatim requires User-Agent header
         const url = `${NOMINATIM_API_BASE}/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`;
 
         const response = await fetch(url, {
             headers: {
                 'Accept': 'application/json',
-                'User-Agent': 'SAFE-India-App/1.0' // Required by Nominatim
+                'User-Agent': 'SAFE-India-App/1.0'
             }
         });
 
@@ -34,10 +21,7 @@ export const reverseGeocode = async (latitude, longitude) => {
             throw new Error(data.error || 'No results found');
         }
 
-        // Extract address components from Nominatim response
         const address = data.address || {};
-
-        // Build formatted address
         const addressParts = [
             address.house_number,
             address.road || address.street,
@@ -78,11 +62,6 @@ export const reverseGeocode = async (latitude, longitude) => {
     }
 };
 
-/**
- * Get current position coordinates
- * @param {PositionOptions} options 
- * @returns {Promise<{success: boolean, coords?: {latitude: number, longitude: number}, error?: string}>}
- */
 export const getCurrentPosition = (options = {}) => {
     return new Promise((resolve) => {
         if (!navigator.geolocation) {
@@ -134,11 +113,6 @@ export const getCurrentPosition = (options = {}) => {
     });
 };
 
-/**
- * Get full location details (coordinates + address)
- * @param {PositionOptions} options 
- * @returns {Promise<{success: boolean, location?: {lat: number, lng: number, address: string, data?: object}, error?: string}>}
- */
 export const getFullLocation = async (options = {}) => {
     const positionResult = await getCurrentPosition(options);
 

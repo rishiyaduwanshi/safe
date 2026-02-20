@@ -7,7 +7,6 @@ const ProfilePage = () => {
   const [safetyScore, setSafetyScore] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Mock user data
   const userData = {
     name: "Saksham Agarwal",
     id: "DL-1420110012345",

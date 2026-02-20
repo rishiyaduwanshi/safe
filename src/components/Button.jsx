@@ -15,7 +15,6 @@ const Button = ({
   type = 'button',
   ...props
 }) => {
-  // Variant classes using Tailwind
   const variantClasses = {
     primary: 'bg-gradient-to-br from-primary via-primary-light to-tertiary text-white shadow-[0_8px_32px_rgba(99,102,241,0.3),0_0_0_1px_rgba(255,255,255,0.1)_inset] font-bold hover:shadow-[0_12px_40px_rgba(106,90,224,0.4),0_0_0_1px_rgba(255,255,255,0.2)_inset]',
     secondary: 'bg-background-card text-white border-2 border-primary backdrop-blur-xl shadow-[0_8px_24px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.1)] font-semibold',
@@ -30,7 +29,6 @@ const Button = ({
     ghost: 'bg-transparent text-slate-400 border-none shadow-none font-medium hover:text-white',
   };
 
-  // Size classes using Tailwind
   const sizeClasses = {
     xs: 'px-4 py-2 text-sm min-h-[32px] rounded-lg',
     sm: 'px-6 py-3 text-base min-h-[40px] rounded-xl',
@@ -39,7 +37,6 @@ const Button = ({
     xl: 'px-16 py-6 text-2xl min-h-[64px] rounded-3xl',
   };
 
-  // Animation variants
   const animationVariants = {
     initial: { scale: 1 },
     hover: {
@@ -69,17 +66,12 @@ const Button = ({
       whileHover={!disabled && !loading ? "hover" : undefined}
       whileTap={!disabled && !loading ? "tap" : undefined}
       className={clsx(
-        // Base styles
         'inline-flex items-center justify-center gap-3 relative overflow-hidden outline-none',
         'transition-all duration-300 ease-out tracking-tight select-none',
-        // Variant and size
         variantClasses[variant],
         sizeClasses[size],
-        // Full width
         fullWidth && 'w-full',
-        // Disabled state
         disabled && 'opacity-50 cursor-not-allowed pointer-events-none',
-        // Custom classes
         className
       )}
       onClick={handleClick}

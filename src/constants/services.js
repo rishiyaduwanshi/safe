@@ -1,6 +1,5 @@
 import { API_CONFIG, API_ENDPOINTS } from './config.js';
 
-// Base API class for making HTTP requests
 class ApiService {
     constructor() {
         this.baseURL = API_CONFIG.BASE_URL;
@@ -15,7 +14,7 @@ class ApiService {
                 'Content-Type': 'application/json',
                 ...options.headers,
             },
-            credentials: 'include', // Cookie-based authentication
+            credentials: 'include',
             ...options,
         };
 
@@ -71,22 +70,17 @@ class ApiService {
     }
 }
 
-// Create API service instance
 const apiService = new ApiService();
 
-// Authentication API functions
 export const authApi = {
-    // Sign up / Register
     signup: async (credentials) => {
         return apiService.post(API_ENDPOINTS.REGISTER, credentials);
     },
 
-    // Sign in / Login
     signin: async (credentials) => {
         return apiService.post(API_ENDPOINTS.LOGIN, credentials);
     },
 
-    // Sign out / Logout - backend clears the cookie
     signout: async () => {
         try {
             await apiService.post(API_ENDPOINTS.LOGOUT);
@@ -95,7 +89,6 @@ export const authApi = {
         }
     },
 
-    // Verify auth by calling /me with accessToken cookie
     verifyAuth: async () => {
         try {
             const response = await apiService.get(API_ENDPOINTS.ME);
@@ -103,12 +96,10 @@ export const authApi = {
                 return response.data.user;
             }
             return null;
-        } catch (error) {
-            // 401 = accessToken expired or missing
+        } catch {
             return null;
         }
     },
 };
 
-// Export the base API service for other modules
 export default apiService;
