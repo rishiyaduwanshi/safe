@@ -17,12 +17,11 @@ const SignUp = () => {
     }, [isAuthenticated, navigate]);
 
     const onSubmit = async (data) => {
-        const { confirmPassword, ...signupData } = data;
-        if (signupData.name?.trim()) {
-            signupData.name = signupData.name.trim();
-        } else {
-            delete signupData.name;
-        }
+        const { confirmPassword, firstName, lastName, ...rest } = data;
+        const signupData = {
+            ...rest,
+            name: `${firstName.trim()} ${lastName.trim()}`,
+        };
         await signup(signupData);
     };
 
@@ -45,19 +44,46 @@ const SignUp = () => {
                             </div>
                         )}
 
-                        {/* Name */}
-                        <div>
-                            <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
-                                Name <span className="text-gray-500">(optional)</span>
-                            </label>
-                            <input
-                                id="name"
-                                type="text"
-                                {...register('name')}
-                                className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition"
-                                placeholder="Your name"
-                                disabled={isLoading}
-                            />
+                        {/* First Name + Last Name */}
+                        <div className="grid grid-cols-2 gap-3">
+                            <div>
+                                <label htmlFor="firstName" className="block text-sm font-medium text-gray-300 mb-2">
+                                    First Name <span className="text-red-400">*</span>
+                                </label>
+                                <input
+                                    id="firstName"
+                                    type="text"
+                                    {...register('firstName', {
+                                        required: 'First name is required',
+                                        minLength: { value: 2, message: 'Too short' },
+                                    })}
+                                    className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition"
+                                    placeholder="Rahul"
+                                    disabled={isLoading}
+                                />
+                                {errors.firstName && (
+                                    <p className="text-red-400 text-sm mt-1">{errors.firstName.message}</p>
+                                )}
+                            </div>
+                            <div>
+                                <label htmlFor="lastName" className="block text-sm font-medium text-gray-300 mb-2">
+                                    Last Name <span className="text-red-400">*</span>
+                                </label>
+                                <input
+                                    id="lastName"
+                                    type="text"
+                                    {...register('lastName', {
+                                        required: 'Last name is required',
+                                        minLength: { value: 2, message: 'Too short' },
+                                    })}
+                                    className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition"
+                                    placeholder="Sharma"
+                                    disabled={isLoading}
+                                />
+                                {errors.lastName && (
+                                    <p className="text-red-400 text-sm mt-1">{errors.lastName.message}</p>
+                                )}
+                            </div>
                         </div>
 
                         {/* Email */}

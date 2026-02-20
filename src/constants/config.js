@@ -13,5 +13,8 @@ export const API_ENDPOINTS = {
   SUBMIT_REPORT: '/reports',
   USER_REPORTS: '/reports/me',
   REPORT_DETAILS: '/reports/:id',
+  LICENSE_LOOKUP: '/license/lookup',
+  PROFILE_ME: '/profile/me',
+  PROFILE_SAVE: '/profile/save',
 };
 

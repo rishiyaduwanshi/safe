@@ -110,6 +110,25 @@ export const reportsApi = {
     getReportById: async (id) => {
         return apiService.get(API_ENDPOINTS.REPORT_DETAILS.replace(':id', id));
     },
+
+    submitReport: async (reportData) => {
+        return apiService.post(API_ENDPOINTS.SUBMIT_REPORT, reportData);
+    },
+};
+
+export const licenseApi = {
+    lookup: async ({ dlNumber }) => {
+        return apiService.post(API_ENDPOINTS.LICENSE_LOOKUP, { dlNumber });
+    },
+};
+
+export const profileApi = {
+    getMyProfile: async () => {
+        return apiService.get(API_ENDPOINTS.PROFILE_ME);
+    },
+    save: async (profileData) => {
+        return apiService.post(API_ENDPOINTS.PROFILE_SAVE, profileData);
+    },
 };
 
 export default apiService;

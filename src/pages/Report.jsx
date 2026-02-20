@@ -1,18 +1,18 @@
 import { motion } from 'framer-motion';
 import { AlertTriangle, CheckCircle, FileText, Info, MapPin, Navigation, RefreshCw, Send } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
 import { Button, Card, LoadingAnimation } from '../components/index.js';
-import { API_CONFIG } from '../constants/config.js';
 import { flatCategory } from '../data/category.ts';
 import { useLocation } from '../hooks/useLocation.js';
+import { reportsApi } from '../constants/services.js';
 import { formatReportData, reportValidation } from '../validations/report.js';
+import { ROUTES } from '../constants/routes.js';
 
 const ReportPage = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [reportResult, setReportResult] = useState(null);
-  const [apiError, setApiError] = useState(null);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -24,16 +24,11 @@ const ReportPage = () => {
   } = useForm({
     defaultValues: {
       reportText: '',
-      location: {
-        lat: '',
-        lng: '',
-        address: ''
-      }
+      location: { lat: '', lng: '', address: '' }
     }
   });
 
   const {
-    location,
     isDetecting,
     error: locationError,
     detectLocation: detectLocationHook,
@@ -58,48 +53,34 @@ const ReportPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // ─── Report submission mutation ──────────────────────────────────────────
+  const submitMutation = useMutation({
+    mutationFn: (reportData) => reportsApi.submitReport(reportData),
+    onSuccess: () => {
+      // Show success state for 5 seconds then reset
+      setTimeout(() => {
+        submitMutation.reset();
+        reset();
+      }, 5000);
+    },
+  });
+
   const handleRedetect = async () => {
     clearLocationError();
     syncLocationToForm(await detectLocationHook(true));
   };
 
-  const onSubmit = async (formData) => {
-    setIsSubmitting(true);
-    setApiError(null);
-
-    try {
-      const reportData = formatReportData(formData);
-
-      const response = await fetch(`${API_CONFIG.BASE_URL}/reports`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(reportData)
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to submit report');
-      }
-
-      if (data.success) {
-        setReportResult(data.data.report);
-        setSubmitted(true);
-        setTimeout(() => {
-          setSubmitted(false);
-          setReportResult(null);
-          reset();
-        }, 5000);
-      }
-    } catch (err) {
-      setApiError(err.message);
-    } finally {
-      setIsSubmitting(false);
-    }
+  const onSubmit = (formData) => {
+    submitMutation.mutate(formatReportData(formData));
   };
+
+  // Derived state from mutation
+  const isSubmitting = submitMutation.isPending;
+  const submitted = submitMutation.isSuccess;
+  const reportResult = submitMutation.data?.data?.report ?? null;
+  const apiError = submitMutation.error?.message ?? null;
+  // 403 = profile not set up yet
+  const needsProfile = submitMutation.error?.statusCode === 403;
 
   const getCategoryInfo = (categoryKey) => {
     return flatCategory.find(cat => cat.key === categoryKey);
@@ -221,17 +202,31 @@ const ReportPage = () => {
                   </div>
 
                   {/* Error Display */}
-                  {apiError && (
+                  {(apiError || needsProfile) && (
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
+                      className="mb-6 p-4 rounded-lg border"
+                      style={{
+                        background: needsProfile ? '#F59E0B10' : '#EF444410',
+                        borderColor: needsProfile ? '#F59E0B40' : '#EF444440',
+                      }}
                     >
                       <div className="flex items-start gap-3">
-                        <AlertTriangle className="w-5 h-5 text-red-400" />
+                        <AlertTriangle className="w-5 h-5 mt-0.5" style={{ color: needsProfile ? '#F59E0B' : '#EF4444' }} />
                         <div>
-                          <h3 className="text-white font-semibold mb-1">Error</h3>
-                          <p className="text-sm text-red-300">{apiError}</p>
+                          <h3 className="text-white font-semibold mb-1">{needsProfile ? 'Profile Setup Required' : 'Error'}</h3>
+                          <p className="text-sm text-slate-300 mb-2">{apiError}</p>
+                          {needsProfile && (
+                            <button
+                              type="button"
+                              onClick={() => navigate(ROUTES.PROFILE)}
+                              className="text-sm font-semibold underline"
+                              style={{ color: '#F59E0B' }}
+                            >
+                              Go to Profile → verify your Driving License
+                            </button>
+                          )}
                         </div>
                       </div>
                     </motion.div>

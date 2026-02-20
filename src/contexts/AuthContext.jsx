@@ -73,7 +73,7 @@ export function AuthProvider({ children }) {
                 if (user) {
                     dispatch({ type: AUTH_ACTIONS.LOGIN_SUCCESS, payload: { user } });
                 } else {
-                    dispatch({ type: AUTH_ACTIONS.SET_LOADING, payload: false });
+                    dispatch({ type: AUTH_ACTIONS.LOGOUT });
                 }
             } catch {
                 dispatch({ type: AUTH_ACTIONS.SET_LOADING, payload: false });
