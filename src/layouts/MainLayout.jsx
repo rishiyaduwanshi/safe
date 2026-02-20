@@ -10,8 +10,8 @@ const MainLayout = () => {
       <BackgroundPattern />
 
       <Header />
-      <main className='flex-1 flex flex-col relative z-[2]'>
-        <div className='flex-1 pt-[70px]'>
+      <main className='flex-1 flex flex-col relative z-2'>
+        <div className='flex-1 pt-17.5'>
           <Outlet />
         </div>
       </main>

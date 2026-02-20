@@ -47,10 +47,11 @@ const SignUp = () => {
 
                         {/* Name */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-2">
+                            <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
                                 Name <span className="text-gray-500">(optional)</span>
                             </label>
                             <input
+                                id="name"
                                 type="text"
                                 {...register('name')}
                                 className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition"
@@ -61,10 +62,11 @@ const SignUp = () => {
 
                         {/* Email */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-2">
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
                                 Email
                             </label>
                             <input
+                                id="email"
                                 type="email"
                                 {...register('email', {
                                     required: 'Email is required',
@@ -84,11 +86,12 @@ const SignUp = () => {
 
                         {/* Password */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-2">
+                            <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
                                 Password
                             </label>
                             <div className="relative">
                                 <input
+                                    id="password"
                                     type={showPassword ? 'text' : 'password'}
                                     {...register('password', {
                                         required: 'Password is required',
@@ -117,10 +120,11 @@ const SignUp = () => {
 
                         {/* Confirm Password */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-2">
+                            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300 mb-2">
                                 Confirm Password
                             </label>
                             <input
+                                id="confirmPassword"
                                 type="password"
                                 {...register('confirmPassword', {
                                     required: 'Please confirm your password',
@@ -139,7 +143,7 @@ const SignUp = () => {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-semibold py-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full bg-linear-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-semibold py-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {isLoading ? (
                                 <>

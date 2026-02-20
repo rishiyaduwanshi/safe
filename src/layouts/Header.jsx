@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -78,8 +78,8 @@ const Header = () => {
   return (
     <motion.header
       className={`fixed top-0 left-0 right-0 z-1000 h-17.5 transition-all duration-[400 ease-in-out ${scrolled
-          ? 'bg-[rgba(10,10,15,0.98)] backdrop-blur-[32px] border-b border-white1/2] shadow-[0_8px_32px_rgba(0,0,0,0.3)]'
-          : 'bg-[rgba(10,10,15,0.85)] backdrop-blur-lg border-b border-white/5'
+        ? 'bg-[rgba(10,10,15,0.98)] backdrop-blur-[32px] border-b border-white1/2] shadow-[0_8px_32px_rgba(0,0,0,0.3)]'
+        : 'bg-[rgba(10,10,15,0.85)] backdrop-blur-lg border-b border-white/5'
         }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -101,8 +101,8 @@ const Header = () => {
                 key={item.path}
                 to={item.path}
                 className={`no-underline text-sm font-medium transition-all duration-200 px-3 py-2 rounded-lg relative ${location.pathname === item.path
-                    ? 'text-white bg-white/12 border border-white/16'
-                    : 'text-white/70 bg-transparent border border-transparent hover:text-white hover:bg-white/8'
+                  ? 'text-white bg-white/12 border border-white/16'
+                  : 'text-white/70 bg-transparent border border-transparent hover:text-white hover:bg-white/8'
                   }`}
               >
                 {item.name}
@@ -125,8 +125,8 @@ const Header = () => {
                   onClick={handleLogout}
                   disabled={isLoading}
                   className={`flex items-center gap-1.5 px-3 py-2 bg-red-600/10 border border-red-600/30 text-red-600/90 rounded-lg text-sm font-medium transition-all duration-200 ${isLoading
-                      ? 'cursor-not-allowed opacity-70'
-                      : 'hover:bg-red-600/20 hover:text-red-600'
+                    ? 'cursor-not-allowed opacity-70'
+                    : 'hover:bg-red-600/20 hover:text-red-600'
                     }`}
                 >
                   <LogOut size={14} />
@@ -183,8 +183,8 @@ const Header = () => {
                   key={item.path}
                   to={item.path}
                   className={`flex items-center gap-3 px-5 py-4 no-underline text-base font-medium rounded-xl transition-all duration-200 mb-2 ${location.pathname === item.path
-                      ? 'text-white bg-linear-to-br from-indigo-500/20 to-purple-500/15 border border-indigo-500/30 shadow-[0_4px_20px_rgba(99,102,241,0.15)]'
-                      : 'text-white/80 bg-white/3 border border-white/8 hover:bg-white/8'
+                    ? 'text-white bg-linear-to-br from-indigo-500/20 to-purple-500/15 border border-indigo-500/30 shadow-[0_4px_20px_rgba(99,102,241,0.15)]'
+                    : 'text-white/80 bg-white/3 border border-white/8 hover:bg-white/8'
                     }`}
                   onClick={() => setIsMenuOpen(false)}
                 >

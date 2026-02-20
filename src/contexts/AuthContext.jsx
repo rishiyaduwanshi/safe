@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import { createContext, useContext, useEffect, useReducer } from 'react';
 import { authApi } from '../constants/services.js';
 
 // Auth context
@@ -16,7 +16,6 @@ const AUTH_ACTIONS = {
 // Initial auth state
 const initialState = {
     user: null,
-    token: null,
     isAuthenticated: false,
     isLoading: true,
     error: null
@@ -36,7 +35,6 @@ function authReducer(state, action) {
             return {
                 ...state,
                 user: action.payload.user,
-                token: action.payload.token,
                 isAuthenticated: true,
                 isLoading: false,
                 error: null
@@ -46,7 +44,6 @@ function authReducer(state, action) {
             return {
                 ...state,
                 user: null,
-                token: null,
                 isAuthenticated: false,
                 isLoading: false,
                 error: null
@@ -74,26 +71,20 @@ function authReducer(state, action) {
 export function AuthProvider({ children }) {
     const [state, dispatch] = useReducer(authReducer, initialState);
 
-    // Initialize auth state from localStorage
+    // On page load - read userInfo cookie directly (no network call needed)
     useEffect(() => {
         const initializeAuth = async () => {
             try {
-                const token = authApi.getToken();
-                const user = authApi.getCurrentUser();
+                const userInfoCookie = document.cookie
+                    .split('; ')
+                    .find(row => row.startsWith('userInfo='));
 
-                if (token && user) {
-                    // Verify token is still valid by trying to refresh
-                    try {
-                        await authApi.refreshToken();
-                        dispatch({
-                            type: AUTH_ACTIONS.LOGIN_SUCCESS,
-                            payload: { user, token }
-                        });
-                    } catch (error) {
-                        // Token is invalid, clear storage
-                        authApi.signout();
-                        dispatch({ type: AUTH_ACTIONS.LOGOUT });
-                    }
+                if (userInfoCookie) {
+                    const user = JSON.parse(decodeURIComponent(userInfoCookie.split('=').slice(1).join('=')));
+                    dispatch({
+                        type: AUTH_ACTIONS.LOGIN_SUCCESS,
+                        payload: { user }
+                    });
                 } else {
                     dispatch({ type: AUTH_ACTIONS.SET_LOADING, payload: false });
                 }
@@ -117,8 +108,7 @@ export function AuthProvider({ children }) {
             dispatch({
                 type: AUTH_ACTIONS.LOGIN_SUCCESS,
                 payload: {
-                    user: response.data.user,
-                    token: response.data.token
+                    user: response.data.user
                 }
             });
 
@@ -143,8 +133,7 @@ export function AuthProvider({ children }) {
             dispatch({
                 type: AUTH_ACTIONS.LOGIN_SUCCESS,
                 payload: {
-                    user: response.data.user,
-                    token: response.data.token
+                    user: response.data.user
                 }
             });
 

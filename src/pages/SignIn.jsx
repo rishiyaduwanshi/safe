@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { useAuth } from '../contexts/AuthContext.jsx';
-import { ROUTES } from '../constants/routes.js';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
+import { ROUTES } from '../constants/routes.js';
+import { useAuth } from '../contexts/AuthContext.jsx';
 
 const SignIn = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -34,13 +34,20 @@ const SignIn = () => {
                         {/* Global Error */}
                         {error && (
                             <div className="bg-red-500/10 border border-red-500/50 text-red-400 px-4 py-3 rounded-lg text-sm">
-                                {error.message}
+                                <p className="font-medium">{error.message}</p>
+                                {error.errors?.length > 0 && (
+                                    <ul className="mt-1 list-disc list-inside space-y-0.5">
+                                        {error.errors.map((e, i) => (
+                                            <li key={i}>{e.field ? `${e.field}: ${e.message}` : e.message}</li>
+                                        ))}
+                                    </ul>
+                                )}
                             </div>
                         )}
 
                         {/* Email */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-2">
+                            <label className="block text-sm font-medium text-gray-300 mb-2" htmlFor='email'>
                                 Email
                             </label>
                             <input
@@ -55,6 +62,7 @@ const SignIn = () => {
                                 className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition"
                                 placeholder="your@email.com"
                                 disabled={isLoading}
+                                name='email'
                             />
                             {errors.email && (
                                 <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>
@@ -72,8 +80,13 @@ const SignIn = () => {
                                     {...register('password', {
                                         required: 'Password is required',
                                         minLength: {
-                                            value: 6,
-                                            message: 'Password must be at least 6 characters'
+                                            value: 8,
+                                            message: 'Password must be at least 8 characters'
+                                        },
+                                        validate: {
+                                            hasUppercase: v => /[A-Z]/.test(v) || 'Must contain at least one uppercase letter',
+                                            hasNumber: v => /[0-9]/.test(v) || 'Must contain at least one number',
+                                            hasSpecial: v => /[^A-Za-z0-9]/.test(v) || 'Must contain at least one special character',
                                         }
                                     })}
                                     className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 pr-11 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition"

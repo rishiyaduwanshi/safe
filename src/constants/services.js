@@ -15,14 +15,9 @@ class ApiService {
                 'Content-Type': 'application/json',
                 ...options.headers,
             },
+            credentials: 'include', // Cookie-based authentication
             ...options,
         };
-
-        // Add auth token if available
-        const token = localStorage.getItem('authToken');
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
 
         try {
             const response = await fetch(url, config);
@@ -83,60 +78,36 @@ const apiService = new ApiService();
 export const authApi = {
     // Sign up / Register
     signup: async (credentials) => {
-        const response = await apiService.post(API_ENDPOINTS.REGISTER, credentials);
-        if (response.success && response.data.token) {
-            localStorage.setItem('authToken', response.data.token);
-            localStorage.setItem('user', JSON.stringify(response.data.user));
-        }
-        return response;
+        return apiService.post(API_ENDPOINTS.REGISTER, credentials);
     },
 
     // Sign in / Login
     signin: async (credentials) => {
-        const response = await apiService.post(API_ENDPOINTS.LOGIN, credentials);
-        if (response.success && response.data.token) {
-            localStorage.setItem('authToken', response.data.token);
-            localStorage.setItem('user', JSON.stringify(response.data.user));
-        }
-        return response;
+        return apiService.post(API_ENDPOINTS.LOGIN, credentials);
     },
 
-    // Sign out / Logout
+    // Sign out / Logout - backend clears the cookie
     signout: async () => {
         try {
             await apiService.post(API_ENDPOINTS.LOGOUT);
         } catch (error) {
-            console.warn('Logout API call failed, clearing local storage anyway:', error);
-        } finally {
-            localStorage.removeItem('authToken');
-            localStorage.removeItem('user');
+            console.warn('Logout API call failed:', error);
         }
     },
 
-    // Refresh token
-    refreshToken: async () => {
-        const response = await apiService.post(API_ENDPOINTS.REFRESH_TOKEN);
-        if (response.success && response.data.token) {
-            localStorage.setItem('authToken', response.data.token);
+    // Verify auth by calling /me with accessToken cookie
+    verifyAuth: async () => {
+        try {
+            const response = await apiService.get(API_ENDPOINTS.ME);
+            if (response.success && response.data.user) {
+                return response.data.user;
+            }
+            return null;
+        } catch (error) {
+            // 401 = accessToken expired or missing
+            return null;
         }
-        return response;
     },
-
-    // Get current user from localStorage
-    getCurrentUser: () => {
-        const user = localStorage.getItem('user');
-        return user ? JSON.parse(user) : null;
-    },
-
-    // Get current token from localStorage
-    getToken: () => {
-        return localStorage.getItem('authToken');
-    },
-
-    // Check if user is authenticated
-    isAuthenticated: () => {
-        return !!localStorage.getItem('authToken');
-    }
 };
 
 // Export the base API service for other modules

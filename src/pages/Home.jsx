@@ -1,12 +1,10 @@
 import { motion } from 'framer-motion';
 import * as Dialog from '@radix-ui/react-dialog';
 import {
-  Shield,
   AlertTriangle,
   MapPin,
   BarChart3,
   Play,
-  ArrowRight,
   Zap,
   Eye,
   Camera,
@@ -91,7 +89,7 @@ const Home = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-xl md:text-2xl text-slate-300 mb-4 md:mb-6 font-semibold break-words"
+            className="text-xl md:text-2xl text-slate-300 mb-4 md:mb-6 font-semibold wrap-break-word"
           >
             Smart, Adaptive & Forensic Evaluation
           </motion.p>
@@ -127,7 +125,7 @@ const Home = () => {
                 </Dialog.Trigger>
                 <Dialog.Portal>
                   <Dialog.Overlay className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50" />
-                  <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background-primary border border-white/10 rounded-2xl p-8 max-w-md w-[90%] z-[51] shadow-[0_25px_50px_rgba(0,0,0,0.6)]">
+                  <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background-primary border border-white/10 rounded-2xl p-8 max-w-md w-[90%] z-51 shadow-[0_25px_50px_rgba(0,0,0,0.6)]">
                     <Dialog.Title className="text-2xl font-bold text-white mb-4">
                       Join S.A.F.E India
                     </Dialog.Title>
@@ -135,17 +133,17 @@ const Home = () => {
                       Start your journey towards safer roads. Create your citizen safety profile and begin tracking your road safety score.
                     </Dialog.Description>
                     <div className="flex gap-3">
-                      <button className="flex-1 px-6 py-3 bg-gradient-to-r from-primary via-primary-light to-tertiary text-white border-none rounded-lg font-semibold cursor-pointer">
+                      <button type="button" className="flex-1 px-6 py-3 bg-linear-to-r from-primary via-primary-light to-tertiary text-white border-none rounded-lg font-semibold cursor-pointer">
                         Sign Up
                       </button>
                       <Dialog.Close asChild>
-                        <button className="px-6 py-3 bg-background-secondary text-white border border-white/10 rounded-lg font-semibold cursor-pointer">
+                        <button type="button" className="px-6 py-3 bg-background-secondary text-white border border-white/10 rounded-lg font-semibold cursor-pointer">
                           Cancel
                         </button>
                       </Dialog.Close>
                     </div>
                     <Dialog.Close asChild>
-                      <button className="absolute top-4 right-4 bg-transparent border-none text-slate-400 cursor-pointer">
+                      <button type="button" className="absolute top-4 right-4 bg-transparent border-none text-slate-400 cursor-pointer">
                         <X size={20} />
                       </button>
                     </Dialog.Close>
@@ -156,7 +154,7 @@ const Home = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 md:px-8 md:py-4 bg-white/5 text-white border border-white/10 rounded-xl text-sm md:text-base font-semibold cursor-pointer flex items-center justify-center gap-2 backdrop-blur-md min-w-[140px] md:min-w-[180px] whitespace-nowrap"
+                className="px-6 py-3 md:px-8 md:py-4 bg-white/5 text-white border border-white/10 rounded-xl text-sm md:text-base font-semibold cursor-pointer flex items-center justify-center gap-2 backdrop-blur-md min-w-35 md:min-w-45 whitespace-nowrap"
               >
                 <Play size={18} />
                 Watch Demo
@@ -175,8 +173,8 @@ const Home = () => {
               { number: '480K+', label: 'Annual Accidents', color: '#ef4444' },
               { number: '172K+', label: 'Lives Lost', color: '#f59e0b' },
               { number: '95%', label: 'Preventable Cases', color: '#10b981' }
-            ].map((stat, index) => (
-              <div key={index} className="text-center">
+            ].map((stat) => (
+              <div key={stat.number} className="text-center">
                 <div className="text-3xl md:text-4xl font-extrabold mb-1 md:mb-2" style={{ color: stat.color }}>
                   {stat.number}
                 </div>
@@ -208,14 +206,14 @@ const Home = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 justify-items-center">
-            {features.map((feature, index) => (
+            {features.map((feature) => (
               <motion.div
-                key={index}
+                key={feature.title}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 whileHover={{ y: -5 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: features.indexOf(feature) * 0.1 }}
                 className="bg-background-card border border-white/10 rounded-2xl p-6 md:p-8 backdrop-blur-md cursor-pointer transition-all duration-300 w-full max-w-md"
               >
                 <div className="flex items-center mb-4 md:mb-6 flex-wrap gap-3">
@@ -252,7 +250,7 @@ const Home = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 md:px-8 md:py-4 bg-linear-to-r from-primary via-primary-light to-tertiary text-white border-none rounded-xl text-sm md:text-base font-semibold cursor-pointer flex items-center justify-center gap-2 shadow-[0_8px_24px_rgba(99,102,241,0.4)] min-w-[140px] md:min-w-45 whitespace-nowrap"
+                className="px-6 py-3 md:px-8 md:py-4 bg-linear-to-r from-primary via-primary-light to-tertiary text-white border-none rounded-xl text-sm md:text-base font-semibold cursor-pointer flex items-center justify-center gap-2 shadow-[0_8px_24px_rgba(99,102,241,0.4)] min-w-35 md:min-w-45 whitespace-nowrap"
               >
                 <Users size={18} />
                 Join Community

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card, LoadingAnimation, SpotlightEffect } from '../components/index.js';
 
@@ -173,7 +173,7 @@ const ProfilePage = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background-primary via-background-secondary to-background-tertiary">
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-b from-background-primary via-background-secondary to-background-tertiary">
         <LoadingAnimation>
           <Card variant="glass" size="lg">
             <div className="text-center p-8">
@@ -192,10 +192,10 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="min-h-screen py-8 px-6 bg-gradient-to-b from-background-primary via-background-secondary to-background-tertiary">
+    <div className="min-h-screen py-8 px-6 bg-linear-to-b from-background-primary via-background-secondary to-background-tertiary">
       <SpotlightEffect />
       <LoadingAnimation>
-        <div className="max-w-screen-xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           {/* Header Section */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -207,7 +207,7 @@ const ProfilePage = () => {
                 {/* Profile Avatar */}
                 <div className="relative">
                   <div
-                    className="w-30 h-30 rounded-full bg-gradient-to-br from-primary via-primary-light to-tertiary flex items-center justify-center text-4xl font-bold text-white"
+                    className="w-30 h-30 rounded-full bg-linear-to-br from-primary via-primary-light to-tertiary flex items-center justify-center text-4xl font-bold text-white"
                     style={{ border: '4px solid #6366F1' }}
                   >
                     {userData.name.split(' ').map(n => n[0]).join('')}
@@ -224,7 +224,7 @@ const ProfilePage = () => {
                 </div>
 
                 {/* Profile Info */}
-                <div className="flex-1 min-w-[300px]">
+                <div className="flex-1 min-w-75">
                   <h1 className="text-3xl font-bold text-white mb-2">
                     {userData.name}
                   </h1>
@@ -242,8 +242,8 @@ const ProfilePage = () => {
                 </div>
 
                 {/* Safety Score */}
-                <div className="text-center min-w-[200px]">
-                  <div className="relative w-[150px] h-[150px] mx-auto">
+                <div className="text-center min-w-50">
+                  <div className="relative w-37.5 h-37.5 mx-auto">
                     <svg width="150" height="150" className="-rotate-90">
                       <circle
                         cx="75"
@@ -299,9 +299,9 @@ const ProfilePage = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex-1 min-w-[120px] p-3 border-none rounded-lg cursor-pointer transition-all duration-300 text-base ${activeTab === tab.id
-                    ? 'bg-gradient-to-r from-primary via-primary-light to-tertiary text-white font-bold'
-                    : 'bg-transparent text-slate-300 font-medium'
+                className={`flex-1 min-w-30 p-3 border-none rounded-lg cursor-pointer transition-all duration-300 text-base ${activeTab === tab.id
+                  ? 'bg-linear-to-r from-primary via-primary-light to-tertiary text-white font-bold'
+                  : 'bg-transparent text-slate-300 font-medium'
                   }`}
               >
                 {tab.label}
@@ -350,7 +350,7 @@ const ProfilePage = () => {
                   ))}
 
                   {/* Recent Activity */}
-                  <div className="col-[1/-1]">
+                  <div className="col-span-full">
                     <Card variant="glass" size="full">
                       <h3 className="text-xl font-bold text-white mb-4">
                         📱 Recent Activity
@@ -496,7 +496,7 @@ const ProfilePage = () => {
                             <div>
                               <div className="bg-slate-700 rounded-full h-2 mb-2 overflow-hidden">
                                 <div
-                                  className="bg-gradient-to-r from-primary via-primary-light to-tertiary h-full rounded-full transition-all duration-1000 ease-in-out"
+                                  className="bg-linear-to-r from-primary via-primary-light to-tertiary h-full rounded-full transition-all duration-1000 ease-in-out"
                                   style={{ width: `${achievement.progress}%` }}
                                 />
                               </div>
