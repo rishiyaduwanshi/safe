@@ -1,11 +1,19 @@
+import { useQuery } from '@tanstack/react-query';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card, LoadingAnimation, SpotlightEffect } from '../components/index.js';
+import { reportsApi } from '../constants/services.js';
 
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [safetyScore, setSafetyScore] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+
+  const { data: myReports = [] } = useQuery({
+    queryKey: ['my-reports'],
+    queryFn: () => reportsApi.getMyReports(),
+    select: (res) => res.data.reports,
+  });
 
   const userData = {
     name: "Saksham Agarwal",
@@ -95,36 +103,23 @@ const ProfilePage = () => {
     }
   ];
 
-  const recentActivity = [
-    {
-      id: 1,
-      type: "trip",
-      message: "Completed safe trip: Home to LPU",
-      timestamp: "2 hours ago",
-      points: "+5"
-    },
-    {
-      id: 2,
-      type: "report",
-      message: "Reported pothole on GT Road",
-      timestamp: "1 day ago",
-      points: "+10"
-    },
-    {
-      id: 3,
-      type: "violation",
-      message: "Speed limit exceeded on NH44",
-      timestamp: "3 days ago",
-      points: "-25"
-    },
-    {
-      id: 4,
-      type: "achievement",
-      message: "Earned 'Safe Driver' badge",
-      timestamp: "1 week ago",
-      points: "+50"
-    }
-  ];
+  const timeAgo = (dateStr) => {
+    const diff = (Date.now() - new Date(dateStr).getTime()) / 1000;
+    if (diff < 60) return `${Math.floor(diff)}s ago`;
+    if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+    return `${Math.floor(diff / 86400)}d ago`;
+  };
+
+  const recentActivity = myReports.slice(0, 5).map((r) => ({
+    id: r._id,
+    type: 'report',
+    message: r.category?.key
+      ? r.category.key.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) + ' — ' + (r.location?.address || '')
+      : r.reportText.slice(0, 60),
+    timestamp: timeAgo(r.createdAt),
+    points: '+10',
+  }));
 
   const getScoreColor = (score) => {
     if (score >= 900) return '#10B981';

@@ -102,4 +102,14 @@ export const authApi = {
     },
 };
 
+export const reportsApi = {
+    getMyReports: async () => {
+        return apiService.get(API_ENDPOINTS.USER_REPORTS);
+    },
+
+    getReportById: async (id) => {
+        return apiService.get(API_ENDPOINTS.REPORT_DETAILS.replace(':id', id));
+    },
+};
+
 export default apiService;

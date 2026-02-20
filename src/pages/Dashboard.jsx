@@ -1,31 +1,43 @@
-﻿import { motion } from 'framer-motion';
+﻿import { useQuery } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
 import {
   Shield,
-  TrendingUp,
-  TrendingDown,
   AlertTriangle,
   CheckCircle,
   MapPin,
   Clock,
-  User
 } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { Card, Button, LoadingAnimation, SpotlightEffect } from '../components/index.js';
 import { STRINGS } from '../constants/index.js';
+import { reportsApi } from '../constants/services.js';
+import { useAuth } from '../contexts/AuthContext.jsx';
 
-/**
- * Dashboard Page for Driver Safety Score and Activity
- */
+const timeAgo = (dateStr) => {
+  const diff = (Date.now() - new Date(dateStr).getTime()) / 1000;
+  if (diff < 60) return `${Math.floor(diff)}s ago`;
+  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+  return `${Math.floor(diff / 86400)}d ago`;
+};
+
 const DashboardPage = () => {
+  const { user } = useAuth();
+
+  const { data: reportsData } = useQuery({
+    queryKey: ['my-reports'],
+    queryFn: () => reportsApi.getMyReports(),
+    select: (res) => res.data.reports,
+  });
+
+  const myReports = reportsData ?? [];
+
   const userProfile = {
-    name: 'Saksham Agarwal',
+    name: user?.name || 'User',
     safetyScore: 78,
-    level: 'Good Driver',
-    joinDate: '2023-08-15',
-    totalDrives: 245,
     safeDrives: 210,
     violations: 8,
-    reportsSubmitted: 12,
+    reportsSubmitted: myReports.length,
   };
 
   const safetyScoreHistory = [
@@ -44,32 +56,16 @@ const DashboardPage = () => {
     { name: 'Parking', value: 1, color: '#22D3EE' },
   ];
 
-  const recentActivity = [
-    {
-      id: 1,
-      type: 'violation',
-      title: 'Helmet Violation Detected',
-      location: 'MG Road, Delhi',
-      time: '2 hours ago',
-      severity: 'medium',
-    },
-    {
-      id: 2,
-      type: 'safe_drive',
-      title: 'Safe Drive Completed',
-      location: 'CP to Gurgaon',
-      time: '1 day ago',
-      severity: 'low',
-    },
-    {
-      id: 3,
-      type: 'report',
-      title: 'Pothole Reported',
-      location: 'Ring Road, Delhi',
-      time: '3 days ago',
-      severity: 'high',
-    },
-  ];
+  const recentActivity = myReports.slice(0, 5).map((r) => ({
+    id: r._id,
+    type: 'report',
+    title: r.category?.key
+      ? r.category.key.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+      : r.reportText.slice(0, 40),
+    location: r.location?.address || 'Unknown',
+    time: timeAgo(r.createdAt),
+    severity: r.severity,
+  }));
 
   const containerVariants = {
     hidden: { opacity: 0 },
