@@ -69,21 +69,13 @@ export function AuthProvider({ children }) {
     useEffect(() => {
         const initializeAuth = async () => {
             try {
-                const userInfoCookie = document.cookie
-                    .split('; ')
-                    .find(row => row.startsWith('userInfo='));
-
-                if (userInfoCookie) {
-                    const user = JSON.parse(decodeURIComponent(userInfoCookie.split('=').slice(1).join('=')));
-                    dispatch({
-                        type: AUTH_ACTIONS.LOGIN_SUCCESS,
-                        payload: { user }
-                    });
+                const user = await authApi.verifyAuth();
+                if (user) {
+                    dispatch({ type: AUTH_ACTIONS.LOGIN_SUCCESS, payload: { user } });
                 } else {
                     dispatch({ type: AUTH_ACTIONS.SET_LOADING, payload: false });
                 }
-            } catch (error) {
-                console.error('Auth initialization error:', error);
+            } catch {
                 dispatch({ type: AUTH_ACTIONS.SET_LOADING, payload: false });
             }
         };

@@ -5,7 +5,7 @@ import { Card, LoadingAnimation, SpotlightEffect } from '../components/index.js'
 import { reportsApi } from '../constants/services.js';
 
 const ProfilePage = () => {
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState('violations');
   const [safetyScore, setSafetyScore] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -72,54 +72,6 @@ const ProfilePage = () => {
     }
   ];
 
-  const achievements = [
-    {
-      title: "Safe Driver",
-      description: "30 days without violations",
-      icon: "🏆",
-      earned: true,
-      date: "2024-09-01"
-    },
-    {
-      title: "Eco Warrior",
-      description: "Reported 10+ road hazards",
-      icon: "🌱",
-      earned: true,
-      date: "2024-08-15"
-    },
-    {
-      title: "Speed Control Master",
-      description: "Maintained speed limits for 60 days",
-      icon: "⚡",
-      earned: false,
-      progress: 75
-    },
-    {
-      title: "Safety Ambassador",
-      description: "Score above 900 for 90 days",
-      icon: "🎯",
-      earned: false,
-      progress: 45
-    }
-  ];
-
-  const timeAgo = (dateStr) => {
-    const diff = (Date.now() - new Date(dateStr).getTime()) / 1000;
-    if (diff < 60) return `${Math.floor(diff)}s ago`;
-    if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
-    if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
-    return `${Math.floor(diff / 86400)}d ago`;
-  };
-
-  const recentActivity = myReports.slice(0, 5).map((r) => ({
-    id: r._id,
-    type: 'report',
-    message: r.category?.key
-      ? r.category.key.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) + ' — ' + (r.location?.address || '')
-      : r.reportText.slice(0, 60),
-    timestamp: timeAgo(r.createdAt),
-    points: '+10',
-  }));
 
   const getScoreColor = (score) => {
     if (score >= 900) return '#10B981';
@@ -285,9 +237,7 @@ const ProfilePage = () => {
           {/* Tab Navigation */}
           <div className="flex mb-6 rounded-xl bg-background-secondary p-2 flex-wrap gap-2">
             {[
-              { id: 'overview', label: '📊 Overview', icon: '📊' },
               { id: 'violations', label: '⚠️ Violations', icon: '⚠️' },
-              { id: 'achievements', label: '🏆 Achievements', icon: '🏆' },
               { id: 'personal', label: '👤 Personal Info', icon: '👤' }
             ].map((tab) => (
               <button
@@ -312,79 +262,6 @@ const ProfilePage = () => {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
             >
-              {activeTab === 'overview' && (
-                <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6">
-                  {/* Statistics Cards */}
-                  {[
-                    { title: 'Total Distance', value: safetyData.totalDistance, icon: '🛣️', color: '#3B82F6' },
-                    { title: 'Safe Trips', value: safetyData.safeTrips, icon: '✅', color: '#10B981' },
-                    { title: 'Current Rank', value: `${safetyData.rank} (Top ${safetyData.percentile}%)`, icon: '🎖️', color: '#F59E0B' },
-                    { title: 'Violation-Free Streak', value: `${safetyData.violationFreeStreak} days`, icon: '🔥', color: '#EF4444' }
-                  ].map((stat, index) => (
-                    <motion.div
-                      key={stat.title}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                    >
-                      <Card variant="elevated" size="full">
-                        <div className="text-center p-4">
-                          <div className="text-[2.5rem] mb-3">
-                            {stat.icon}
-                          </div>
-                          <h3 className="text-xl font-bold mb-2" style={{ color: stat.color }}>
-                            {stat.value}
-                          </h3>
-                          <p className="text-base text-slate-400">
-                            {stat.title}
-                          </p>
-                        </div>
-                      </Card>
-                    </motion.div>
-                  ))}
-
-                  {/* Recent Activity */}
-                  <div className="col-span-full">
-                    <Card variant="glass" size="full">
-                      <h3 className="text-xl font-bold text-white mb-4">
-                        📱 Recent Activity
-                      </h3>
-                      <div className="flex flex-col gap-3">
-                        {recentActivity.map((activity) => (
-                          <div
-                            key={activity.id}
-                            className="flex items-center justify-between p-3 rounded-lg border"
-                            style={{ background: '#1e293b', borderColor: '#334155' }}
-                          >
-                            <div className="flex-1">
-                              <p className="text-white text-base mb-1">
-                                {activity.message}
-                              </p>
-                              <p className="text-slate-400 text-sm">
-                                {activity.timestamp}
-                              </p>
-                            </div>
-                            <div
-                              className="px-2 py-1 rounded-lg text-sm font-semibold"
-                              style={{
-                                background: activity.points.startsWith('+')
-                                  ? '#10B98120'
-                                  : '#EF444420',
-                                color: activity.points.startsWith('+')
-                                  ? '#10B981'
-                                  : '#EF4444'
-                              }}
-                            >
-                              {activity.points}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </Card>
-                  </div>
-                </div>
-              )}
-
               {activeTab === 'violations' && (
                 <Card variant="glass" size="full">
                   <h3 className="text-xl font-bold text-white mb-6">
@@ -451,67 +328,6 @@ const ProfilePage = () => {
                     ))}
                   </div>
                 </Card>
-              )}
-
-              {activeTab === 'achievements' && (
-                <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
-                  {achievements.map((achievement, index) => (
-                    <motion.div
-                      key={achievement.title}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: index * 0.1 }}
-                    >
-                      <Card variant={achievement.earned ? "elevated" : "outlined"} size="full">
-                        <div
-                          className="p-4 text-center relative"
-                          style={{ opacity: achievement.earned ? 1 : 0.7 }}
-                        >
-                          <div
-                            className="text-[3rem] mb-3"
-                            style={{ filter: achievement.earned ? 'none' : 'grayscale(1)' }}
-                          >
-                            {achievement.icon}
-                          </div>
-                          <h4
-                            className="text-lg font-bold mb-2"
-                            style={{ color: achievement.earned ? '#ffffff' : '#94a3b8' }}
-                          >
-                            {achievement.title}
-                          </h4>
-                          <p className="text-slate-400 text-base mb-3">
-                            {achievement.description}
-                          </p>
-                          {achievement.earned ? (
-                            <div className="text-sm font-medium" style={{ color: '#10B981' }}>
-                              ✅ Earned on {achievement.date}
-                            </div>
-                          ) : (
-                            <div>
-                              <div className="bg-slate-700 rounded-full h-2 mb-2 overflow-hidden">
-                                <div
-                                  className="bg-linear-to-r from-primary via-primary-light to-tertiary h-full rounded-full transition-all duration-1000 ease-in-out"
-                                  style={{ width: `${achievement.progress}%` }}
-                                />
-                              </div>
-                              <div className="text-slate-400 text-sm">
-                                {achievement.progress}% complete
-                              </div>
-                            </div>
-                          )}
-                          {achievement.earned && (
-                            <div
-                              className="absolute top-2 right-2 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs"
-                              style={{ background: '#10B981' }}
-                            >
-                              ✓
-                            </div>
-                          )}
-                        </div>
-                      </Card>
-                    </motion.div>
-                  ))}
-                </div>
               )}
 
               {activeTab === 'personal' && (
