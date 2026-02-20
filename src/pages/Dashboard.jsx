@@ -1,5 +1,4 @@
-﻿import { useQuery } from '@tanstack/react-query';
-import { motion } from 'framer-motion';
+﻿import { motion } from 'framer-motion';
 import {
   Shield,
   AlertTriangle,
@@ -7,10 +6,12 @@ import {
   MapPin,
   Clock,
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { Card, Button, LoadingAnimation, SpotlightEffect } from '../components/index.js';
 import { STRINGS } from '../constants/index.js';
-import { reportsApi } from '../constants/services.js';
+import { ROUTES } from '../constants/routes.js';
+import { useMyReports } from '../hooks/index.js';
 import { useAuth } from '../contexts/AuthContext.jsx';
 
 const timeAgo = (dateStr) => {
@@ -23,14 +24,9 @@ const timeAgo = (dateStr) => {
 
 const DashboardPage = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
-  const { data: reportsData } = useQuery({
-    queryKey: ['my-reports'],
-    queryFn: () => reportsApi.getMyReports(),
-    select: (res) => res.data.reports,
-  });
-
-  const myReports = reportsData ?? [];
+  const { data: myReports = [] } = useMyReports();
 
   const userProfile = {
     name: user?.name || 'User',
@@ -116,7 +112,6 @@ const DashboardPage = () => {
     <LoadingAnimation>
       <div className="dashboard-page">
         <SpotlightEffect />
-
         <motion.section
           variants={containerVariants}
           initial="hidden"
@@ -299,7 +294,7 @@ const DashboardPage = () => {
                     {STRINGS.RECENT_ACTIVITY}
                   </h3>
 
-                  <Button variant="ghost" size="sm">
+                  <Button variant="ghost" size="sm" onClick={() => navigate(ROUTES.MY_REPORTS)}>
                     View All
                   </Button>
                 </div>
@@ -309,7 +304,7 @@ const DashboardPage = () => {
                     <motion.div
                       key={activity.id}
                       whileHover={{ scale: 1.02 }}
-                      className="flex items-center gap-4 p-4 rounded-lg bg-background-tertiary border border-white/5"
+                      className="flex items-center gap-4 p-4 rounded-lg bg-background-tertiary border border-white/10"
                     >
                       <div
                         className="flex items-center justify-center w-10 h-10 rounded-full"

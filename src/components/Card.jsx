@@ -16,7 +16,7 @@ const Card = ({
   const variantClasses = {
     default: 'bg-gradient-to-br from-[rgba(20,20,25,0.95)] to-[rgba(25,25,35,0.9)] shadow-[0_20px_40px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.1)] border border-white/10 backdrop-blur-xl',
     dark: 'bg-gradient-to-br from-[rgba(15,15,20,0.98)] to-[rgba(20,20,30,0.95)] shadow-[0_25px_50px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] border border-white/[0.08] backdrop-blur-[25px]',
-    elevated: 'bg-background-card shadow-[0_20px_25px_-5px_rgba(0,0,0,0.4),0_10px_10px_-5px_rgba(0,0,0,0.2)] border border-primary/20 backdrop-blur-[30px]',
+    elevated: 'bg-background-card shadow-[0_20px_25px_-5px_rgba(0,0,0,0.4),0_10px_10px_-5px_rgba(0,0,0,0.2)] border border-white/8 backdrop-blur-[30px]',
     outlined: 'bg-background-primary border-2 border-primary/30 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.4),0_2px_4px_-1px_rgba(0,0,0,0.3)] backdrop-blur-[15px]',
     glass: 'bg-white/5 backdrop-blur-xl saturate-[180%] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.3)]',
     glow: 'bg-gradient-to-br from-[rgba(20,20,25,0.9)] to-[rgba(25,25,35,0.85)] shadow-[0_0_40px_rgba(106,90,224,0.3),0_20px_40px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.1)] border border-[rgba(106,90,224,0.3)] backdrop-blur-xl',

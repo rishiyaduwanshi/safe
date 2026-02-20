@@ -167,19 +167,18 @@ const AboutPage = () => {
             </p>
           </motion.div>
 
-          <motion.div
-            variants={itemVariants}
-            className="bg-linear-to-r from-primary via-primary-light to-tertiary text-white p-8 rounded-2xl text-center"
-          >
-            <h3 className="text-2xl font-bold mb-4">
-              Our Solution
-            </h3>
+          <motion.div variants={itemVariants}>
+            <Card variant="glow" size="lg" className="text-center">
+              <h3 className="text-2xl font-bold mb-4 text-white">
+                Our Solution
+              </h3>
 
-            <p className="text-lg leading-relaxed opacity-95">
-              S.A.F.E India builds a unified ecosystem that detects violations in real-time,
-              enables citizen reporting, provides transparency through a Citizen Safety Score,
-              and supports data-driven policy making for proactive road safety.
-            </p>
+              <p className="text-lg leading-relaxed text-slate-200 opacity-95">
+                S.A.F.E India builds a unified ecosystem that detects violations in real-time,
+                enables citizen reporting, provides transparency through a Citizen Safety Score,
+                and supports data-driven policy making for proactive road safety.
+              </p>
+            </Card>
           </motion.div>
         </motion.div>
       </section>

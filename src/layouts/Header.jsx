@@ -8,6 +8,7 @@ import {
   Home,
   TrendingUp,
   FileText,
+  ClipboardList,
   User,
   Info,
   LogIn,
@@ -39,6 +40,7 @@ const Header = () => {
   const protectedNavigation = [
     { name: 'Dashboard', path: ROUTES.DASHBOARD, icon: TrendingUp },
     { name: 'Report', path: ROUTES.REPORT, icon: FileText },
+    { name: 'My Reports', path: ROUTES.MY_REPORTS, icon: ClipboardList },
     { name: 'Profile', path: ROUTES.PROFILE, icon: User },
   ];
 

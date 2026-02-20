@@ -7,6 +7,7 @@ import ProtectedRoute from './components/ProtectedRoute.jsx';
 import HomePage from './pages/Home.jsx';
 import DashboardPage from './pages/Dashboard.jsx';
 import ReportPage from './pages/Report.jsx';
+import MyReportsPage from './pages/MyReports.jsx';
 import ProfilePage from './pages/Profile.jsx';
 import AboutPage from './pages/About.jsx';
 import SignIn from './pages/SignIn.jsx';
@@ -55,6 +56,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <ReportPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: ROUTES.MY_REPORTS,
+        element: (
+          <ProtectedRoute>
+            <MyReportsPage />
           </ProtectedRoute>
         ),
       },
