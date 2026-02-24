@@ -7,15 +7,16 @@ class ApiService {
     }
 
     async request(endpoint, options = {}) {
+        const { _isRetrying = false, ...fetchOptions } = options;
         const url = `${this.baseURL}${endpoint}`;
         const config = {
             timeout: this.timeout,
             headers: {
                 'Content-Type': 'application/json',
-                ...options.headers,
+                ...fetchOptions.headers,
             },
             credentials: 'include',
-            ...options,
+            ...fetchOptions,
         };
 
         try {
@@ -23,6 +24,29 @@ class ApiService {
             const data = await response.json();
 
             if (!response.ok) {
+                // ── Auto-refresh: when access token expires, silently refresh and retry ──
+                const isAuthEndpoint =
+                    endpoint === API_ENDPOINTS.REFRESH_TOKEN ||
+                    endpoint === API_ENDPOINTS.LOGIN ||
+                    endpoint === API_ENDPOINTS.REGISTER;
+
+                if (response.status === 401 && !_isRetrying && !isAuthEndpoint) {
+                    try {
+                        const refreshUrl = `${this.baseURL}${API_ENDPOINTS.REFRESH_TOKEN}`;
+                        const refreshRes = await fetch(refreshUrl, {
+                            method: 'POST',
+                            credentials: 'include',
+                            headers: { 'Content-Type': 'application/json' },
+                        });
+                        if (refreshRes.ok) {
+                            // Tokens rotated — retry original request once
+                            return this.request(endpoint, { ...fetchOptions, _isRetrying: true });
+                        }
+                    } catch {
+                        // Refresh failed — fall through and throw the 401
+                    }
+                }
+
                 throw {
                     message: data.message || 'Something went wrong',
                     statusCode: response.status,
