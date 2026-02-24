@@ -1,29 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   AlertTriangle, Bike, Calendar, CheckCircle,
   Clock, CreditCard, FileText, Landmark, Mail, MapPin,
-  Phone, PhoneCall, RefreshCw, Search, Shield, TrendingUp,
+  Phone, PhoneCall, RefreshCw, Search, Shield,
   User, X, XCircle,
 } from 'lucide-react';
-import { Card, LoadingAnimation, SpotlightEffect } from '../components/index.js';
+import { Card, LoadingAnimation, SpotlightEffect, SafetyScoreCard } from '../components/index.js';
 import { licenseApi, profileApi } from '../constants/services.js';
 import { useAuth } from '../contexts/AuthContext.jsx';
+import { useSafetyScore } from '../hooks/index.js';
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 const DL_REGEX = /^[A-Z]{2}[-\s]?\d{2}[-\s]?\d{4}[-\s]?\d{7}$/i;
-const SAFETY_DATA = { currentScore: 850, maxScore: 1000, improvementFromLastMonth: 15 };
-const getScoreColor = (s) => s >= 900 ? '#10B981' : s >= 750 ? '#F59E0B' : s >= 500 ? '#3B82F6' : '#EF4444';
-const getScoreGrade = (s) => {
-  if (s >= 900) return { grade: 'A+', color: '#10B981' };
-  if (s >= 800) return { grade: 'A', color: '#10B981' };
-  if (s >= 700) return { grade: 'B+', color: '#F59E0B' };
-  if (s >= 600) return { grade: 'B', color: '#F59E0B' };
-  if (s >= 500) return { grade: 'C', color: '#3B82F6' };
-  return { grade: 'D', color: '#EF4444' };
-};
 const InfoRow = ({ icon: Icon, label, value }) => (
   <div className="flex items-center gap-3 p-3 rounded-lg border" style={{ background: '#1e293b', borderColor: '#334155' }}>
     <div className="text-primary"><Icon size={20} /></div>
@@ -38,27 +29,14 @@ const ProfilePage = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
+  const { score: safetyScore, maxScore, improvementFromLastMonth } = useSafetyScore();
+
   const [activeTab, setActiveTab] = useState('violations');
-  const [safetyScore, setSafetyScore] = useState(0);
   const [dlInput, setDlInput] = useState('');
   const [dlError, setDlError] = useState(null);
   const [previewData, setPreviewData] = useState(null);
   const [showLookupForm, setShowLookupForm] = useState(false);
 
-  // ─── Animated safety score counter ────────────────────────────────────────
-  useEffect(() => {
-    const t = setTimeout(() => {
-      let current = 0;
-      const step = SAFETY_DATA.currentScore / 60;
-      const interval = setInterval(() => {
-        current += step;
-        if (current >= SAFETY_DATA.currentScore) { setSafetyScore(SAFETY_DATA.currentScore); clearInterval(interval); }
-        else { setSafetyScore(Math.floor(current)); }
-      }, 30);
-      return () => clearInterval(interval);
-    }, 800);
-    return () => clearTimeout(t);
-  }, []);
 
   // ─── Fetch saved profile from DB ──────────────────────────────────────────
   const { data: profileRes, isLoading: profileLoading } = useQuery({
@@ -140,12 +118,6 @@ const ProfilePage = () => {
                   >
                     {initials}
                   </div>
-                  <div
-                    className="absolute -bottom-1 -right-1 text-white px-2 py-1 rounded-full text-sm font-bold border-2"
-                    style={{ background: getScoreGrade(SAFETY_DATA.currentScore).color, borderColor: '#1e293b' }}
-                  >
-                    {getScoreGrade(SAFETY_DATA.currentScore).grade}
-                  </div>
                 </div>
 
                 <div className="flex-1 min-w-75">
@@ -175,25 +147,11 @@ const ProfilePage = () => {
                 </div>
 
                 <div className="text-center min-w-50">
-                  <div className="relative w-37.5 h-37.5 mx-auto">
-                    <svg width="150" height="150" className="-rotate-90">
-                      <circle cx="75" cy="75" r="65" stroke="rgba(255,255,255,0.1)" strokeWidth="10" fill="transparent" />
-                      <circle
-                        cx="75" cy="75" r="65" stroke={getScoreColor(safetyScore)}
-                        strokeWidth="10" fill="transparent" strokeLinecap="round"
-                        strokeDasharray={`${2 * Math.PI * 65}`}
-                        strokeDashoffset={`${2 * Math.PI * 65 * (1 - safetyScore / SAFETY_DATA.maxScore)}`}
-                        className="transition-all duration-2000 ease-in-out"
-                      />
-                    </svg>
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-                      <div className="text-2xl font-bold" style={{ color: getScoreColor(safetyScore) }}>{safetyScore}</div>
-                      <div className="text-sm text-slate-300">Safety Score</div>
-                    </div>
-                  </div>
-                  <div className="mt-2 flex items-center justify-center gap-1 text-sm font-medium" style={{ color: '#10B981' }}>
-                    <TrendingUp size={14} /> +{SAFETY_DATA.improvementFromLastMonth} this month
-                  </div>
+                  <SafetyScoreCard
+                    score={safetyScore}
+                    maxScore={maxScore}
+                    improvementFromLastMonth={improvementFromLastMonth}
+                  />
                 </div>
               </div>
             </Card>

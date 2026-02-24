@@ -1,17 +1,16 @@
 ﻿import { motion } from 'framer-motion';
 import {
-  Shield,
   AlertTriangle,
   CheckCircle,
   MapPin,
   Clock,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { Card, Button, LoadingAnimation, SpotlightEffect } from '../components/index.js';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as ChartTooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { Card, Button, LoadingAnimation, SpotlightEffect, SafetyScoreCard } from '../components/index.js';
 import { STRINGS } from '../constants/index.js';
 import { ROUTES } from '../constants/routes.js';
-import { useMyReports } from '../hooks/index.js';
+import { useSafetyScore } from '../hooks/index.js';
 import { useAuth } from '../contexts/AuthContext.jsx';
 
 const timeAgo = (dateStr) => {
@@ -26,31 +25,39 @@ const DashboardPage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const { data: myReports = [] } = useMyReports();
+  const {
+    score: safetyScore,
+    maxScore,
+    improvementFromLastMonth,
+    approvedReports,
+    violationReports: violationCount,
+    reportsSubmitted,
+    monthlyBreakdown,
+    myReports,
+  } = useSafetyScore();
 
   const userProfile = {
     name: user?.name || 'User',
-    safetyScore: 78,
-    safeDrives: 210,
-    violations: 8,
-    reportsSubmitted: myReports.length,
+    safetyScore,
+    approvedReports,
+    violations: violationCount,
+    reportsSubmitted,
   };
 
-  const safetyScoreHistory = [
-    { month: 'Jan', score: 72 },
-    { month: 'Feb', score: 75 },
-    { month: 'Mar', score: 73 },
-    { month: 'Apr', score: 78 },
-    { month: 'May', score: 76 },
-    { month: 'Jun', score: 78 },
-  ];
-
-  const violationTypes = [
-    { name: 'Helmet', value: 3, color: '#EF4444' },
-    { name: 'Speeding', value: 2, color: '#FBBF24' },
-    { name: 'Signal', value: 2, color: '#A78BFA' },
-    { name: 'Parking', value: 1, color: '#22D3EE' },
-  ];
+  // ── Category breakdown for pie chart (from myReports) ────────────────────
+  const PIE_COLORS = ['#EF4444', '#FBBF24', '#A78BFA', '#22D3EE', '#10B981', '#F97316'];
+  const categoryMap = {};
+  myReports.forEach((r) => {
+    const key = r.category?.key
+      ? r.category.key.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+      : 'Other';
+    categoryMap[key] = (categoryMap[key] || 0) + 1;
+  });
+  const violationTypes = Object.entries(categoryMap).map(([name, value], i) => ({
+    name,
+    value,
+    color: PIE_COLORS[i % PIE_COLORS.length],
+  }));
 
   const recentActivity = myReports.slice(0, 5).map((r) => ({
     id: r._id,
@@ -140,44 +147,37 @@ const DashboardPage = () => {
               {/* Safety Score Card */}
               <motion.div variants={itemVariants}>
                 <Card variant="elevated" size="lg">
-                  <div className="text-center">
-                    <div className="inline-flex p-3 rounded-full bg-cyan-400/20 text-cyan-400 mb-4">
-                      <Shield size={28} />
-                    </div>
-
-                    <h3 className="text-3xl font-bold text-white mb-2">
-                      {userProfile.safetyScore}
-                    </h3>
-
-                    <p className="text-base text-slate-300">
-                      {STRINGS.SAFETY_SCORE_TITLE}
-                    </p>
-                  </div>
+                  <SafetyScoreCard
+                    score={userProfile.safetyScore}
+                    maxScore={maxScore}
+                    improvementFromLastMonth={improvementFromLastMonth}
+                    size="sm"
+                  />
                 </Card>
               </motion.div>
 
-              {/* Safe Drives Card */}
-              <motion.div variants={itemVariants}>
-                <Card variant="elevated" size="lg">
+              {/* Approved Reports Card */}
+              <motion.div variants={itemVariants} className="flex">
+                <Card variant="elevated" size="lg" className="flex-1 flex flex-col justify-center">
                   <div className="text-center">
                     <div className="inline-flex p-3 rounded-full bg-green-500/20 text-green-500 mb-4">
                       <CheckCircle size={28} />
                     </div>
 
                     <h3 className="text-3xl font-bold text-white mb-2">
-                      {userProfile.safeDrives}
+                      {userProfile.approvedReports}
                     </h3>
 
                     <p className="text-base text-slate-300">
-                      {STRINGS.SAFE_DRIVES}
+                      Approved Reports
                     </p>
                   </div>
                 </Card>
               </motion.div>
 
               {/* Violations Card */}
-              <motion.div variants={itemVariants}>
-                <Card variant="elevated" size="lg">
+              <motion.div variants={itemVariants} className="flex">
+                <Card variant="elevated" size="lg" className="flex-1 flex flex-col justify-center">
                   <div className="text-center">
                     <div className="inline-flex p-3 rounded-full bg-red-500/20 text-red-500 mb-4">
                       <AlertTriangle size={28} />
@@ -195,8 +195,8 @@ const DashboardPage = () => {
               </motion.div>
 
               {/* Reports Card */}
-              <motion.div variants={itemVariants}>
-                <Card variant="elevated" size="lg">
+              <motion.div variants={itemVariants} className="flex">
+                <Card variant="elevated" size="lg" className="flex-1 flex flex-col justify-center">
                   <div className="text-center">
                     <div className="inline-flex p-3 rounded-full bg-cyan-400/20 text-cyan-400 mb-4">
                       <MapPin size={28} />
@@ -220,12 +220,12 @@ const DashboardPage = () => {
               <motion.div variants={itemVariants}>
                 <Card variant="elevated" size="lg">
                   <h3 className="text-xl font-bold text-white mb-4">
-                    Safety Score Trend
+                    Monthly Reports
                   </h3>
 
                   <div className="h-75 mt-4">
                     <ResponsiveContainer width="100%" height="100%">
-                      <AreaChart data={safetyScoreHistory}>
+                      <AreaChart data={monthlyBreakdown}>
                         <defs>
                           <linearGradient id="scoreGradient" x1="0" y1="0" x2="0" y2="1">
                             <stop offset="5%" stopColor="#6366F1" stopOpacity={0.3} />
@@ -234,18 +234,19 @@ const DashboardPage = () => {
                         </defs>
                         <CartesianGrid strokeDasharray="3 3" stroke="rgba(203, 213, 225, 0.2)" />
                         <XAxis dataKey="month" stroke="#64748B" />
-                        <YAxis stroke="#64748B" />
-                        <Tooltip
+                        <YAxis allowDecimals={false} stroke="#64748B" />
+                        <ChartTooltip
                           contentStyle={{
                             backgroundColor: '#FFFFFF',
                             border: 'none',
                             borderRadius: '0.75rem',
                             boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
                           }}
+                          formatter={(value) => [value, 'Reports']}
                         />
                         <Area
                           type="monotone"
-                          dataKey="score"
+                          dataKey="count"
                           stroke="#6366F1"
                           strokeWidth={3}
                           fill="url(#scoreGradient)"
@@ -260,27 +261,33 @@ const DashboardPage = () => {
               <motion.div variants={itemVariants}>
                 <Card variant="elevated" size="lg">
                   <h3 className="text-xl font-bold text-white mb-4">
-                    Violation Breakdown
+                    Report Category Breakdown
                   </h3>
 
                   <div className="h-75 mt-4">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <PieChart>
-                        <Pie
-                          data={violationTypes}
-                          cx="50%"
-                          cy="50%"
-                          outerRadius={80}
-                          dataKey="value"
-                          label={({ name, value }) => `${name}: ${value}`}
-                        >
-                          {violationTypes.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.color} />
-                          ))}
-                        </Pie>
-                        <Tooltip />
-                      </PieChart>
-                    </ResponsiveContainer>
+                    {violationTypes.length === 0 ? (
+                      <div className="flex items-center justify-center h-full text-slate-400 text-sm">
+                        No reports yet
+                      </div>
+                    ) : (
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie
+                            data={violationTypes}
+                            cx="50%"
+                            cy="50%"
+                            outerRadius={80}
+                            dataKey="value"
+                            label={({ name, value }) => `${name}: ${value}`}
+                          >
+                            {violationTypes.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={entry.color} />
+                            ))}
+                          </Pie>
+                          <ChartTooltip />
+                        </PieChart>
+                      </ResponsiveContainer>
+                    )}
                   </div>
                 </Card>
               </motion.div>

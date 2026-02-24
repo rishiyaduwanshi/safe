@@ -107,6 +107,10 @@ export const reportsApi = {
         return apiService.get(API_ENDPOINTS.USER_REPORTS);
     },
 
+    getMyStats: async () => {
+        return apiService.get(API_ENDPOINTS.REPORT_STATS);
+    },
+
     getReportById: async (id) => {
         return apiService.get(API_ENDPOINTS.REPORT_DETAILS.replace(':id', id));
     },

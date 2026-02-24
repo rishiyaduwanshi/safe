@@ -12,6 +12,7 @@ export const API_ENDPOINTS = {
   ME: '/auth/me',
   SUBMIT_REPORT: '/reports',
   USER_REPORTS: '/reports/me',
+  REPORT_STATS: '/reports/stats',
   REPORT_DETAILS: '/reports/:id',
   LICENSE_LOOKUP: '/license/lookup',
   PROFILE_ME: '/profile/me',
