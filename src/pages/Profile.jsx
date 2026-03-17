@@ -82,7 +82,9 @@ const ProfilePage = () => {
     lookupMutation.reset(); saveMutation.reset();
   };
 
-  const displayName = savedProfile?.name ?? user?.name ?? 'Driver';
+  const profileName = typeof savedProfile?.name === 'string' ? savedProfile.name.trim() : '';
+  const userName = typeof user?.name === 'string' ? user.name.trim() : '';
+  const displayName = profileName || userName
   const initials = displayName.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2);
 
   if (profileLoading) {
@@ -214,7 +216,7 @@ const ProfilePage = () => {
                         </div>
                         <div className="flex flex-col gap-4">
                           {[
-                            { label: 'Full Name', value: savedProfile.name, icon: User },
+                            { label: 'Full Name', value: displayName, icon: User },
                             { label: 'Driver ID', value: savedProfile.driverId, icon: CreditCard },
                             { label: 'Phone', value: savedProfile.phone, icon: Phone },
                             { label: 'Email', value: savedProfile.email, icon: Mail },
