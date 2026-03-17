@@ -7,17 +7,17 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
 // Thresholds on 0–1000 scale (CIBIL-style)
-export const getScoreColor = (score) => {
+export const getScoreColor = (score, hasHistory = true) => {
+    if (!hasHistory) return '#64748B'; // no history
     if (score >= 750) return '#10B981'; // excellent
     if (score >= 600) return '#22D3EE'; // good
     if (score >= 400) return '#F59E0B'; // fair
-    if (score > 0) return '#EF4444'; // poor
-    return '#64748B';                   // no history
+    return '#EF4444'; // poor
 };
 
 // Returns a plain-English label + color — easy for any user to understand
-export const getScoreGrade = (score) => {
-    if (score === 0) return { grade: 'No History', color: '#64748B' };
+export const getScoreGrade = (score, hasHistory = true) => {
+    if (!hasHistory) return { grade: 'No History', color: '#64748B' };
     if (score >= 900) return { grade: 'Exceptional', color: '#10B981' };
     if (score >= 750) return { grade: 'Excellent', color: '#10B981' };
     if (score >= 650) return { grade: 'Good', color: '#22D3EE' };
@@ -34,15 +34,17 @@ export const getScoreGrade = (score) => {
  * Renders a circular SVG gauge that animates from 0 → `score`.
  *
  * Props:
- *   score                   – current score (0-100)
- *   maxScore                – max possible score (default 100)
+ *   score                   – current score (0-1000)
+ *   hasHistory              – whether score is initialized from moderation history
+ *   maxScore                – max possible score (default 1000)
  *   improvementFromLastMonth – numeric delta to show trend label
  *   size                    – 'sm' | 'md' (default 'md')
  *   showTrend               – show "+N this month" label (default true)
  */
 const SafetyScoreCard = ({
     score,
-    maxScore = 100,
+    hasHistory = score > 0,
+    maxScore = 1000,
     improvementFromLastMonth = 0,
     size = 'md',
     showTrend = true,
@@ -75,8 +77,8 @@ const SafetyScoreCard = ({
     const r = size === 'sm' ? 50 : RADIUS;
     const circ = 2 * Math.PI * r;
     const offset = circ * (1 - animated / maxScore);
-    const color = getScoreColor(score);
-    const { grade, color: gradeColor } = getScoreGrade(score);
+    const color = getScoreColor(score, hasHistory);
+    const { grade, color: gradeColor } = getScoreGrade(score, hasHistory);
 
     const TrendIcon = improvementFromLastMonth > 0
         ? TrendingUp

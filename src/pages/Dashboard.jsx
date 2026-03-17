@@ -50,6 +50,7 @@ const DashboardPage = () => {
 
   const {
     score: safetyScore,
+    hasCssHistory,
     maxScore,
     improvementFromLastMonth,
     approvedReports,
@@ -193,6 +194,7 @@ const DashboardPage = () => {
                 <Card variant="elevated" size="lg">
                   <SafetyScoreCard
                     score={safetyScore}
+                    hasHistory={hasCssHistory}
                     maxScore={maxScore}
                     improvementFromLastMonth={improvementFromLastMonth}
                     size="sm"

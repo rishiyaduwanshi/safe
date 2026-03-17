@@ -29,7 +29,12 @@ const ProfilePage = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  const { score: safetyScore, maxScore, improvementFromLastMonth } = useSafetyScore();
+  const {
+    score: safetyScore,
+    hasCssHistory,
+    maxScore,
+    improvementFromLastMonth,
+  } = useSafetyScore();
 
   const [activeTab, setActiveTab] = useState('violations');
   const [dlInput, setDlInput] = useState('');
@@ -84,7 +89,7 @@ const ProfilePage = () => {
 
   const profileName = typeof savedProfile?.name === 'string' ? savedProfile.name.trim() : '';
   const userName = typeof user?.name === 'string' ? user.name.trim() : '';
-  const displayName = profileName || userName
+  const displayName = profileName || userName || 'Driver';
   const initials = displayName.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2);
 
   if (profileLoading) {
@@ -151,6 +156,7 @@ const ProfilePage = () => {
                 <div className="text-center min-w-50">
                   <SafetyScoreCard
                     score={safetyScore}
+                    hasHistory={hasCssHistory}
                     maxScore={maxScore}
                     improvementFromLastMonth={improvementFromLastMonth}
                   />

@@ -5,12 +5,12 @@ import { useMyReports } from './useReports.js';
 /**
  * Fetches the user's Citizen Safety Score (CSS) from the backend.
  *
- * The score is STORED on the User document in MongoDB (default 100, max 200)
+ * The score is STORED on the User document in MongoDB (0–1000 range)
  * and is mutated by the moderator on approve/reject — never recomputed here.
  *
- *   approved report  →  +category.weight
- *   rejected report  →  −category.weight × 3  (misuse penalty)
- *   clamped [0, 200]
+ *   approved report  →  +(category.weight * 10)
+ *   rejected report  →  −(category.weight * 10 * 3)
+ *   clamped [0, 1000]
  *
  * myReports is included so Dashboard can show recent activity + pie chart.
  */
@@ -27,6 +27,7 @@ export function useSafetyScore() {
 
     return {
         score: stats?.css ?? 0,
+        hasCssHistory: Boolean(stats?.hasCssHistory),
         maxScore: stats?.maxCss ?? 1000,
         improvementFromLastMonth: stats?.improvementFromLastMonth ?? 0,
         approvedReports: stats?.counts?.approved ?? 0,
