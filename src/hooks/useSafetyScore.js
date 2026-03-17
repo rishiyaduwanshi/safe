@@ -15,9 +15,9 @@ import { useMyReports } from './useReports.js';
  * myReports is included so Dashboard can show recent activity + pie chart.
  */
 export function useSafetyScore() {
-    const { data: myReports = [] } = useMyReports();
+    const { data: myReports = [], isLoading: isReportsLoading } = useMyReports();
 
-    const { data: statsRes, isLoading } = useQuery({
+    const { data: statsRes, isLoading: isStatsLoading } = useQuery({
         queryKey: ['report-stats'],
         queryFn: () => reportsApi.getMyStats(),
         staleTime: 1000 * 60 * 2, // 2 min
@@ -30,10 +30,11 @@ export function useSafetyScore() {
         maxScore: stats?.maxCss ?? 1000,
         improvementFromLastMonth: stats?.improvementFromLastMonth ?? 0,
         approvedReports: stats?.counts?.approved ?? 0,
-        violationReports: myReports.filter((r) => r.category?.type === 'violation').length,
-        reportsSubmitted: stats?.counts?.total ?? myReports.length,
+        pendingReports: stats?.counts?.pending ?? 0,
+        rejectedReports: stats?.counts?.rejected ?? 0,
+        totalReports: stats?.counts?.total ?? myReports.length,
         monthlyBreakdown: stats?.monthlyBreakdown ?? [],
         myReports,
-        isLoading,
+        isLoading: isStatsLoading || isReportsLoading,
     };
 }

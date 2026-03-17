@@ -5,7 +5,6 @@ import {
   Shield,
   LayoutDashboard,
   FileText,
-  ClipboardCheck,
   LogOut,
   Menu,
   X,
@@ -17,7 +16,6 @@ import { MOD_ROUTES } from '../constants/routes.js';
 const NAV_ITEMS = [
   { label: 'Dashboard', path: MOD_ROUTES.DASHBOARD, icon: LayoutDashboard },
   { label: 'All Reports', path: MOD_ROUTES.REPORTS, icon: FileText },
-  { label: 'Review Queue', path: MOD_ROUTES.REPORTS_QUEUE, icon: ClipboardCheck },
 ];
 
 const Sidebar = ({ open, onClose }) => {
