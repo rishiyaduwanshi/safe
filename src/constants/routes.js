@@ -5,6 +5,12 @@ export const MOD_ROUTES = {
   REPORTS_QUEUE: '/mod/reports/queue',
 };
 
+export const ADMIN_ROUTES = {
+  LOGIN: '/admin/login',
+  DASHBOARD: '/admin/dashboard',
+  MODERATORS: '/admin/moderators',
+};
+
 export const ROUTES = {
   HOME: '/',
   DASHBOARD: '/dashboard',

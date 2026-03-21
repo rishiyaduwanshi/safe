@@ -1,9 +1,11 @@
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import { MainLayout } from './layouts/index.js';
 import ModLayout from './layouts/ModLayout.jsx';
-import { ROUTES, MOD_ROUTES } from './constants/index.js';
+import AdminLayout from './layouts/AdminLayout.jsx';
+import { ROUTES, MOD_ROUTES, ADMIN_ROUTES } from './constants/index.js';
 import { AuthProvider } from './contexts/AuthContext.jsx';
 import { ModAuthProvider, useModAuth } from './contexts/ModAuthContext.jsx';
+import { AdminAuthProvider, useAdminAuth } from './contexts/AdminAuthContext.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 
 import HomePage from './pages/Home.jsx';
@@ -18,12 +20,21 @@ import SignUp from './pages/SignUp.jsx';
 import ModLogin from './pages/mod/ModLogin.jsx';
 import ModDashboard from './pages/mod/ModDashboard.jsx';
 import ModReportsQueue from './pages/mod/ModReportsQueue.jsx';
+import AdminLogin from './pages/admin/AdminLogin.jsx';
+import AdminDashboard from './pages/admin/AdminDashboard.jsx';
+import AdminModerators from './pages/admin/AdminModerators.jsx';
 
 // Route guard for moderator-only pages
 const ModProtectedRoute = ({ children }) => {
   const { isAuthenticated, isLoading } = useModAuth();
   if (isLoading) return null;
   return isAuthenticated ? children : <Navigate to={MOD_ROUTES.LOGIN} replace />;
+};
+
+const AdminProtectedRoute = ({ children }) => {
+  const { isAuthenticated, isLoading } = useAdminAuth();
+  if (isLoading) return null;
+  return isAuthenticated ? children : <Navigate to={ADMIN_ROUTES.LOGIN} replace />;
 };
 
 
@@ -101,6 +112,17 @@ const router = createBrowserRouter([
       { path: 'dashboard', element: <ModProtectedRoute><ModDashboard /></ModProtectedRoute> },
       { path: 'reports', element: <ModProtectedRoute><ModReportsQueue /></ModProtectedRoute> },
       { path: 'reports/queue', element: <ModProtectedRoute><ModReportsQueue /></ModProtectedRoute> },
+    ],
+  },
+
+  {
+    path: '/admin',
+    element: <AdminAuthProvider><AdminLayout /></AdminAuthProvider>,
+    children: [
+      { index: true, element: <Navigate to={ADMIN_ROUTES.LOGIN} replace /> },
+      { path: 'login', element: <AdminLogin /> },
+      { path: 'dashboard', element: <AdminProtectedRoute><AdminDashboard /></AdminProtectedRoute> },
+      { path: 'moderators', element: <AdminProtectedRoute><AdminModerators /></AdminProtectedRoute> },
     ],
   },
 ]);
