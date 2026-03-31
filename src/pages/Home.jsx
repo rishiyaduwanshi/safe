@@ -160,6 +160,7 @@ const Home = () => {
                 Watch Demo
               </motion.button>
             </div>
+
           </motion.div>
 
           {/* Stats */}

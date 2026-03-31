@@ -2,7 +2,7 @@ import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { ROUTES } from '../constants/routes.js';
+import { ADMIN_ROUTES, MOD_ROUTES, ROUTES } from '../constants/routes.js';
 import { useAuth } from '../contexts/AuthContext.jsx';
 
 const SignIn = () => {
@@ -131,6 +131,24 @@ const SignIn = () => {
               Sign up
             </Link>
           </p>
+
+          <div className="mt-5 pt-5 border-t border-white/10">
+            <p className="text-center text-gray-400 text-xs uppercase tracking-wide mb-3">Staff Portals</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <Link
+                to={MOD_ROUTES.LOGIN}
+                className="text-center px-4 py-2.5 bg-white/6 border border-white/12 rounded-lg text-sm font-medium text-slate-200 no-underline hover:bg-white/10 transition-colors"
+              >
+                Moderator Login
+              </Link>
+              <Link
+                to={ADMIN_ROUTES.LOGIN}
+                className="text-center px-4 py-2.5 bg-cyan-500/12 border border-cyan-500/25 rounded-lg text-sm font-semibold text-cyan-100 no-underline hover:bg-cyan-500/18 transition-colors"
+              >
+                Admin Login
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </div>
