@@ -19,7 +19,7 @@ const NAV_ITEMS = [
 ];
 
 const Sidebar = ({ open, onClose }) => {
-  const { moderator, signout } = useModAuth();
+  const { moderator, signout, isAuthenticated } = useModAuth();
   const navigate = useNavigate();
 
   const handleSignout = async () => {
@@ -96,15 +96,17 @@ const Sidebar = ({ open, onClose }) => {
         </nav>
 
         {/* Signout */}
-        <div className="px-3 py-4 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
-          <button
-            onClick={handleSignout}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-red-400 hover:bg-red-500/8 border border-transparent transition-all duration-200"
-          >
-            <LogOut size={17} />
-            Sign Out
-          </button>
-        </div>
+        {isAuthenticated && (
+          <div className="px-3 py-4 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
+            <button
+              onClick={handleSignout}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-red-400 hover:bg-red-500/8 border border-transparent transition-all duration-200"
+            >
+              <LogOut size={17} />
+              Sign Out
+            </button>
+          </div>
+        )}
       </motion.aside>
     </>
   );
