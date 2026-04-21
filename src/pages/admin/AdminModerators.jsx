@@ -1,8 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Plus, Save, ToggleLeft, ToggleRight, Trash2, Shield, CircleAlert } from 'lucide-react';
 import { adminModeratorsApi } from '../../constants/admin.services.js';
+import { ToastHost } from '../../components/index.js';
+import { useToast } from '../../hooks/index.js';
 
 const PERMISSIONS = [
   'report:view',
@@ -44,22 +46,9 @@ const AdminModerators = () => {
     permissions: PRESETS.VIEWER,
   });
   const [uiError, setUiError] = useState('');
-  const [toast, setToast] = useState(null);
-  const toastTimerRef = useRef(null);
+  const { toast, showToast } = useToast();
   const [activeEditId, setActiveEditId] = useState('');
   const [editedPermissions, setEditedPermissions] = useState([]);
-
-  useEffect(() => {
-    return () => {
-      if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
-    };
-  }, []);
-
-  const showToast = (message, type = 'success') => {
-    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
-    setToast({ message, type, id: Date.now() });
-    toastTimerRef.current = setTimeout(() => setToast(null), 2500);
-  };
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['admin-moderators'],
@@ -148,9 +137,11 @@ const AdminModerators = () => {
     onSuccess: () => {
       refreshModerators();
       setUiError('');
+      showToast('Moderator deleted', 'success');
     },
     onError: (error) => {
       setUiError(error?.message || 'Failed to delete moderator.');
+      showToast('Failed to delete moderator', 'error');
     },
   });
 
@@ -205,20 +196,7 @@ const AdminModerators = () => {
 
   return (
     <div className="p-6 lg:p-8 max-w-7xl mx-auto">
-      {toast && (
-        <div className="fixed top-5 right-5 z-50">
-          <div
-            className={
-              `px-4 py-3 rounded-xl border text-sm ` +
-              (toast.type === 'error'
-                ? 'bg-red-500/10 border-red-500/20 text-red-200'
-                : 'bg-emerald-500/10 border-emerald-500/20 text-emerald-200')
-            }
-          >
-            {toast.message}
-          </div>
-        </div>
-      )}
+      <ToastHost toast={toast} />
 
       <div className="flex items-center gap-3 mb-6">
         <Shield size={22} className="text-cyan-400" />
@@ -388,9 +366,11 @@ const AdminModerators = () => {
                         </button>
                         <button
                           onClick={() => deleteMutation.mutate(moderator.id)}
+                          disabled={deleteMutation.isPending && deleteMutation.variables === moderator.id}
                           className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-red-500/28 bg-red-500/10 text-red-200"
                         >
-                          <Trash2 size={13} /> Delete
+                          <Trash2 size={13} />
+                          {deleteMutation.isPending && deleteMutation.variables === moderator.id ? 'Deleting...' : 'Delete'}
                         </button>
                       </div>
                     </td>

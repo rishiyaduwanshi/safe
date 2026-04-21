@@ -6,3 +6,4 @@ export { default as LoadingAnimation } from './loadingAnimation.jsx'
 export { default as ProtectedRoute } from './ProtectedRoute.jsx';
 export { default as SafetyScoreCard, getScoreColor, getScoreGrade } from './SafetyScoreCard.jsx';
 export { default as Tooltip } from './Tooltip.jsx';
+export { default as ToastHost } from './ToastHost.jsx';
