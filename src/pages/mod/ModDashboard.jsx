@@ -53,7 +53,7 @@ const ModDashboard = () => {
     staleTime: 1000 * 30,
   });
 
-  const stats = data?.data ?? {};
+  const stats = data?.data?.stats ?? data?.data ?? {};
 
   return (
     <div className="p-6 lg:p-8 max-w-5xl mx-auto">

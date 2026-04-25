@@ -1,21 +1,38 @@
 import { motion, AnimatePresence } from 'framer-motion';
+import { createElement } from 'react';
 import { X, MapPin, Calendar, Brain, AlertCircle } from 'lucide-react';
 import { useReportById } from '../../hooks/index.js';
 import ReportStatusBadge from './ReportStatusBadge.jsx';
 import SeverityBadge from './SeverityBadge.jsx';
 
-const Row = ({ icon: Icon, label, value }) => (
-  <div className="flex items-start gap-3">
-    <Icon size={15} className="text-slate-400 mt-0.5 shrink-0" />
-    <div>
-      <p className="text-xs text-slate-400 mb-0.5">{label}</p>
-      <p className="text-sm text-white">{value || '—'}</p>
+const Row = ({ icon: Icon, label, value }) => {
+  const iconEl = Icon
+    ? createElement(Icon, { size: 15, className: 'text-slate-400 mt-0.5 shrink-0' })
+    : null;
+
+  return (
+    <div className="flex items-start gap-3">
+      {iconEl}
+      <div>
+        <p className="text-xs text-slate-400 mb-0.5">{label}</p>
+        <p className="text-sm text-white">{value || '—'}</p>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const ReportDetailPanel = ({ reportId, onClose }) => {
   const { data: report, isLoading, isError } = useReportById(reportId);
+
+  const comments = Array.isArray(report?.comments) ? report.comments : [];
+
+  const formatRole = (role) => {
+    if (role === 'ai') return 'AI';
+    if (role === 'system') return 'System';
+    if (role === 'moderator') return 'Moderator';
+    if (role === 'admin') return 'Admin';
+    return 'Note';
+  };
 
   return (
     <AnimatePresence>
@@ -83,6 +100,13 @@ const ReportDetailPanel = ({ reportId, onClose }) => {
                     <p className="text-sm text-slate-200 leading-relaxed">{report.reportText}</p>
                   </div>
 
+                  {report.status === 'rejected' && report.rejectionReason && (
+                    <div className="p-4 rounded-xl" style={{ background: '#1e293b', border: '1px solid #334155' }}>
+                      <p className="text-xs text-slate-400 mb-2 font-medium uppercase tracking-wide">Rejection Reason</p>
+                      <p className="text-sm text-slate-200 leading-relaxed">{report.rejectionReason}</p>
+                    </div>
+                  )}
+
                   {/* Classification */}
                   <div className="flex flex-col gap-3">
                     <p className="text-xs text-slate-400 font-medium uppercase tracking-wide">AI Classification</p>
@@ -116,6 +140,29 @@ const ReportDetailPanel = ({ reportId, onClose }) => {
                       <Row icon={Calendar} label="Submitted" value={new Date(report.createdAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })} />
                     </div>
                   </div>
+
+                  {/* Comments */}
+                  {comments.length > 0 && (
+                    <div className="flex flex-col gap-3">
+                      <p className="text-xs text-slate-400 font-medium uppercase tracking-wide">Comments</p>
+                      <div className="flex flex-col gap-2 p-4 rounded-xl" style={{ background: '#1e293b', border: '1px solid #334155' }}>
+                        {comments
+                          .slice()
+                          .sort((a, b) => new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime())
+                          .map((c, idx) => (
+                            <div key={`${c.createdAt || 'c'}-${idx}`} className="text-sm text-slate-200">
+                              <div className="flex items-center justify-between gap-3">
+                                <span className="text-xs text-slate-400">{formatRole(c.authorRole)}</span>
+                                <span className="text-[11px] text-slate-500">
+                                  {c.createdAt ? new Date(c.createdAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : ''}
+                                </span>
+                              </div>
+                              <p className="mt-1 leading-relaxed">{c.message}</p>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  )}
 
                   {/* Report ID */}
                   <p className="text-xs text-slate-600 font-mono break-all">ID: {report._id}</p>

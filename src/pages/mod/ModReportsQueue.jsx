@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { CheckCircle, ChevronLeft, ChevronRight, FileText, RefreshCw } from 'lucide-react';
 import {
@@ -6,8 +7,10 @@ import {
   RejectReportModal,
 } from '../../components/mod/reports/index.js';
 import { useModReportsQueue } from '../../hooks/index.js';
+import { useModAuth } from '../../contexts/ModAuthContext.jsx';
 
 const ModReportsQueue = () => {
+  const { moderator } = useModAuth();
   const {
     filters,
     page,
@@ -25,11 +28,47 @@ const ModReportsQueue = () => {
     openRejectModal,
     closeRejectModal,
     approveReport,
+    updateCategory,
     rejectReport,
     isRejectPending,
     isApprovingReport,
     isRejectingReport,
+    isUpdatingCategory,
   } = useModReportsQueue();
+
+  const canEditCategory = Array.isArray(moderator?.permissions)
+    ? moderator.permissions.includes('report:approve')
+    : true;
+
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+
+    const statusCounts = Array.isArray(reports)
+      ? reports.reduce((acc, report) => {
+        const key = report?.status ?? 'unknown';
+        acc[key] = (acc[key] ?? 0) + 1;
+        return acc;
+      }, {})
+      : {};
+
+    const canActSample = Array.isArray(reports)
+      ? reports.slice(0, 10).map((r) => ({
+        id: r?._id?.slice(-8),
+        status: r?.status,
+        needsReview: r?.needsReview,
+        canAct: r?.status === 'pending' || r?.status === 'review',
+      }))
+      : [];
+
+    console.groupCollapsed('[ModReportsQueue] debug');
+    console.log('moderator:', moderator);
+    console.log('permissions:', moderator?.permissions);
+    console.log('canEditCategory (needs report:approve):', canEditCategory);
+    console.log('reports count:', Array.isArray(reports) ? reports.length : 'not-array');
+    console.log('statusCounts:', statusCounts);
+    console.log('sample canAct (first 10):', canActSample);
+    console.groupEnd();
+  }, [moderator, canEditCategory, reports]);
 
   return (
     <div className="p-6 lg:p-8 max-w-5xl mx-auto">
@@ -85,9 +124,12 @@ const ModReportsQueue = () => {
                 key={report._id}
                 report={report}
                 onApprove={approveReport}
+                onUpdateCategory={updateCategory}
                 onReject={openRejectModal}
                 approving={isApprovingReport(report._id)}
                 rejecting={isRejectingReport(report._id)}
+                updatingCategory={isUpdatingCategory(report._id)}
+                canEditCategory={canEditCategory}
               />
             ))}
           </div>

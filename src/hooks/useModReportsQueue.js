@@ -4,94 +4,117 @@ import { modReportsApi } from '../constants/mod.services.js';
 
 const PAGE_LIMIT = 15;
 
-export function useModReportsQueue() {
-    const queryClient = useQueryClient();
-    const [filters, setFilters] = useState({ status: '', needsReview: '' });
-    const [page, setPage] = useState(1);
-    const [rejectTarget, setRejectTarget] = useState(null);
+export function useModReportsQueue(options = {}) {
+  const queryClient = useQueryClient();
+  const initialFilters = options?.initialFilters;
+  const [filters, setFilters] = useState(() => ({
+    status: initialFilters?.status ?? '',
+    needsReview: initialFilters?.needsReview ?? '',
+  }));
+  const [page, setPage] = useState(1);
+  const [rejectTarget, setRejectTarget] = useState(null);
 
-    const queryParams = { page, limit: PAGE_LIMIT, ...filters };
+  const queryParams = { page, limit: PAGE_LIMIT, ...filters };
 
-    const reportsQuery = useQuery({
-        queryKey: ['mod-reports', queryParams],
-        queryFn: () => modReportsApi.list(queryParams),
-        keepPreviousData: true,
-    });
+  const reportsQuery = useQuery({
+    queryKey: ['mod-reports', queryParams],
+    queryFn: () => modReportsApi.list(queryParams),
+    keepPreviousData: true,
+  });
 
-    const invalidateReports = () => queryClient.invalidateQueries({ queryKey: ['mod-reports'] });
+  const invalidateReports = () => queryClient.invalidateQueries({ queryKey: ['mod-reports'] });
 
-    const approveMutation = useMutation({
-        mutationFn: (reportId) => modReportsApi.approve(reportId),
-        onSuccess: invalidateReports,
-    });
+  const approveMutation = useMutation({
+    mutationFn: ({ id, comment }) => modReportsApi.approve(id, { comment }),
+    onSuccess: invalidateReports,
+  });
 
-    const rejectMutation = useMutation({
-        mutationFn: ({ id, reason }) => modReportsApi.reject(id, reason),
-        onSuccess: () => {
-            invalidateReports();
-            setRejectTarget(null);
-        },
-    });
+  const updateCategoryMutation = useMutation({
+    mutationFn: ({ id, categoryKey }) => modReportsApi.updateCategory(id, categoryKey),
+    onSuccess: invalidateReports,
+  });
 
-    const reports = reportsQuery.data?.data?.reports ?? [];
-    const pagination = reportsQuery.data?.data?.pagination ?? {};
+  const rejectMutation = useMutation({
+    mutationFn: ({ id, reason }) => modReportsApi.reject(id, reason),
+    onSuccess: () => {
+      invalidateReports();
+      setRejectTarget(null);
+    },
+  });
 
-    const totalPages = pagination.totalPages ?? 1;
-    const totalReports = pagination.total ?? reports.length;
+  const reports = reportsQuery.data?.data?.reports ?? [];
+  const pagination = reportsQuery.data?.data?.pagination ?? {};
 
-    const setStatusFilter = (status) => {
-        setFilters((current) => ({ ...current, status }));
-        setPage(1);
-    };
+  const totalPages = pagination.totalPages ?? 1;
+  const totalReports = pagination.total ?? reports.length;
 
-    const toggleNeedsReviewFilter = () => {
-        setFilters((current) => ({
-            ...current,
-            needsReview: current.needsReview === 'true' ? '' : 'true',
-        }));
-        setPage(1);
-    };
+  const setStatusFilter = (status) => {
+    setFilters((current) => ({ ...current, status }));
+    setPage(1);
+  };
 
-    const openRejectModal = (report) => setRejectTarget(report);
-    const closeRejectModal = () => setRejectTarget(null);
+  const toggleNeedsReviewFilter = () => {
+    setFilters((current) => ({
+      ...current,
+      needsReview: current.needsReview === 'true' ? '' : 'true',
+    }));
+    setPage(1);
+  };
 
-    const approveReport = (reportId) => approveMutation.mutate(reportId);
+  const openRejectModal = (report) => setRejectTarget(report);
+  const closeRejectModal = () => setRejectTarget(null);
 
-    const rejectReport = (reason) => {
-        const reportId = rejectTarget?._id;
-        if (!reportId) return;
+  const approveReport = (reportId, comment = '') => {
+    if (!reportId) return;
+    approveMutation.mutate({ id: reportId, comment });
+  };
 
-        rejectMutation.mutate({ id: reportId, reason });
-    };
+  const updateCategory = (reportId, categoryKey) => {
+    if (!reportId || !categoryKey) return;
+    updateCategoryMutation.mutate({ id: reportId, categoryKey });
+  };
 
-    const isApprovingReport = (reportId) => (
-        approveMutation.isPending && approveMutation.variables === reportId
-    );
+  const rejectReport = (reason) => {
+    const reportId = rejectTarget?._id;
+    if (!reportId) return;
 
-    const isRejectingReport = (reportId) => (
-        rejectMutation.isPending && rejectMutation.variables?.id === reportId
-    );
+    rejectMutation.mutate({ id: reportId, reason });
+  };
 
-    return {
-        filters,
-        page,
-        setPage,
-        reports,
-        totalPages,
-        totalReports,
-        isLoading: reportsQuery.isLoading,
-        isError: reportsQuery.isError,
-        isFetching: reportsQuery.isFetching,
-        refetchReports: reportsQuery.refetch,
-        rejectTarget,
-        setStatusFilter,
-        toggleNeedsReviewFilter,
-        openRejectModal,
-        closeRejectModal,
-        approveReport,
-        rejectReport,
-        isRejectPending: rejectMutation.isPending,
-        isApprovingReport,
-        isRejectingReport,
-    };
+  const isApprovingReport = (reportId) => (
+    approveMutation.isPending && approveMutation.variables?.id === reportId
+  );
+
+  const isRejectingReport = (reportId) => (
+    rejectMutation.isPending && rejectMutation.variables?.id === reportId
+  );
+
+  const isUpdatingCategory = (reportId) => (
+    updateCategoryMutation.isPending && updateCategoryMutation.variables?.id === reportId
+  );
+
+  return {
+    filters,
+    page,
+    setPage,
+    reports,
+    totalPages,
+    totalReports,
+    isLoading: reportsQuery.isLoading,
+    isError: reportsQuery.isError,
+    isFetching: reportsQuery.isFetching,
+    refetchReports: reportsQuery.refetch,
+    rejectTarget,
+    setStatusFilter,
+    toggleNeedsReviewFilter,
+    openRejectModal,
+    closeRejectModal,
+    approveReport,
+    updateCategory,
+    rejectReport,
+    isRejectPending: rejectMutation.isPending,
+    isApprovingReport,
+    isRejectingReport,
+    isUpdatingCategory,
+  };
 }

@@ -69,7 +69,13 @@ const ReportCard = ({ report, onClick }) => {
       {/* Review notice */}
       {report.needsReview && (
         <div className="text-xs px-3 py-1.5 rounded-lg" style={{ background: '#F59E0B15', color: '#F59E0B' }}>
-          ⏳ Awaiting human review — AI confidence was below threshold
+          ⏳ Awaiting  review - confidence was below threshold
+        </div>
+      )}
+
+      {report.status === 'rejected' && report.rejectionReason && (
+        <div className="text-xs px-3 py-1.5 rounded-lg" style={{ background: '#EF444415', color: '#FCA5A5' }}>
+          ❌ {report.rejectionReason}
         </div>
       )}
     </motion.div>

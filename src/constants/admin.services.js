@@ -10,6 +10,7 @@ const adminRequest = async (endpoint, options = {}) => {
       ...options.headers,
     },
     credentials: 'include',
+    cache: 'no-store',
     ...options,
   });
 

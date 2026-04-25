@@ -9,22 +9,33 @@ const modRequest = async (endpoint, options = {}) => {
   const cfg = {
     headers: { 'Content-Type': 'application/json', ...options.headers },
     credentials: 'include',
+    cache: 'no-store',
     ...options,
   };
 
   const response = await fetch(url, cfg);
-  const data = await response.json();
+
+  const rawText = await response.text();
+  let data = null;
+  if (rawText) {
+    try {
+      data = JSON.parse(rawText);
+    } catch {
+      data = { message: rawText };
+    }
+  }
 
   if (!response.ok) {
     throw {
-      message: data.message || 'Something went wrong',
+      message: data?.message || 'Something went wrong',
       statusCode: response.status,
       success: false,
-      errors: data.errors || [],
+      errors: data?.errors || [],
     };
   }
 
-  return data;
+  // Some endpoints may return 204 No Content.
+  return data ?? { success: true };
 };
 
 // ─── Auth ─────────────────────────────────────────────────────────────────────
@@ -70,13 +81,24 @@ export const modReportsApi = {
   getById: (id) => modRequest(`/reports/${id}`),
 
   /** Approve a report */
-  approve: (id) => modRequest(`/reports/${id}/approve`, { method: 'PATCH' }),
+  approve: (id, payload = {}) =>
+    modRequest(`/reports/${id}/approve`, {
+      method: 'PATCH',
+      body: JSON.stringify(payload),
+    }),
 
   /** Reject a report */
-  reject: (id, reason) =>
+  reject: (id, reason, payload = {}) =>
     modRequest(`/reports/${id}/reject`, {
       method: 'PATCH',
-      body: JSON.stringify({ reason }),
+      body: JSON.stringify({ reason, ...payload }),
+    }),
+
+  /** Update category for a report */
+  updateCategory: (id, categoryKey, payload = {}) =>
+    modRequest(`/reports/${id}/category`, {
+      method: 'PATCH',
+      body: JSON.stringify({ categoryKey, ...payload }),
     }),
 };
 
