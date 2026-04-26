@@ -24,7 +24,11 @@ const Row = ({ icon: Icon, label, value }) => {
 const ReportDetailPanel = ({ reportId, onClose }) => {
   const { data: report, isLoading, isError } = useReportById(reportId);
 
-  const comments = Array.isArray(report?.comments) ? report.comments : [];
+  const comments = Array.isArray(report?.publicComments)
+    ? report.publicComments
+    : Array.isArray(report?.comments)
+      ? report.comments
+      : [];
 
   const formatRole = (role) => {
     if (role === 'ai') return 'AI';
