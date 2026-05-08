@@ -51,6 +51,7 @@ const DashboardPage = () => {
   const {
     score: safetyScore,
     hasCssHistory,
+    cssHistory,
     maxScore,
     improvementFromLastMonth,
     approvedReports,
@@ -307,6 +308,69 @@ const DashboardPage = () => {
                 </Card>
               </motion.div>
             </div>
+
+            {/* CSS History */}
+            <motion.div variants={itemVariants} className="mb-8">
+              <Card variant="elevated" size="lg">
+                <div className="flex justify-between items-center mb-6">
+                  <h3 className="text-xl font-bold text-white">CSS History</h3>
+                  <span className="text-sm text-slate-400">Last 50 changes</span>
+                </div>
+
+                {!cssHistory?.length ? (
+                  <div className="text-center py-10 text-slate-400 text-sm">
+                    No CSS changes recorded yet
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-3">
+                    {cssHistory.slice(0, 10).map((event) => {
+                      const delta = typeof event?.delta === 'number' ? event.delta : 0;
+                      const deltaLabel = delta > 0 ? `+${delta}` : `${delta}`;
+                      const deltaClass = delta >= 0 ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400';
+
+                      return (
+                        <div
+                          key={event._id}
+                          className="flex items-start gap-4 p-4 rounded-lg bg-background-tertiary border border-white/10"
+                        >
+                          <div className={`shrink-0 px-3 py-1.5 rounded-full text-sm font-bold ${deltaClass}`}>
+                            {deltaLabel}
+                          </div>
+
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-3 flex-wrap">
+                              <p className="text-sm font-semibold text-white">
+                                {event?.previousCss ?? '—'} → {event?.nextCss ?? '—'}
+                              </p>
+                              <span className="text-xs text-slate-400">
+                                {event?.createdAt ? new Date(event.createdAt).toLocaleString() : ''}
+                              </span>
+                            </div>
+
+                            <p className="text-sm text-slate-300 mt-1">
+                              {event?.decision === 'approved' ? 'Approved report' : event?.decision === 'rejected' ? 'Rejected report' : 'Update'}
+                              {event?.categoryId != null ? ` • Category: ${event.categoryId}` : ''}
+                            </p>
+
+                            {event?.note ? (
+                              <p className="text-sm text-slate-200/90 mt-2 whitespace-pre-wrap">
+                                {event.note}
+                              </p>
+                            ) : null}
+                          </div>
+                        </div>
+                      );
+                    })}
+
+                    {cssHistory.length > 10 && (
+                      <p className="text-xs text-slate-400 pt-1">
+                        Showing latest 10 changes. More available.
+                      </p>
+                    )}
+                  </div>
+                )}
+              </Card>
+            </motion.div>
 
             {/* Recent Activity */}
             <motion.div variants={itemVariants}>

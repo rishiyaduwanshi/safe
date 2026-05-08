@@ -8,6 +8,7 @@ import { useAdminAuth } from '../contexts/AdminAuthContext.jsx';
 const NAV_ITEMS = [
   { label: 'Dashboard', path: ADMIN_ROUTES.DASHBOARD, icon: LayoutDashboard },
   { label: 'Moderators', path: ADMIN_ROUTES.MODERATORS, icon: Users },
+  { label: 'Users', path: ADMIN_ROUTES.USERS, icon: Users },
 ];
 
 const Sidebar = ({ open, onClose }) => {

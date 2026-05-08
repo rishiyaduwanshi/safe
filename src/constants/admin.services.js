@@ -65,3 +65,21 @@ export const adminModeratorsApi = {
       method: 'DELETE',
     }),
 };
+
+export const adminUsersApi = {
+  list: ({ q, status, page, limit } = {}) => {
+    const params = new URLSearchParams();
+    if (q) params.set('q', q);
+    if (status) params.set('status', status);
+    if (page) params.set('page', String(page));
+    if (limit) params.set('limit', String(limit));
+
+    const query = params.toString();
+    return adminRequest(`/users${query ? `?${query}` : ''}`);
+  },
+  getById: (id) => adminRequest(`/users/${id}`),
+  toggleStatus: (id) =>
+    adminRequest(`/users/${id}/toggle`, {
+      method: 'PATCH',
+    }),
+};

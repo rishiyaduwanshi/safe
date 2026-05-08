@@ -28,6 +28,7 @@ const InfoRow = ({ icon: Icon, label, value }) => (
 const ProfilePage = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const isDeactivated = user?.isActive === false;
 
   const {
     score: safetyScore,
@@ -117,6 +118,11 @@ const ProfilePage = () => {
           {/* Header */}
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
             <Card variant="glass" size="full">
+              {isDeactivated && (
+                <div className="mb-5 p-4 rounded-xl border border-red-500/30 bg-red-500/10 text-sm text-red-200">
+                  Your account is deactivated. You can view your profile and reports, but you can’t save changes right now.
+                </div>
+              )}
               <div className="flex items-center gap-6 flex-wrap">
                 <div className="relative">
                   <div
@@ -303,7 +309,7 @@ const ProfilePage = () => {
                       )}
                       <button
                         onClick={() => saveMutation.mutate(previewData)}
-                        disabled={saveMutation.isPending}
+                        disabled={saveMutation.isPending || isDeactivated}
                         className="w-full py-3 rounded-lg font-bold text-white text-base transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                         style={{ background: 'linear-gradient(to right, #10B981, #059669)' }}
                       >

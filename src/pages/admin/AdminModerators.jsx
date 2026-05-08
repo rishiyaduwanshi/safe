@@ -14,6 +14,7 @@ const PERMISSIONS = [
   'violation:confirm',
   'violation:reject',
   'user:view',
+  'user:toggle',
   'hardware:view',
 ];
 

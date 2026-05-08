@@ -16,6 +16,8 @@ A revolutionary React.js application for national road safety monitoring and dri
 - **Real-time Violation Detection** - AI-powered helmet, speed, and traffic violation monitoring
 - **Citizen Safety Score (CSS)** - Dynamic scoring system for driver behavior evaluation  
 - **Hazard Reporting** - Crowdsourced pothole and road hazard detection
+- **Role-Based Portals** - Citizen, Moderator, and Admin workflows
+- **Moderator Management (Admin)** - Create moderators, toggle active status, and manage permissions
 - **Smart Analytics** - Traffic flow optimization and accident hotspot identification
 - **Premium UI/UX** - Design inspired by onified.ai and ryne.ai aesthetics
 
@@ -74,6 +76,12 @@ This project uses AI to **assist** moderation and classification (not to fully a
 - **Auto-reject** happens only for extremely low confidence / insufficient detail.
 - **Needs review** is used when confidence is low, so a moderator can verify.
 - **Approval is never automatic** — only a moderator can approve/reject.
+
+## 👥 Roles & Access
+
+- **Citizen**: submits reports, tracks status, sees comments/feedback.
+- **Moderator**: reviews reports in `pending/review`, approves or rejects, and can leave moderation comments.
+- **Admin**: manages **moderators** (create/list/update permissions/toggle active/delete). *(Citizen user list/ban is not implemented in the current codebase.)*
 
 ### Confidence
 

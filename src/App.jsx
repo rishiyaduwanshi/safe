@@ -23,6 +23,8 @@ import ModReportsQueue from './pages/mod/ModReportsQueue.jsx';
 import AdminLogin from './pages/admin/AdminLogin.jsx';
 import AdminDashboard from './pages/admin/AdminDashboard.jsx';
 import AdminModerators from './pages/admin/AdminModerators.jsx';
+import AdminUsers from './pages/admin/AdminUsers.jsx';
+import AdminUserDetail from './pages/admin/AdminUserDetail.jsx';
 
 // Route guard for moderator-only pages
 const ModProtectedRoute = ({ children }) => {
@@ -123,6 +125,8 @@ const router = createBrowserRouter([
       { path: 'login', element: <AdminLogin /> },
       { path: 'dashboard', element: <AdminProtectedRoute><AdminDashboard /></AdminProtectedRoute> },
       { path: 'moderators', element: <AdminProtectedRoute><AdminModerators /></AdminProtectedRoute> },
+      { path: 'users', element: <AdminProtectedRoute><AdminUsers /></AdminProtectedRoute> },
+      { path: 'users/:id', element: <AdminProtectedRoute><AdminUserDetail /></AdminProtectedRoute> },
     ],
   },
 ]);

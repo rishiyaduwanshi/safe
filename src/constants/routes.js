@@ -9,6 +9,7 @@ export const ADMIN_ROUTES = {
   LOGIN: '/admin/login',
   DASHBOARD: '/admin/dashboard',
   MODERATORS: '/admin/moderators',
+  USERS: '/admin/users',
 };
 
 export const ROUTES = {

@@ -11,10 +11,13 @@ import { reportsApi } from '../constants/services.js';
 import { formatReportData, reportValidation } from '../validations/report.js';
 import { ROUTES } from '../constants/routes.js';
 import { reportKeys } from '../hooks/useReports.js';
+import { useAuth } from '../contexts/AuthContext.jsx';
 
 const ReportPage = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { user } = useAuth();
+  const isDeactivated = user?.isActive === false;
 
   const {
     register,
@@ -104,6 +107,7 @@ const ReportPage = () => {
   };
 
   const onSubmit = (formData) => {
+    if (isDeactivated) return;
     submitMutation.mutate(formatReportData(formData));
   };
 
@@ -180,6 +184,11 @@ const ReportPage = () => {
                   {!submitted ? (
                     <>
                       <form onSubmit={handleFormSubmit(onSubmit)}>
+                        {isDeactivated && (
+                          <div className="mb-6 p-4 rounded-xl border border-red-500/30 bg-red-500/10 text-sm text-red-200">
+                            Your account is deactivated. You can view your reports, but you can’t submit new reports right now.
+                          </div>
+                        )}
                         {/* Description / Report Text */}
                         <div className="mb-6">
                           <label className="flex items-center gap-2 text-lg font-semibold text-white mb-3">
@@ -188,6 +197,7 @@ const ReportPage = () => {
                           </label>
                           <textarea
                             {...register('reportText', reportValidation.reportText)}
+                            disabled={isDeactivated}
                             placeholder="Describe what you observed... e.g., 'There is a large pothole on the main road near sector 5 which is causing accidents and damaging vehicles.' (Minimum 10 characters)"
                             rows={6}
                             className={`w-full p-4 border rounded-lg bg-background-card text-white text-base outline-none resize-vertical min-h-30 transition-all duration-300 focus:border-primary ${errors.reportText ? 'border-red-500' : 'border-white/10'
@@ -222,6 +232,7 @@ const ReportPage = () => {
                               <button
                                 type="button"
                                 onClick={handleRedetect}
+                                disabled={isDeactivated}
                                 className="ml-auto flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium bg-white/5 border border-white/10 text-slate-300 hover:text-white hover:border-primary/50 transition-all duration-200"
                               >
                                 <RefreshCw className="w-3.5 h-3.5" />
@@ -253,6 +264,7 @@ const ReportPage = () => {
                             <input
                               type="text"
                               {...register('location.address', reportValidation.location.address)}
+                              disabled={isDeactivated}
                               placeholder="e.g., Sector 5, Rohini, New Delhi, Delhi 110085"
                               className={`w-full p-3 border rounded-lg bg-background-card text-white text-base outline-none transition-all duration-300 focus:border-primary ${errors.location?.address ? 'border-red-500' : 'border-white/10'
                                 }`}
@@ -299,7 +311,7 @@ const ReportPage = () => {
                           type="submit"
                           variant="primary"
                           size="lg"
-                          disabled={isSubmitting}
+                          disabled={isSubmitting || isDeactivated}
                           className="w-full text-xl font-semibold h-3"
                         >
                           {isSubmitting ? (

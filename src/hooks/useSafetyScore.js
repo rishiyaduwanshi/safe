@@ -15,27 +15,28 @@ import { useMyReports } from './useReports.js';
  * myReports is included so Dashboard can show recent activity + pie chart.
  */
 export function useSafetyScore() {
-    const { data: myReports = [], isLoading: isReportsLoading } = useMyReports();
+  const { data: myReports = [], isLoading: isReportsLoading } = useMyReports();
 
-    const { data: statsRes, isLoading: isStatsLoading } = useQuery({
-        queryKey: ['report-stats'],
-        queryFn: () => reportsApi.getMyStats(),
-        staleTime: 1000 * 60 * 2, // 2 min
-    });
+  const { data: statsRes, isLoading: isStatsLoading } = useQuery({
+    queryKey: ['report-stats'],
+    queryFn: () => reportsApi.getMyStats(),
+    staleTime: 1000 * 60 * 2, // 2 min
+  });
 
-    const stats = statsRes?.data ?? null;
+  const stats = statsRes?.data ?? null;
 
-    return {
-        score: stats?.css ?? 0,
-        hasCssHistory: Boolean(stats?.hasCssHistory),
-        maxScore: stats?.maxCss ?? 1000,
-        improvementFromLastMonth: stats?.improvementFromLastMonth ?? 0,
-        approvedReports: stats?.counts?.approved ?? 0,
-        pendingReports: stats?.counts?.pending ?? 0,
-        rejectedReports: stats?.counts?.rejected ?? 0,
-        totalReports: stats?.counts?.total ?? myReports.length,
-        monthlyBreakdown: stats?.monthlyBreakdown ?? [],
-        myReports,
-        isLoading: isStatsLoading || isReportsLoading,
-    };
+  return {
+    score: stats?.css ?? 0,
+    hasCssHistory: Boolean(stats?.hasCssHistory),
+    cssHistory: Array.isArray(stats?.cssHistory) ? stats.cssHistory : [],
+    maxScore: stats?.maxCss ?? 1000,
+    improvementFromLastMonth: stats?.improvementFromLastMonth ?? 0,
+    approvedReports: stats?.counts?.approved ?? 0,
+    pendingReports: stats?.counts?.pending ?? 0,
+    rejectedReports: stats?.counts?.rejected ?? 0,
+    totalReports: stats?.counts?.total ?? myReports.length,
+    monthlyBreakdown: stats?.monthlyBreakdown ?? [],
+    myReports,
+    isLoading: isStatsLoading || isReportsLoading,
+  };
 }
