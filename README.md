@@ -2,6 +2,11 @@
 
 A revolutionary React.js application for national road safety monitoring and driver behavior evaluation.
 
+## 🌐 Live
+
+- Frontend: https://safeindia.flyo.cc
+- Backend API: https://api-safeindia.flyo.cc/api/v1
+
 ## ✨ Project Overview
 
 **S.A.F.E India** combines cutting-edge AI technology with elegant user experience design to address India's massive road safety crisis. Our platform provides real-time violation detection, hazard reporting, and comprehensive driver safety scoring.
@@ -30,6 +35,7 @@ A revolutionary React.js application for national road safety monitoring and dri
 - **React Router** - Client-side routing
 - **Recharts** - Data visualization and analytics
 - **Lucide React** - Beautiful, consistent icons
+- **Bun** - Package manager / runtime for local dev scripts
 
 ## 📁 Project Structure
 
@@ -48,18 +54,42 @@ src/
 
 ```bash
 # Install dependencies
-pnpm install
+bun install
 
 # Start development server
-pnpm dev
+bun run dev
 
 # Build for production
-pnpm build
+bun run build
 
 # Preview production build
-pnpm preview
+bun run preview
 ```
+
+## 🧠 AI-Assisted (Semi-Smart) System
+
+This project uses AI to **assist** moderation and classification (not to fully automate approvals).
+
+- On report submit, AI returns `key`, `severity`, `confidence` and (when needed) a short `comment`.
+- **Auto-reject** happens only for extremely low confidence / insufficient detail.
+- **Needs review** is used when confidence is low, so a moderator can verify.
+- **Approval is never automatic** — only a moderator can approve/reject.
+
+### Confidence
+
+- **Confidence is stored as 0..1** in the API and displayed as a percentage in the UI (e.g., `0.10` → `10%`).
+
+### Comments (Transparency)
+
+- Reports can contain **multiple comments** (AI/system/moderator/admin).
+- Users can see these comments in the report detail view.
+- In the user-facing UI, AI notes may be shown under **System** for simpler understanding.
+
+## 🔁 CI/CD (High-Level)
+
+- The backend supports GitHub Actions based deployment to a server over SSH (push to `main` triggers deploy).
+- Frontend is deployed as a static build and points to the API via `VITE_API_BASE_URL`.
 
 ---
 
-*Built with ❤️ for safer roads in India*+ Vite
+*Built for safer roads in India*
