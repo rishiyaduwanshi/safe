@@ -17,6 +17,7 @@ export const ROUTES = {
   DASHBOARD: '/dashboard',
   REPORT: '/report',
   MY_REPORTS: '/reports',
+  NOTIFICATIONS: '/notifications',
   PROFILE: '/profile',
   LOGIN: '/login',
   REGISTER: '/register',

@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useMemo, useRef, useState, useEffect, useCallback } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Menu,
@@ -10,6 +10,7 @@ import {
   FileText,
   ClipboardList,
   User,
+  Bell,
   Info,
   LogIn,
   LogOut,
@@ -17,12 +18,20 @@ import {
 } from 'lucide-react';
 import { ROUTES, STRINGS } from '../constants/index.js';
 import { useAuth } from '../contexts/AuthContext.jsx';
+import { useNotifications } from '../hooks/index.js';
+import { notificationsApi } from '../constants/services.js';
+import { useQueryClient } from '@tanstack/react-query';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isNotifOpen, setIsNotifOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { isAuthenticated, user, signout, isLoading } = useAuth();
+
+  const notifWrapRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,6 +40,31 @@ const Header = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    setIsNotifOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const onDocMouseDown = (e) => {
+      if (!isNotifOpen) return;
+      const el = notifWrapRef.current;
+      if (!el) return;
+      if (el.contains(e.target)) return;
+      setIsNotifOpen(false);
+    };
+
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') setIsNotifOpen(false);
+    };
+
+    document.addEventListener('mousedown', onDocMouseDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', onDocMouseDown);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [isNotifOpen]);
 
   const publicNavigation = [
     { name: 'Home', path: '/', icon: Home },
@@ -63,10 +97,49 @@ const Header = () => {
 
   const navigation = getNavigationItems();
 
+  const { data: notifData } = useNotifications({ limit: 5, enabled: isAuthenticated });
+  const notifications = notifData?.notifications ?? [];
+  const unreadCount = notifData?.unreadCount ?? 0;
+
+  const displayName = useMemo(() => {
+    const name = user?.name || user?.email?.split('@')[0] || 'User';
+    return typeof name === 'string' ? name : 'User';
+  }, [user?.email, user?.name]);
+
+  const refreshNotifications = useCallback(() => {
+    queryClient.invalidateQueries({ queryKey: ['notifications'] });
+  }, [queryClient]);
+
+  const onNotificationClick = useCallback(async (n) => {
+    setIsNotifOpen(false);
+    try {
+      if (n?._id && !n?.readAt) {
+        await notificationsApi.markRead(n._id);
+      }
+    } catch {
+      // ignore
+    } finally {
+      refreshNotifications();
+    }
+
+    const reportId = n?.data?.reportId || n?.entityId;
+    if (reportId) {
+      navigate(`${ROUTES.MY_REPORTS}?id=${encodeURIComponent(String(reportId))}`);
+    } else {
+      navigate(ROUTES.MY_REPORTS);
+    }
+  }, [navigate, refreshNotifications]);
+
+  const openAllNotifications = useCallback(() => {
+    setIsNotifOpen(false);
+    navigate(ROUTES.NOTIFICATIONS);
+  }, [navigate]);
+
   const handleLogout = async () => {
     try {
       await signout();
       setIsMenuOpen(false);
+      setIsNotifOpen(false);
     } catch (error) {
       console.error('Logout error:', error);
     }
@@ -114,7 +187,89 @@ const Header = () => {
                 {/* User Info */}
                 <div className="flex items-center gap-2 px-3 py-3 bg-white/5 rounded-lg border border-white/8 text-white/90 text-sm">
                   <User size={16} />
-                  <span>{user?.name || user?.email?.split('@')[0] || 'User'}</span>
+                  <span>{displayName}</span>
+                </div>
+
+                {/* Notifications */}
+                <div ref={notifWrapRef} className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setIsNotifOpen((v) => !v)}
+                    className="relative flex items-center justify-center w-11 h-11 bg-white/5 rounded-lg border border-white/8 text-white/90 transition-all duration-200 hover:bg-white/10"
+                    aria-label="Notifications"
+                    aria-expanded={isNotifOpen}
+                    aria-haspopup="menu"
+                  >
+                    <Bell size={18} />
+                    {unreadCount > 0 ? (
+                      <span className="absolute -top-1.5 -right-1.5 min-w-5 h-5 px-1.5 rounded-full bg-indigo-500 text-white text-[11px] font-bold flex items-center justify-center border border-[rgba(10,10,15,0.9)]">
+                        {unreadCount > 99 ? '99+' : String(unreadCount)}
+                      </span>
+                    ) : null}
+                  </button>
+
+                  <AnimatePresence>
+                    {isNotifOpen ? (
+                      <motion.div
+                        key="notif-menu"
+                        initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                        transition={{ duration: 0.15 }}
+                        className="absolute right-0 mt-2 w-96 max-w-[calc(100vw-2rem)] bg-[rgba(10,10,15,0.98)] backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] overflow-hidden z-999"
+                        role="menu"
+                      >
+                        <div className="flex items-center justify-between px-4 py-3 border-b border-white/8">
+                          <div className="text-white font-semibold">Notifications</div>
+                          <div className="text-xs text-white/60">
+                            {unreadCount > 0 ? `${unreadCount} unread` : 'Up to date'}
+                          </div>
+                        </div>
+
+                        {notifications.length === 0 ? (
+                          <div className="px-4 py-8 text-center text-sm text-white/60">
+                            No notifications yet
+                          </div>
+                        ) : (
+                          <div className="max-h-80 overflow-auto">
+                            {notifications.map((n) => (
+                              <button
+                                key={n._id}
+                                type="button"
+                                onClick={() => onNotificationClick(n)}
+                                className={`w-full text-left px-4 py-3 border-b border-white/6 hover:bg-white/5 transition-colors ${!n?.readAt ? 'bg-white/3' : ''}`}
+                                role="menuitem"
+                              >
+                                <div className="flex items-start justify-between gap-3">
+                                  <div className="min-w-0">
+                                    <div className="text-sm font-semibold text-white truncate">
+                                      {n?.title || 'Notification'}
+                                    </div>
+                                    <div className="text-xs text-white/60 mt-0.5 line-clamp-2">
+                                      {n?.message || ''}
+                                    </div>
+                                  </div>
+
+                                  {!n?.readAt ? (
+                                    <span className="shrink-0 mt-1 inline-flex w-2 h-2 rounded-full bg-indigo-500" />
+                                  ) : null}
+                                </div>
+                              </button>
+                            ))}
+                          </div>
+                        )}
+
+                        <button
+                          type="button"
+                          onClick={openAllNotifications}
+                          className="w-full px-4 py-3 text-sm font-semibold text-white/90 bg-white/5 hover:bg-white/8 transition-colors"
+                          role="menuitem"
+                        >
+                          View all
+                        </button>
+                      </motion.div>
+                    ) : null}
+                  </AnimatePresence>
                 </div>
 
                 {/* Logout Button */}
@@ -190,6 +345,28 @@ const Header = () => {
                 </Link>
               );
             })}
+
+            {/* Mobile Notifications */}
+            {isAuthenticated ? (
+              <Link
+                to={ROUTES.NOTIFICATIONS}
+                className={`flex items-center justify-between gap-3 px-5 py-4 no-underline text-base font-medium rounded-xl transition-all duration-200 mb-2 ${location.pathname === ROUTES.NOTIFICATIONS
+                  ? 'text-white bg-linear-to-br from-indigo-500/20 to-purple-500/15 border border-indigo-500/30 shadow-[0_4px_20px_rgba(99,102,241,0.15)]'
+                  : 'text-white/80 bg-white/3 border border-white/8 hover:bg-white/8'
+                  }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <span className="flex items-center gap-3">
+                  <Bell size={20} />
+                  Notifications
+                </span>
+                {unreadCount > 0 ? (
+                  <span className="min-w-6 h-6 px-2 rounded-full bg-indigo-500 text-white text-xs font-bold flex items-center justify-center">
+                    {unreadCount > 99 ? '99+' : String(unreadCount)}
+                  </span>
+                ) : null}
+              </Link>
+            ) : null}
 
             {/* Mobile Auth Actions */}
             {isAuthenticated ? (

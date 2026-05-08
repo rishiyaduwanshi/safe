@@ -12,6 +12,14 @@ const queryClient = new QueryClient({
   },
 });
 
+if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('message', (event) => {
+    const data = event?.data;
+    if (!data || data.type !== 'PUSH_NOTIFICATION') return;
+    queryClient.invalidateQueries({ queryKey: ['notifications'] });
+  });
+}
+
 createRoot(document.getElementById('root')).render(
   <QueryClientProvider client={queryClient}>
     <App />

@@ -17,5 +17,13 @@ export const API_ENDPOINTS = {
   LICENSE_LOOKUP: '/license/lookup',
   PROFILE_ME: '/profile/me',
   PROFILE_SAVE: '/profile/save',
+
+  NOTIFICATIONS: '/notifications',
+  NOTIFICATION_READ: '/notifications/:id/read',
+  NOTIFICATIONS_READ_ALL: '/notifications/read-all',
+
+  PUSH_VAPID_PUBLIC_KEY: '/push/vapid-public-key',
+  PUSH_SUBSCRIBE: '/push/subscribe',
+  PUSH_UNSUBSCRIBE: '/push/unsubscribe',
 };
 

@@ -170,4 +170,37 @@ export const profileApi = {
   },
 };
 
+export const notificationsApi = {
+  getMyNotifications: async ({ limit = 20, unreadOnly = false } = {}) => {
+    const query = new URLSearchParams();
+    if (limit) query.set('limit', String(limit));
+    if (unreadOnly) query.set('unreadOnly', 'true');
+    const qs = query.toString();
+    return apiService.get(`${API_ENDPOINTS.NOTIFICATIONS}${qs ? `?${qs}` : ''}`);
+  },
+
+  markRead: async (id) => {
+    return apiService.request(API_ENDPOINTS.NOTIFICATION_READ.replace(':id', id), { method: 'PATCH' });
+  },
+
+  markAllRead: async () => {
+    return apiService.request(API_ENDPOINTS.NOTIFICATIONS_READ_ALL, { method: 'PATCH' });
+  },
+};
+
+export const pushApi = {
+  getVapidPublicKey: async () => {
+    return apiService.get(API_ENDPOINTS.PUSH_VAPID_PUBLIC_KEY);
+  },
+  subscribe: async ({ subscription, userAgent }) => {
+    return apiService.post(API_ENDPOINTS.PUSH_SUBSCRIBE, { subscription, userAgent });
+  },
+  unsubscribe: async ({ endpoint }) => {
+    return apiService.request(API_ENDPOINTS.PUSH_UNSUBSCRIBE, {
+      method: 'DELETE',
+      body: JSON.stringify({ endpoint }),
+    });
+  },
+};
+
 export default apiService;

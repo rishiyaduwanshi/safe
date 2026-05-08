@@ -6,7 +6,6 @@ import {
   Clock,
   MapPin,
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as ChartTooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { Card, Button, LoadingAnimation, SpotlightEffect, SafetyScoreCard } from '../components/index.js';
 import { ROUTES } from '../constants/routes.js';
@@ -46,7 +45,6 @@ const STATUS_COLOR_MAP = {
 
 const DashboardPage = () => {
   const { user } = useAuth();
-  const navigate = useNavigate();
 
   const {
     score: safetyScore,
@@ -189,7 +187,7 @@ const DashboardPage = () => {
             viewport={{ once: true }}
           >
             {/* Metrics Grid */}
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
               {/* Safety Score Card */}
               <motion.div variants={itemVariants}>
                 <Card variant="elevated" size="lg">

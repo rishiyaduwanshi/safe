@@ -12,6 +12,7 @@ import HomePage from './pages/Home.jsx';
 import DashboardPage from './pages/Dashboard.jsx';
 import ReportPage from './pages/Report.jsx';
 import MyReportsPage from './pages/MyReports.jsx';
+import NotificationsPage from './pages/Notifications.jsx';
 import ProfilePage from './pages/Profile.jsx';
 import AboutPage from './pages/About.jsx';
 import SignIn from './pages/SignIn.jsx';
@@ -90,6 +91,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <MyReportsPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: ROUTES.NOTIFICATIONS,
+        element: (
+          <ProtectedRoute>
+            <NotificationsPage />
           </ProtectedRoute>
         ),
       },

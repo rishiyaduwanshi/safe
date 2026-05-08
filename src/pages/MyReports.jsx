@@ -1,7 +1,7 @@
-import { useState, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { FileText, Plus } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { LoadingAnimation, SpotlightEffect } from '../components/index.js';
 import { ReportCard, ReportDetailPanel } from '../components/reports/index.js';
 import { useMyReports } from '../hooks/index.js';
@@ -40,12 +40,18 @@ const ReportSkeleton = () => (
 // ─── Main Page ────────────────────────────────────────────────────────────────
 const MyReportsPage = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [statusFilter, setStatusFilter] = useState('all');
   const [severityFilter, setSeverityFilter] = useState('all');
   const [selectedId, setSelectedId] = useState(null);
 
   const { data: reports = [], isLoading, isError } = useMyReports();
+
+  useEffect(() => {
+    const id = searchParams.get('id');
+    if (id) setSelectedId(id);
+  }, [searchParams]);
 
   const filtered = useMemo(() => {
     return reports.filter((r) => {
@@ -169,7 +175,16 @@ const MyReportsPage = () => {
       {/* Detail panel — rendered outside the scrollable area */}
       <ReportDetailPanel
         reportId={selectedId}
-        onClose={() => setSelectedId(null)}
+        onClose={() => {
+          setSelectedId(null);
+          if (searchParams.get('id')) {
+            setSearchParams((prev) => {
+              const next = new URLSearchParams(prev);
+              next.delete('id');
+              return next;
+            }, { replace: true });
+          }
+        }}
       />
     </div>
   );
