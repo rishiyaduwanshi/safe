@@ -3,16 +3,18 @@ import { AlertTriangle, CheckCircle, FileText, Info, MapPin, Navigation, Refresh
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button, Card, LoadingAnimation, SpotlightEffect } from '../components/index.js';
 import { flatCategory } from '../data/category.ts';
 import { useLocation } from '../hooks/useLocation.js';
 import { reportsApi } from '../constants/services.js';
 import { formatReportData, reportValidation } from '../validations/report.js';
 import { ROUTES } from '../constants/routes.js';
+import { reportKeys } from '../hooks/useReports.js';
 
 const ReportPage = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const {
     register,
@@ -56,7 +58,38 @@ const ReportPage = () => {
   // ─── Report submission mutation ──────────────────────────────────────────
   const submitMutation = useMutation({
     mutationFn: (reportData) => reportsApi.submitReport(reportData),
-    onSuccess: () => {
+    onSuccess: (res) => {
+      const createdReport = res?.data?.report;
+      if (createdReport?._id) {
+        // Update cache immediately so My Reports reflects the new report without a hard refresh
+        queryClient.setQueryData(reportKeys.mine(), (current) => {
+          const currentReports = Array.isArray(current?.data?.reports)
+            ? current.data.reports
+            : Array.isArray(current)
+              ? current
+              : [];
+
+          if (currentReports.some((r) => r?._id === createdReport._id)) return current;
+
+          return {
+            ...(typeof current === 'object' && current !== null ? current : {}),
+            data: {
+              ...(typeof current?.data === 'object' && current.data !== null ? current.data : {}),
+              reports: [createdReport, ...currentReports],
+            },
+          };
+        });
+
+        queryClient.setQueryData(reportKeys.detail(createdReport._id), {
+          success: true,
+          data: { report: createdReport },
+        });
+      }
+
+      // Also mark related queries stale so they'll refetch in background
+      queryClient.invalidateQueries({ queryKey: reportKeys.mine() });
+      queryClient.invalidateQueries({ queryKey: ['report-stats'] });
+
       // Show success state for 5 seconds then reset
       setTimeout(() => {
         submitMutation.reset();

@@ -13,7 +13,7 @@ export function useMyReports() {
   return useQuery({
     queryKey: reportKeys.mine(),
     queryFn: () => reportsApi.getMyReports(),
-    select: (res) => res.data.reports ?? [],
+    select: (res) => res?.data?.reports ?? [],
     staleTime: 1000 * 60 * 2, // 2 min
   });
 }
@@ -23,7 +23,7 @@ export function useReportById(id) {
   return useQuery({
     queryKey: reportKeys.detail(id),
     queryFn: () => reportsApi.getReportById(id),
-    select: (res) => res.data.report,
+    select: (res) => res?.data?.report,
     enabled: !!id, // only runs when an id is provided
     staleTime: 1000 * 60 * 5,
   });

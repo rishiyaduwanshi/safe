@@ -31,7 +31,8 @@ const ReportDetailPanel = ({ reportId, onClose }) => {
       : [];
 
   const formatRole = (role) => {
-    if (role === 'ai') return 'AI';
+    // For end-users, we display AI notes under "System" to avoid confusion.
+    if (role === 'ai') return 'System';
     if (role === 'system') return 'System';
     if (role === 'moderator') return 'Moderator';
     if (role === 'admin') return 'Admin';
