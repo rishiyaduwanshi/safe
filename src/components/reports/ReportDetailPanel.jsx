@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { createElement } from 'react';
-import { X, MapPin, Calendar, Brain, AlertCircle } from 'lucide-react';
+import { createElement, useEffect } from 'react';
+import { X, MapPin, Calendar, Brain, AlertCircle, ArrowLeft } from 'lucide-react';
 import { useReportById } from '../../hooks/index.js';
 import ReportStatusBadge from './ReportStatusBadge.jsx';
 import SeverityBadge from './SeverityBadge.jsx';
@@ -13,9 +13,9 @@ const Row = ({ icon: Icon, label, value }) => {
   return (
     <div className="flex items-start gap-3">
       {iconEl}
-      <div>
+      <div className="min-w-0">
         <p className="text-xs text-slate-400 mb-0.5">{label}</p>
-        <p className="text-sm text-white">{value || '—'}</p>
+        <p className="text-sm text-white break-words">{value || '—'}</p>
       </div>
     </div>
   );
@@ -39,6 +39,32 @@ const ReportDetailPanel = ({ reportId, onClose }) => {
     return 'Note';
   };
 
+  // ── Back button / swipe-back support ──────────────────────────────────────
+  // Push a history entry when panel opens so that browser back gesture
+  // closes the panel instead of navigating away from the page.
+  useEffect(() => {
+    if (!reportId) return;
+
+    // Push a dummy state so "back" pops it instead of leaving the page
+    window.history.pushState({ reportPanel: true }, '');
+
+    const handlePopState = () => {
+      // When the user presses back or swipes back, close the panel
+      onClose();
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      // If the panel is closed by the X button (not back), clean up the dummy state
+      // We check if the current state is our dummy state and go back if so
+      if (window.history.state?.reportPanel) {
+        window.history.back();
+      }
+    };
+  }, [reportId, onClose]);
+
   return (
     <AnimatePresence>
       {reportId && (
@@ -52,17 +78,26 @@ const ReportDetailPanel = ({ reportId, onClose }) => {
             style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(2px)' }}
           />
 
-          {/* Panel */}
+          {/* Panel — full width on mobile, max-w-md on desktop */}
           <motion.aside
             key="panel"
             initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 28, stiffness: 300 }}
-            className="fixed top-0 right-0 h-full w-full max-w-md z-50 overflow-y-auto flex flex-col"
+            className="fixed top-0 right-0 h-full w-full sm:max-w-md z-50 overflow-y-auto flex flex-col"
             style={{ background: '#0f172a', borderLeft: '1px solid #334155' }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 md:px-6 py-4 border-b" style={{ borderColor: '#334155' }}>
-              <h2 className="text-lg font-bold text-white">Report Detail</h2>
+            <div className="flex items-center justify-between px-4 md:px-6 py-4 border-b shrink-0" style={{ borderColor: '#334155' }}>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={onClose}
+                  className="sm:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                  aria-label="Back"
+                >
+                  <ArrowLeft size={18} />
+                </button>
+                <h2 className="text-lg font-bold text-white">Report Detail</h2>
+              </div>
               <button
                 onClick={onClose}
                 className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
@@ -72,7 +107,7 @@ const ReportDetailPanel = ({ reportId, onClose }) => {
             </div>
 
             {/* Body */}
-            <div className="flex-1 px-4 md:px-6 py-5">
+            <div className="flex-1 px-4 md:px-6 py-5 overflow-y-auto">
               {isLoading && (
                 <div className="flex items-center justify-center h-40">
                   <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
@@ -87,7 +122,7 @@ const ReportDetailPanel = ({ reportId, onClose }) => {
               )}
 
               {report && (
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-5">
                   {/* Badges */}
                   <div className="flex flex-wrap gap-2">
                     <ReportStatusBadge status={report.status} />
@@ -100,13 +135,13 @@ const ReportDetailPanel = ({ reportId, onClose }) => {
                   </div>
 
                   {/* Report text */}
-                  <div className="p-4 rounded-xl" style={{ background: '#1e293b', border: '1px solid #334155' }}>
+                  <div className="p-3 md:p-4 rounded-xl" style={{ background: '#1e293b', border: '1px solid #334155' }}>
                     <p className="text-xs text-slate-400 mb-2 font-medium uppercase tracking-wide">Report Description</p>
-                    <p className="text-sm text-slate-200 leading-relaxed">{report.reportText}</p>
+                    <p className="text-sm text-slate-200 leading-relaxed break-words">{report.reportText}</p>
                   </div>
 
                   {report.status === 'rejected' && report.rejectionReason && (
-                    <div className="p-4 rounded-xl" style={{ background: '#1e293b', border: '1px solid #334155' }}>
+                    <div className="p-3 md:p-4 rounded-xl" style={{ background: '#1e293b', border: '1px solid #334155' }}>
                       <p className="text-xs text-slate-400 mb-2 font-medium uppercase tracking-wide">Rejection Reason</p>
                       <p className="text-sm text-slate-200 leading-relaxed">{report.rejectionReason}</p>
                     </div>
@@ -118,7 +153,7 @@ const ReportDetailPanel = ({ reportId, onClose }) => {
                     <div className="grid grid-cols-2 gap-3">
                       <div className="p-3 rounded-xl" style={{ background: '#1e293b' }}>
                         <p className="text-xs text-slate-400 mb-1">Category</p>
-                        <p className="text-sm text-white font-medium">
+                        <p className="text-sm text-white font-medium break-words">
                           {report.category?.key?.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
                         </p>
                         <p className="text-xs text-slate-500 capitalize">{report.category?.type}</p>
@@ -139,7 +174,7 @@ const ReportDetailPanel = ({ reportId, onClose }) => {
                   {/* Location + date */}
                   <div className="flex flex-col gap-3">
                     <p className="text-xs text-slate-400 font-medium uppercase tracking-wide">Details</p>
-                    <div className="flex flex-col gap-3 p-4 rounded-xl" style={{ background: '#1e293b' }}>
+                    <div className="flex flex-col gap-3 p-3 md:p-4 rounded-xl" style={{ background: '#1e293b' }}>
                       <Row icon={MapPin} label="Location" value={report.location?.address} />
                       <Row icon={Brain} label="AI Confidence" value={`${(report.confidence * 100).toFixed(1)}%`} />
                       <Row icon={Calendar} label="Submitted" value={new Date(report.createdAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })} />
@@ -150,7 +185,7 @@ const ReportDetailPanel = ({ reportId, onClose }) => {
                   {comments.length > 0 && (
                     <div className="flex flex-col gap-3">
                       <p className="text-xs text-slate-400 font-medium uppercase tracking-wide">Comments</p>
-                      <div className="flex flex-col gap-2 p-4 rounded-xl" style={{ background: '#1e293b', border: '1px solid #334155' }}>
+                      <div className="flex flex-col gap-2 p-3 md:p-4 rounded-xl" style={{ background: '#1e293b', border: '1px solid #334155' }}>
                         {comments
                           .slice()
                           .sort((a, b) => new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime())
@@ -162,7 +197,7 @@ const ReportDetailPanel = ({ reportId, onClose }) => {
                                   {c.createdAt ? new Date(c.createdAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : ''}
                                 </span>
                               </div>
-                              <p className="mt-1 leading-relaxed">{c.message}</p>
+                              <p className="mt-1 leading-relaxed break-words">{c.message}</p>
                             </div>
                           ))}
                       </div>
