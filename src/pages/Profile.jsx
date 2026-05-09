@@ -110,7 +110,7 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="min-h-screen py-8 px-6 bg-linear-to-b from-background-primary via-background-secondary to-background-tertiary">
+    <div className="min-h-screen py-8 px-4 md:px-6 bg-linear-to-b from-background-primary via-background-secondary to-background-tertiary">
       <SpotlightEffect />
       <LoadingAnimation>
         <div className="max-w-7xl mx-auto">
@@ -123,24 +123,24 @@ const ProfilePage = () => {
                   Your account is deactivated. You can view your profile and reports, but you can’t save changes right now.
                 </div>
               )}
-              <div className="flex items-center gap-6 flex-wrap">
+              <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-6 flex-wrap">
                 <div className="relative">
                   <div
-                    className="w-30 h-30 rounded-full bg-linear-to-br from-primary via-primary-light to-tertiary flex items-center justify-center text-4xl font-bold text-white"
+                    className="w-20 h-20 md:w-30 md:h-30 rounded-full bg-linear-to-br from-primary via-primary-light to-tertiary flex items-center justify-center text-2xl md:text-4xl font-bold text-white shrink-0"
                     style={{ border: '4px solid #6366F1' }}
                   >
                     {initials}
                   </div>
                 </div>
 
-                <div className="flex-1 min-w-75">
-                  <h1 className="text-3xl font-bold text-white mb-2">{displayName}</h1>
-                  <p className="text-lg text-slate-300 mb-4">
+                <div className="flex-1 min-w-0 text-center sm:text-left">
+                  <h1 className="text-xl md:text-3xl font-bold text-white mb-2">{displayName}</h1>
+                  <p className="text-sm md:text-lg text-slate-300 mb-4 break-all sm:break-normal">
                     {savedProfile
                       ? `License: ${savedProfile.licenseNumber} • ${savedProfile.vehicleType}`
                       : user?.email ?? ''}
                   </p>
-                  <div className="flex gap-4 flex-wrap">
+                  <div className="flex gap-3 md:gap-4 flex-wrap justify-center sm:justify-start">
                     {savedProfile && (
                       <div className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold" style={{ background: '#10B98120', color: '#10B981' }}>
                         <Shield size={14} /> Verified Driver
@@ -159,7 +159,7 @@ const ProfilePage = () => {
                   </div>
                 </div>
 
-                <div className="text-center min-w-50">
+                <div className="text-center min-w-0 w-full sm:w-auto sm:min-w-50">
                   <SafetyScoreCard
                     score={safetyScore}
                     hasHistory={hasCssHistory}
@@ -216,7 +216,7 @@ const ProfilePage = () => {
                 <>
                   {/* Saved profile → show data */}
                   {savedProfile && !previewData && !showLookupForm && (
-                    <div className="grid grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-6">
                       <Card variant="glass" size="full">
                         <div className="flex justify-between items-center mb-4">
                           <h3 className="flex items-center gap-2 text-xl font-bold text-white">
@@ -289,7 +289,7 @@ const ProfilePage = () => {
                       <p className="text-slate-400 text-sm mb-6">
                         Data fetched from Sarathi Parivahan. Click <strong className="text-white">Confirm & Save</strong> to link this license to your account.
                       </p>
-                      <div className="grid grid-cols-[repeat(auto-fit,minmax(330px,1fr))] gap-4 mb-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-4 mb-6">
                         {[
                           { label: 'Full Name', value: previewData.name, icon: User },
                           { label: 'Driver ID', value: previewData.driverId, icon: CreditCard },

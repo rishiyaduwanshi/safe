@@ -44,10 +44,10 @@ const ReportCard = ({ report, onClick }) => {
       <p className="text-sm text-slate-300 line-clamp-2">{report.reportText}</p>
 
       {/* Bottom row — metadata */}
-      <div className="flex items-center justify-between gap-4 flex-wrap">
-        <div className="flex items-center gap-4 text-xs text-slate-400">
+      <div className="flex items-center flex-wrap gap-x-3 gap-y-1 text-xs text-slate-400">
+        <div className="flex items-center flex-wrap gap-x-3 gap-y-1">
           {report.location?.address && (
-            <span className="flex items-center gap-1 truncate max-w-52">
+            <span className="flex items-center gap-1">
               <MapPin size={12} />
               {report.location.address}
             </span>

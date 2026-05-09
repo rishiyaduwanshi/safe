@@ -55,7 +55,7 @@ const AboutPage = () => {
     <div className="about-page">
       <SpotlightEffect />
 
-      <section className="text-white py-16 px-6 text-center">
+      <section className="text-white py-10 md:py-16 px-4 md:px-6 text-center">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -64,21 +64,21 @@ const AboutPage = () => {
         >
           <motion.h1
             variants={itemVariants}
-            className="text-5xl font-bold mb-6"
+            className="text-3xl md:text-5xl font-bold mb-6"
           >
             About {STRINGS.APP_NAME}
           </motion.h1>
 
           <motion.p
             variants={itemVariants}
-            className="text-xl leading-relaxed opacity-90"
+            className="text-base md:text-xl leading-relaxed opacity-90"
           >
             {STRINGS.APP_DESCRIPTION}
           </motion.p>
         </motion.div>
       </section>
 
-      <section className="py-16 px-6 max-w-7xl mx-auto">
+      <section className="py-10 md:py-16 px-4 md:px-6 max-w-7xl mx-auto">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -87,7 +87,7 @@ const AboutPage = () => {
         >
           <motion.h2
             variants={itemVariants}
-            className="text-4xl font-bold text-center mb-4 text-white"
+            className="text-2xl md:text-4xl font-bold text-center mb-4 text-white"
           >
             Our Mission
           </motion.h2>
@@ -131,7 +131,7 @@ const AboutPage = () => {
         </motion.div>
       </section>
 
-      <section className="py-16 px-6">
+      <section className="py-10 md:py-16 px-4 md:px-6">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -141,7 +141,7 @@ const AboutPage = () => {
         >
           <motion.h2
             variants={itemVariants}
-            className="text-4xl font-bold text-center mb-8 text-white"
+            className="text-2xl md:text-4xl font-bold text-center mb-8 text-white"
           >
             The Problem We're Solving
           </motion.h2>

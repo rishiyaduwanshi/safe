@@ -61,7 +61,7 @@ const ReportDetailPanel = ({ reportId, onClose }) => {
             style={{ background: '#0f172a', borderLeft: '1px solid #334155' }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: '#334155' }}>
+            <div className="flex items-center justify-between px-4 md:px-6 py-4 border-b" style={{ borderColor: '#334155' }}>
               <h2 className="text-lg font-bold text-white">Report Detail</h2>
               <button
                 onClick={onClose}
@@ -72,7 +72,7 @@ const ReportDetailPanel = ({ reportId, onClose }) => {
             </div>
 
             {/* Body */}
-            <div className="flex-1 px-6 py-5">
+            <div className="flex-1 px-4 md:px-6 py-5">
               {isLoading && (
                 <div className="flex items-center justify-center h-40">
                   <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />

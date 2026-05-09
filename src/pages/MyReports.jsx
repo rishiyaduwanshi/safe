@@ -62,7 +62,7 @@ const MyReportsPage = () => {
   }, [reports, statusFilter, severityFilter]);
 
   return (
-    <div className="min-h-screen py-8 px-6 bg-linear-to-b from-background-primary via-background-secondary to-background-tertiary">
+    <div className="min-h-screen py-8 px-4 md:px-6 bg-linear-to-b from-background-primary via-background-secondary to-background-tertiary">
       <SpotlightEffect />
       <LoadingAnimation>
         <div className="max-w-3xl mx-auto">

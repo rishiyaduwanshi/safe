@@ -159,20 +159,20 @@ const ReportPage = () => {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="text-white py-12 px-6 pb-8 text-center"
+            className="text-white py-8 md:py-12 px-4 md:px-6 pb-8 text-center"
           >
             <motion.div variants={itemVariants}>
-              <div className="flex items-center justify-center gap-3 mb-2">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-2">
                 <AlertTriangle className="w-8 h-8 text-primary" />
-                <h1 className="text-4xl font-bold text-white">Report Safety Issue</h1>
+                <h1 className="text-2xl md:text-4xl font-bold text-white">Report Safety Issue</h1>
               </div>
-              <p className="text-lg opacity-90">
+              <p className="text-base md:text-lg opacity-90">
                 Help make roads safer by reporting hazards and violations
               </p>
             </motion.div>
           </motion.section>
 
-          <div className="max-w-3xl mx-auto px-6 pb-12">
+          <div className="max-w-3xl mx-auto px-4 md:px-6 pb-12">
             <motion.div
               variants={containerVariants}
               initial="hidden"

@@ -1,4 +1,4 @@
-﻿import { useMemo } from 'react';
+import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import {
   AlertTriangle,
@@ -167,19 +167,19 @@ const DashboardPage = () => {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="text-white py-12 px-6 pb-8 text-center"
+          className="text-white py-8 md:py-12 px-4 md:px-6 pb-8 text-center"
         >
           <motion.div variants={itemVariants}>
-            <h1 className="text-4xl font-bold mb-2">
+            <h1 className="text-2xl md:text-4xl font-bold mb-2">
               Welcome back, {displayName}!
             </h1>
-            <p className="text-lg opacity-90">
+            <p className="text-base md:text-lg opacity-90">
               Track your safety performance and contribute to safer roads
             </p>
           </motion.div>
         </motion.section>
 
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -223,7 +223,7 @@ const DashboardPage = () => {
             </div>
 
             {/* Charts Grid */}
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(350px,1fr))] gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(350px,1fr))] gap-6 mb-8">
               {/* Safety Score Trend Chart */}
               <motion.div variants={itemVariants}>
                 <Card variant="elevated" size="lg">
@@ -397,15 +397,15 @@ const DashboardPage = () => {
                       <motion.div
                         key={report.id}
                         whileHover={{ scale: 1.02 }}
-                        className="flex items-center gap-4 p-4 rounded-lg bg-background-tertiary border border-white/10"
+                        className="flex items-start gap-3 md:gap-4 p-3 md:p-4 rounded-lg bg-background-tertiary border border-white/10"
                       >
                         <div className="flex items-center justify-center w-10 h-10 rounded-full bg-cyan-500/20 text-cyan-400">
                           <MapPin size={20} />
                         </div>
 
                         <div className="flex-1">
-                          <div className="flex items-center justify-between gap-3 mb-1 flex-wrap">
-                            <h4 className="text-base font-semibold text-white">
+                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-3 mb-1">
+                            <h4 className="text-sm md:text-base font-semibold text-white">
                               {report.title}
                             </h4>
                             <span
@@ -416,7 +416,7 @@ const DashboardPage = () => {
                             </span>
                           </div>
 
-                          <div className="flex items-center gap-4 text-sm text-slate-300 flex-wrap">
+                          <div className="flex items-center gap-2 md:gap-4 text-xs md:text-sm text-slate-300 flex-wrap">
                             <span className="flex items-center gap-1">
                               <MapPin size={14} />
                               {report.location}

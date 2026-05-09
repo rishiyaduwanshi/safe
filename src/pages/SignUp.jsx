@@ -38,7 +38,7 @@ const SignUp = () => {
           </div>
 
           {/* Form Card */}
-          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl">
+          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-5 md:p-8 shadow-2xl">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               {/* Global Error */}
               {error && (
