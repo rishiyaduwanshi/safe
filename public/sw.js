@@ -1,5 +1,16 @@
 /* eslint-disable no-restricted-globals */
 
+// Activate immediately — don't wait for old SW to die
+self.addEventListener('install', () => {
+  console.log('[SW] Installing — calling skipWaiting');
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', (event) => {
+  console.log('[SW] Activating — claiming clients');
+  event.waitUntil(self.clients.claim());
+});
+
 self.addEventListener('push', (event) => {
   console.log('[SW] 🔔 Push event received!');
   let payload = {};

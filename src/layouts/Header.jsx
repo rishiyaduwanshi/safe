@@ -146,6 +146,7 @@ const Header = () => {
   };
 
   return (
+    <>
     <motion.header
       className={`fixed top-0 left-0 right-0 z-1000 h-17.5 transition-all duration-[400 ease-in-out ${scrolled
         ? 'bg-[rgba(10,10,15,0.98)] backdrop-blur-[32px] border-b border-white1/2] shadow-[0_8px_32px_rgba(0,0,0,0.3)]'
@@ -309,19 +310,38 @@ const Header = () => {
           </div>
         </div>
 
-        <button
-          className="md:hidden flex items-center justify-center bg-white/5 border border-white/8 text-white p-2.5 rounded-lg cursor-pointer transition-all duration-200 hover:bg-white/10"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Mobile Controls: Bell + Hamburger (visible on mobile only) */}
+        <div className="md:hidden flex items-center gap-2 shrink-0">
+          {isAuthenticated && (
+            <button
+              type="button"
+              onClick={() => navigate(ROUTES.NOTIFICATIONS)}
+              className="relative flex items-center justify-center w-10 h-10 bg-white/5 rounded-lg border border-white/8 text-white/90 transition-all duration-200 hover:bg-white/10"
+              aria-label="Notifications"
+            >
+              <Bell size={18} />
+              {unreadCount > 0 ? (
+                <span className="absolute -top-1.5 -right-1.5 min-w-5 h-5 px-1.5 rounded-full bg-indigo-500 text-white text-[11px] font-bold flex items-center justify-center border-2 border-[rgba(10,10,15,0.9)]">
+                  {unreadCount > 99 ? '99+' : String(unreadCount)}
+                </span>
+              ) : null}
+            </button>
+          )}
+          <button
+            className="flex items-center justify-center w-10 h-10 bg-white/5 border border-white/8 text-white rounded-lg cursor-pointer transition-all duration-200 hover:bg-white/10"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </div>
-
+    </motion.header>
 
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            className="fixed top-17.5 left-0 right-0 bottom-0 bg-[rgba(10,10,15,0.98)] backdrop-blur-xl p-6 z-999"
+            className="md:hidden fixed top-17.5 left-0 right-0 bottom-0 bg-[rgba(10,10,15,0.98)] backdrop-blur-xl p-6 z-[1001] overflow-y-auto"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -395,7 +415,7 @@ const Header = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </>
   );
 };
 

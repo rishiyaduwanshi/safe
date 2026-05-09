@@ -160,49 +160,51 @@ const NotificationsPage = () => {
 
   return (
     <LoadingAnimation>
-      <div className="max-w-7xl mx-auto px-6 pt-10 pb-10">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 pt-8 md:pt-10 pb-10">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.25 }}
           className="mb-6"
         >
-          <div className="flex items-center justify-between gap-4 flex-wrap text-white">
-            <span className="inline-flex items-center justify-center w-11 h-11 rounded-2xl bg-white/5 border border-white/10">
+          {/* Title Row */}
+          <div className="flex items-center gap-3 text-white mb-4">
+            <span className="inline-flex items-center justify-center w-11 h-11 rounded-2xl bg-white/5 border border-white/10 shrink-0">
               <Bell size={18} />
             </span>
-            <div className="flex-1 min-w-0">
-              <h1 className="text-2xl font-bold">Notifications</h1>
+            <div className="min-w-0">
+              <h1 className="text-xl md:text-2xl font-bold">Notifications</h1>
               <p className="text-sm text-slate-300">
                 {unreadCount > 0 ? `${unreadCount} unread` : 'Up to date'}
               </p>
             </div>
-
-            {pushState.supported ? (
-              <div className="flex items-center gap-3">
-                <div className="text-sm text-slate-300">
-                  Phone notifications:{' '}
-                  <span className="text-white font-semibold">
-                    {pushState.subscribed ? 'Enabled' : pushState.permission === 'denied' ? 'Blocked' : 'Off'}
-                  </span>
-                </div>
-                {!pushState.subscribed && pushState.permission !== 'denied' ? (
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    onClick={enablePushNotifications}
-                    disabled={pushState.isLoading}
-                  >
-                    {pushState.isLoading ? 'Enabling...' : 'Enable'}
-                  </Button>
-                ) : null}
-              </div>
-            ) : (
-              <div className="text-sm text-slate-400">
-                Push not supported
-              </div>
-            )}
           </div>
+
+          {/* Push Status Row */}
+          {pushState.supported ? (
+            <div className="flex items-center justify-between gap-3 p-3 rounded-xl bg-white/5 border border-white/8">
+              <div className="text-sm text-slate-300">
+                Push notifications:{' '}
+                <span className="text-white font-semibold">
+                  {pushState.subscribed ? 'Enabled' : pushState.permission === 'denied' ? 'Blocked' : 'Off'}
+                </span>
+              </div>
+              {!pushState.subscribed && pushState.permission !== 'denied' ? (
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={enablePushNotifications}
+                  disabled={pushState.isLoading}
+                >
+                  {pushState.isLoading ? 'Enabling...' : 'Enable'}
+                </Button>
+              ) : null}
+            </div>
+          ) : (
+            <div className="text-sm text-slate-400 p-3 rounded-xl bg-white/5 border border-white/8">
+              Push not supported in this browser
+            </div>
+          )}
 
           {pushState.error ? (
             <div className="text-sm text-red-300 mt-3 whitespace-pre-wrap">
@@ -227,19 +229,19 @@ const NotificationsPage = () => {
                   key={n._id}
                   type="button"
                   onClick={() => onNotificationClick(n)}
-                  className="flex items-start gap-4 p-4 rounded-lg bg-background-tertiary border border-white/10"
+                  className="w-full text-left flex items-start gap-3 md:gap-4 p-3 md:p-4 rounded-lg bg-background-tertiary border border-white/10"
                 >
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between gap-3 flex-wrap">
-                      <p className="text-sm font-semibold text-white truncate">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-3">
+                      <p className="text-sm font-semibold text-white">
                         {n?.title || 'Notification'}
                       </p>
-                      <span className="text-xs text-slate-400">
+                      <span className="text-xs text-slate-400 shrink-0">
                         {n?.createdAt ? new Date(n.createdAt).toLocaleString() : ''}
                       </span>
                     </div>
 
-                    <p className="text-sm text-slate-300 mt-1 whitespace-pre-wrap">
+                    <p className="text-sm text-slate-300 mt-1 break-words">
                       {n?.message || ''}
                     </p>
                   </div>
